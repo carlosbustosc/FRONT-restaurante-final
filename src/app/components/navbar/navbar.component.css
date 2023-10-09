@@ -66,9 +66,65 @@ hr.linea_divisora {
 
 .contenedor_perfil{
 
-    width: 400px;
+    width: auto;
     height: 53px;
-    background-color: blue;
+    /*background-color: blue;*/
     position: relative;
     float: right;
+
+}
+
+.nombre_person_perfil{
+
+    color:#fff;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    font-size: 18px;
+    float: left;
+    padding: 15px 0px;
+    text-transform: capitalize;
+
+}
+
+.foto_perfil {
+    width: 36px;
+    border-radius: 100%;
+    float: left;
+    margin-left: 18px;
+    margin-top: 8px;
+    cursor:pointer;
+}
+
+.foto_abajo {
+    width: 17px;
+    margin-left: 8px;
+    margin-top: 22px;
+    cursor: pointer;
+}
+
+.cajon_perfil_rest{
+
+    width: 248px;
+    background-color: #894026;
+    position: absolute;
+    right: 98px;
+    top: 53px;
+    padding: 10px 20px;
+    display: table;
+}
+
+.textos_perfil {
+    margin-bottom: 3px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+.textos_perfil:hover{
+
+    text-decoration: underline;
 }

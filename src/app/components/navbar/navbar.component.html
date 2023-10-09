@@ -1,9 +1,16 @@
 <div class="contenedor_header">
     <div class="base_cajon_login">
-        <button type="button" class="login_plataforma" (click)="mostrarMenu()">LOGIN</button>
+        <button type="button" class="login_plataforma" (click)="mostrarMenu()" *ngIf="botonLogin">LOGIN</button>
     </div>      
-    <div class="contenedor_perfil">
-        
+    <div class="contenedor_perfil" *ngIf="contenedorPerfil">
+        <h2 class="nombre_person_perfil">{{ nombrePerfil  }}</h2>
+        <img src="./assets/img/foto_perfil.jpg"   class="foto_perfil" (click)="ventanaPerfil()"/>
+        <img src="./assets/img/flecha_abajo.png"  class="foto_abajo" (click)="ventanaPerfil()"/>
+    </div>
+
+    <div class="cajon_perfil_rest" *ngIf="mostrarVentanaPerfil">
+        <p class="textos_perfil">Perfil</p>
+        <p class="textos_perfil" (click)="cerrarSesion()">Cerrar Sesion</p>
     </div>
 </div>
 

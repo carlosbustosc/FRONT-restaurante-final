@@ -268,4 +268,22 @@ export class RestauranteService {
     }
 
 
+
+
+
+
+
+    /*---------------------cerrar session----------------------*/
+    cerrarSession(){
+
+      localStorage.removeItem('correo');
+      localStorage.removeItem('departamento');
+      localStorage.removeItem('ciudad');
+      localStorage.removeItem('nombre');
+
+
+    }
+
+
+
 }
