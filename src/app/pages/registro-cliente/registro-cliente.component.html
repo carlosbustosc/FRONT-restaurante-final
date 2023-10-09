@@ -1,0 +1,85 @@
+<app-navbar></app-navbar>
+<div class="fondo_trasparentoso_lts"></div>
+
+<div class="contenedor_formulario_cliente">
+    <div class="base_formulario_ltsx">
+        <div class="base_logo_lts">
+            <img src="assets/img/logo_restaurante_blanco.svg" class="logo_formulario_ltsx"/>
+        </div>
+
+        <form [formGroup]="formularioCliente" class="base_formulario">
+            <div class="base_columna_1">
+                <h2 class="titulo_textos_z">Datos Personales</h2>
+                <div class="base_input">
+                    <label class="textos_login">Nombre Completo</label>
+                    <input type="text" class="form-control control_input" formControlName="nombre"/>
+                    <small class="text-danger" *ngIf="nombreError()">Escriba su nombre completo</small>
+                </div>
+                
+                <div class="base_input">
+                    <label class="textos_login">Correo Electronico</label>
+                    <input type="text" class="form-control control_input" formControlName="email"/>
+                    <small class="text-danger" *ngIf="emailError()">Escriba su correo electronico</small>
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">Contraseña</label>
+                    <input type="password" class="form-control control_input" formControlName="pass"/>
+                    <small class="text-danger" *ngIf="passError()">Escriba su contraseña</small>
+
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">Repita Contraseña</label>
+                    <input type="password" class="form-control control_input" formControlName="pass2"/>
+                    <small class="text-danger" *ngIf="pass2Error()">Repita su contraseña</small>
+
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">Numero Celular</label>
+                    <input type="text" class="form-control control_input" formControlName="celular"/>
+                    <small class="text-danger" *ngIf="celularError()">Escriba su numero de celular</small>
+                </div>
+            </div>
+
+            <div class="base_columna_2">
+                <h2 class="titulo_textos_z">Datos Residencia</h2>
+                <div class="base_input">
+                    <label class="textos_login">Departamento</label>
+                    <select name="" class="form-control" #valor (change)="seleccionDepartamento( valor.value )" formControlName="departamento">
+                        <option *ngFor="let depart of departamentos; let i = index" [value]="i" >{{ depart.departamento }}</option>
+                    </select>
+                    <small class="text-danger" *ngIf="ciudadError()">Seleccione el departamento</small>
+                </div>
+
+
+                <div class="base_input">
+                    <label class="textos_login">Ciudad</label>
+                    <select name="" class="form-control" formControlName="ciudad">
+                        <option *ngFor="let ciudad of ciudades; let i = index" [value]="ciudad" >{{ ciudad }}</option>
+                    </select>
+                    <small class="text-danger" *ngIf="ciudadError()">Seleccionesla ciudad</small>
+                </div>
+
+
+                <div class="base_input">
+                    <label class="textos_login">Barrio</label>
+                    <input type="text" class="form-control control_input" formControlName="barrio"/>
+                    <small class="text-danger" *ngIf="barrioError()">Escriba su barrio</small>
+
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">Dirección</label>
+                    <input type="text"  class="form-control control_input" formControlName="direccion"/>
+                    <small class="text-danger" *ngIf="direccionError()">Escriba sula direccion</small>
+
+                </div>
+                <button class="boton_registrar" (click)="registrarCliente()">Registrar</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+

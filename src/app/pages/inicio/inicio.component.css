@@ -1,0 +1,62 @@
+.contenedor_principal_restaurante{
+
+    width: 100%;
+    height: 93vh;;
+    background-image: url('../../../assets/img/fondo.jpg');
+    display: flex;
+    align-items: center;
+    background-size: cover;
+}
+
+.contenedor_logo_y_buscador{
+    width: 600px;
+    display: table;
+    margin: auto;
+    z-index: 2;
+    position: relative;
+}
+
+.marca_resturante {
+    width: 259px;
+    display: table;
+    margin: auto;
+    position: relative;
+}
+
+.boton_ingresar_ltsx{
+
+    padding: 7px 16px;
+    background-color: #C59B6D;
+    text-align: center;
+    float: left;
+    border: 0;
+    cursor: pointer;
+    font-weight: 600;
+
+}
+
+.control_ltsx {
+    float: left;
+    width: 82%;
+    padding: 5px 0px;
+    /* border: 0;*/
+
+}
+
+.titulo_bienvenido_z3 {
+ 
+    font-size: 105px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.subtitulo_inicio {
+    font-size: 40px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 0;
+    position: relative;
+    top: -19px;
+}
+    

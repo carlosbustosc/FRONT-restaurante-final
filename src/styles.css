@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+/*--
+font-family: 'Open Sans', sans-serif;
+font-family: 'Roboto', sans-serif;
+---*/
+
+
+*{
+    margin:0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+
+.fondo_trasparentoso_lts{
+
+    width: 100%;
+    height: 100vh;
+    background-color: #000000b5;
+    position: fixed;
+    top: 0;    
+}
+
+.texto_select {
+    font-size: 15px;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    padding: 10px 0px;
+    font-weight: 500;
+}
+
+

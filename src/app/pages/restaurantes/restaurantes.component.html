@@ -1,0 +1,101 @@
+<app-navbar></app-navbar>
+
+
+<div class="fondo_trasparentoso_lts"></div>
+<div class="contenedor_principal_restaurantes">
+    <div class="contenedor_seguro_tsx">
+        <div class="base_imagen_ltsx">
+            <img src="./assets/img/logo_restaurante_blanco.svg" class="logo_restaurante_blanco"/>
+        </div>
+        <h1 class="nombre_persona">Hola {{  nombrePersona  }}</h1>
+        <p class="texto_introduccion_z">Te presentamos los restaurantes donde puedes comer hamburguesa en {{ CiudadCliente }}</p>
+    </div>
+
+   
+    <!---selects-->
+    <div class="contenedor_selectores_restaurantes">
+        <form class="formulario_selectores">
+
+            <div class="bases_seleccionar_comida">
+                <label class="texto_select">Elegir departamento</label>
+                <select class="seleccionar_ciudad form-control" #val (change)="parametroCiudad( val.value )">
+                    <option>{{ departamentos[ DepartamentoCliente ].departamento }}</option>
+                    <option *ngFor="let depart of departamentos; let i = index" class="ciudad" [value]="i">{{ depart.departamento }}</option>
+                </select>
+            </div>
+
+
+            <div class="bases_seleccionar_comida input_left">
+                <label class="texto_select">Elegir Ciudad</label>
+                <select class="seleccionar_ciudad form-control" #valCity (change)="elegirCiudad(valCity.value)">
+                    <option>{{ CiudadCliente }}</option>
+                    <option *ngFor="let city of ciudades; let i = index" class="ciudad" [value]="city" selected>{{ city }}</option>
+                </select>
+            </div>
+
+            <div class="bases_seleccionar_comida input_left" *ngIf="elegir_comida">
+                <label class="texto_select">Elegir Comida</label>
+                <select class="form-control" #valCat (change)="seleccionarCategoria( valCat.value )">
+                    <option value="Todos">Todas las categorias</option>
+                    <option value="Comida rapida">Comida rapida</option>
+                    <option value="Carnes">Carnes</option>
+                    <option value="Sopas">Sopas</option>
+                    <option value="Vegetales">Vegetales</option>
+                    <option value="Tipica colombiana">Tipica colombiana</option>
+                    <option value="Comidad de mar">Comidad de mar</option>
+                    <option value="Comida Light">Comida Light</option>
+                    <option value="Comida Peruana">Comida Peruana</option>
+                    <option value="Comida Italiana">Comida Italiana</option>
+                    <option value="Comida Francesa">Comida Francesa</option>
+                    <option value="Comida China">Comida China</option>
+                    <option value="Comida Mexicana">Comida Mexicana</option>
+                    <option value="Comida Oriental">Comida Oriental</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+
+     <!---------------no se encontraron registros--------------->
+     <div class="contenedor_no_resgitros" *ngIf="contenedorVacio">
+        <h1 class="txt_vacio">No se encontraron restaurantes registrados en {{ CiudadCliente }}</h1>
+    </div>
+
+
+    <!--contenedor cards restaurantes--->
+    <div class="contenedor_cards" *ngIf="contenedorRestaurantes">
+
+        <div class="card_1_restaurante" *ngFor="let restaurante of guardarArrRestaurante; let i = index">
+            <img [src]="restaurante.foto" class="imagen_card"/>
+            <div class="informacion_restaurante">
+                <h2 class="titulo_restaurante">{{ restaurante.nombreRestaurante }}</h2>
+                <p class="barrio">{{ restaurante.direccion }}}</p>
+                <!--<p class="direccion">{{ restaurante.email }}</p>-->
+                <button class="boton_ver_resturante" (click)="verRestaurante( restaurante.id )">Ver resturante</button>
+            </div>
+        </div>
+       
+    </div>
+
+
+     <!--Categoria por comida--->
+    <div class="contenedor_cards" *ngIf="contenedorCategoriaRestaurante">
+
+        <div class="card_1_restaurante" *ngFor="let restaurante of categoriaPorComida; let i = index" >
+            <img [src]="restaurante.foto" class="imagen_card"/>
+            <div class="informacion_restaurante">
+                <h2 class="titulo_restaurante">{{ restaurante.nombreRestaurante }}</h2>
+                <p class="barrio">{{ restaurante.direccion }}}</p>
+                <!--<p class="direccion">{{ restaurante.email }}</p>-->
+                <button class="boton_ver_resturante" (click)="verRestaurante( restaurante.id )">Ver resturante</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!--no hay categoria-->
+    <div class="contenedor_no_resgitros" *ngIf="noHayCategoria">
+        <h1 class="txt_vacio">No hay Restaurantes con  {{  nombreCategoria }}</h1>
+    </div>
+
+

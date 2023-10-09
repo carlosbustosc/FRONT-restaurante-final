@@ -1,0 +1,29 @@
+<!---navbar--->
+<app-navbar></app-navbar>
+<!---navbar--->
+
+
+<div class="fondo_trasparentoso_lts"></div>
+
+<div class="contenedor_formulario_cliente">
+    <div class="base_formulario_ltsx">
+        <div class="base_logo_lts">
+            <img src="assets/img/logo_restaurante_blanco.svg" class="logo_formulario_ltsx"/>
+        </div>
+        <form [formGroup]="loginCliente" class="base_formulario">
+            <div class="base_input">
+                <label class="textos_login">Usuario</label>
+                <input type="text" class="form-control control_input" formControlName="usuario"/>
+                <small class="text-danger" *ngIf="usuarioError()">Escriba su correo Electronico</small>
+            </div>
+            
+            <div class="base_input">
+                <label class="textos_login">pass</label>
+                <input type="password" class="form-control control_input" formControlName="password"/>
+                <small class="text-danger" *ngIf="passwordError()">Escriba su contraseña</small>
+            </div>
+
+            <button class="boton_ingresar" (click)="ingresarCliente()">Ingresar</button>
+        </form>
+    </div>
+</div>

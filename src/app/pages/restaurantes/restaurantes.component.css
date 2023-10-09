@@ -1,0 +1,197 @@
+
+
+.contenedor_principal_restaurantes{
+    width: 100%;
+    display: table;
+    background-image: url('../../../assets/img/fondo2.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+}
+
+
+.contenedor_seguro_tsx{
+
+    width: 100%;
+    max-width: 1200px;
+    position: relative;
+    z-index: 2;
+    margin:auto;
+ 
+}
+
+.logo_restaurante_blanco{
+    
+    width: 150px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+   
+}
+
+.texto_introduccion_z{
+
+    font-size: 23px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.base_imagen_ltsx{
+
+    width: auto;
+    display: table;
+    margin: auto;
+}
+
+.contenedor_selectores_restaurantes{
+
+    width: 100%;
+    max-width: 1200px;
+    display: table;
+    margin:auto;
+    position: relative;
+    
+}
+
+.bases_seleccionar_comida{
+
+    width: 100%;
+    max-width: 250px;
+    display: table;
+    float:left;
+
+}
+
+.input_left{
+    margin-left: 20px;
+}
+
+.contenedor_cards{
+    z-index: 2;
+    width: 1200px;
+    display: table;
+    margin: 42px auto 0px auto;
+    position: relative;
+}
+
+
+.fondo_card{
+
+    background-color: #fff;
+    margin: 50px 20px;
+}
+
+.card_1_restaurante {
+    width: 47%;
+    display: table;
+    background-color: #000000b3;
+    float: left;
+    padding: 19px 14px;
+    margin: 0px 15px 30px 13px;
+    position: relative;
+}
+
+.card_2_restaurante {
+    width: 49%;
+    display: table;
+    background-color: #000000b3;
+    float:right;
+    padding: 19px 14px;
+}
+
+.imagen_card{
+
+    width: 55%;
+    float:left;
+    
+}
+
+.informacion_restaurante {
+
+    width: 217px;
+    float: left;
+    margin-left: 13px;
+    display: table;
+    position: relative;
+    height: 199px;
+}
+
+.titulo_restaurante {
+
+    font-size: 21px;
+    text-align: center;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+
+}
+
+.barrio {
+    font-family: 'Open Sans', sans-serif;
+    color: #fff;
+    font-weight: 400;
+    margin-bottom: 3px;
+    text-align: center;
+}
+
+
+.direccion {
+    font-family: 'Open Sans', sans-serif;
+    color: #fff;
+    font-weight: 400;
+    margin-bottom: 3px;
+    text-align: center;
+}
+
+.boton_ver_resturante {
+    width: 150px;
+    border: 1px solid #fff;
+    padding: 2px 12px 4px 12px;
+    display: block;
+    text-align: center;
+    font-size: 17px;
+    background-color: inherit;
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    cursor: pointer;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+.boton_ver_resturante:hover{
+
+    background-color: #fff;
+    color:#000;
+}
+
+.contenedor_no_resgitros {
+    max-width: 1200px;
+    width: 100%;
+    background-color: #682c17cf;
+    margin: auto;
+    position: relative;
+    display: table;
+    padding: 20px 40px;
+    margin-top: 40px;
+}
+
+
+.txt_vacio {
+    font-size: 27px;
+    text-align: center;
+    color: #fff;
+    padding: 4px 0px;
+}
+
+.nombre_persona {
+    text-align: center;
+    font-size: 30px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 17px;
+    text-transform: uppercase;
+}
+
+

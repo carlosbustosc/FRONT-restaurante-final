@@ -1,0 +1,152 @@
+<app-navbar></app-navbar>
+
+<div class="fondo_trasparentoso_lts"></div>
+
+<div class="contenedor_formulario_cliente">
+    <div class="base_formulario_ltsx">
+        <div class="base_logo_lts">
+            <img src="assets/img/logo_restaurante_blanco.svg" class="logo_formulario_ltsx"/>
+        </div>
+
+
+        <form [formGroup]="formRestaurante" class="base_formulario">
+            <div class="base_columna_1" *ngIf="verFormDatos">
+                <h2 class="titulo_textos_z">Datos del Restaurante</h2>
+               
+                <div class="base_input">
+                    <label class="textos_login">Nombre Restaurante</label>
+                    <input type="text" class="form-control control_input" formControlName="nombreRestaurante"/>
+                    <small class="text-danger" *ngIf="errorNombreRestaurante()">Escriba Nombre del Restaurante</small>
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">Imagen del Restaurante</label>
+                    <input type="file" accept=".png, .jpg, .jpeg" (change)="subirImagen($event)" class="form-control control_input" />
+                    <small class="text-danger" *ngIf="errorFotoRestaurante()">Cargue imagen</small>
+                </div>
+
+                <div class="base_imagen_ltsx">
+                    <img [src]="guardarImagen[0]" class="imagen_visualizacion"/>
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">Descripcion del restaurante</label>
+                    <textarea type="textarea" id="TXTarea"  class="form-control control_input" formControlName="descripcion"></textarea>
+                    <small class="text-danger" *ngIf="errorDescripcion()">Escriba Descripcion del restaurante</small>
+                </div>
+                
+                <div class="base_input">
+                    <label class="textos_login">Detartamento</label>
+                    <select class="form-control control_input" formControlName="departamento" #val (change)="departa( val.value )"> 
+                        <option *ngFor="let departa of cargarDepartamentos; let i = index"  [value]="i">{{ departa.departamento }}</option>
+                    </select>
+                    <small class="text-danger" *ngIf="errorDeparmento()">Seleccione Departamento</small>
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">ciudad </label>
+                    <select class="form-control control_input" formControlName="ciudad"> 
+                        <option *ngFor="let ciudad of city" [value]="ciudad" >{{ ciudad }}</option>
+                    </select>
+                    <small class="text-danger" *ngIf="errorCiudad()">Seleccione Ciudad</small>
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">Dirección </label>
+                    <input type="text" class="form-control control_input" formControlName="direccion"/>
+                    <small class="text-danger" *ngIf="errorDireccion()">Escriba Direccion</small>
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">Telefono</label>
+                    <input type="text" class="form-control control_input" formControlName="Telefono"/>
+                    <small class="text-danger" *ngIf="errorTelefono()">Escriba su Telefono</small>
+                </div>
+                
+              
+                <div class="base_input">
+                    <label class="textos_login">Correo Electronico</label>
+                    <input type="text" class="form-control control_input" formControlName="email"/>
+                    <small class="text-danger" *ngIf="errorEmail()">Escriba su correo electronico</small>
+                </div>
+
+                <div class="base_input">
+                    <label class="textos_login">Contraseña</label>
+                    <input type="password" class="form-control control_input" formControlName="pass"/>
+                    <small class="text-danger" *ngIf="errorPass()">Escriba su contraseña</small>
+                </div>
+                <button class="boton_registrar" (click)="Siguiente()">Siguiente</button>
+            </div>
+
+
+            <div class="base_columna_2" *ngIf="verFormComidas">
+                <h2 class="titulo_textos_z">Categoria de comida que ofrecen</h2>
+                
+                <div class="bases_seleccionar_comida input_left">
+                    <label class="texto_select">Elegir Comida</label>
+                    <select class="form-control" formControlName="categoria">
+                        <option value="Todos">Todas las categorias</option>
+                        <option value="Comida rapida">Comida rapida</option>
+                        <option value="Carnes">Carnes</option>
+                        <option value="Sopas">Sopas</option>
+                        <option value="Vegetales">Vegetales</option>
+                        <option value="Tipica colombiana">Tipica colombiana</option>
+                        <option value="Comidad de mar">Comidad de mar</option>
+                        <option value="Comida Light">Comida Light</option>
+                        <option value="Comida Peruana">Comida Peruana</option>
+                        <option value="Comida Italiana">Comida Italiana</option>
+                        <option value="Comida Francesa">Comida Francesa</option>
+                        <option value="Comida China">Comida China</option>
+                        <option value="Comida Mexicana">Comida Mexicana</option>
+                        <option value="Comida Oriental">Comida Oriental</option>
+                    </select>
+                    <small class="text-danger" *ngIf="platosCategoria()">Seleccione la categoria</small>
+                </div>
+
+                <div class="base_input" *ngFor="let plato of especiales.controls; let i = index" formArrayName="platosEspeciales">
+                    <label class="textos_login">Escriba el plato y seguido el precio</label>
+                    <div class="base_comidas">
+                        <input type="text" class="form-control control_input editar_comida" [formControlName]="i"/>
+                        <button class="borrar_arreglo" (click)="borrar_especial(i)">Borrar</button>
+                    </div>
+                    <small class="text-danger" *ngIf="platosEspeciales()">Escriba plato especial</small>
+                </div>
+
+                <button type="button" class="agregar" (click)="agregarEsepciales()">+ Agregar</button>
+
+                <hr class="linea_divisora">
+                <div class="base_columna_2">
+                    <h2 class="titulo_textos_z">Bebidas</h2> 
+                    <div class="base_input" *ngFor="let plato of bebidas.controls; let i = index" formArrayName="bebidas">
+                        <label class="textos_login">Escriba la bebida y seguido el precio</label>
+                        <div class="base_comidas">
+                            <input type="text" class="form-control control_input editar_comida" [formControlName]="i"/>
+                            <button class="borrar_arreglo" (click)="borrar_bebida(i)">Borrar</button>
+                        </div>
+                        <small class="text-danger" *ngIf="">Escriba Bebida</small>
+                    </div>
+                    <button type="button" class="agregar" (click)="agregarBebida()">+ Bebidas</button>
+                </div>
+    
+
+                <hr class="linea_divisora">
+                <div class="base_columna_2">
+                    <h2 class="titulo_textos_z">Entradas</h2> 
+                    <div class="base_input" *ngFor="let plato of entradas.controls; let i = index" formArrayName="entradas">
+                        <label class="textos_login">Escriba la bebida y seguido el precio</label>
+                        <div class="base_comidas">
+                            <input type="text" class="form-control control_input editar_comida" [formControlName]="i"/>
+                            <button class="borrar_arreglo" (click)="borrar_Entradas(i)">Borrar</button>
+                        </div>
+                        <small class="text-danger" *ngIf="platosEspeciales()">Escriba Entrada</small>
+                    </div>
+                    <button type="button" class="agregar" (click)="agregarEntrada()">+ Entradas</button>
+                </div>
+                <button class="boton_registrar" (click)="volver()">Atras</button>
+                <button class="boton_registrar  espacio_left" (click)="registrarRestaurante()">Registrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

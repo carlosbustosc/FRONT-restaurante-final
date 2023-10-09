@@ -1,0 +1,14 @@
+<div class="contenedor_header">
+    <div class="base_cajon_login">
+        <button type="button" class="login_plataforma" (click)="mostrarMenu()">LOGIN</button>
+    </div>      
+    <div class="contenedor_perfil">
+        
+    </div>
+</div>
+
+<div class="base_logins" *ngIf="mostrarMenuLogin">
+    <p class="text_login" [routerLink]="['/loginCliente']">Ingreso a clientes</p>
+    <hr class="linea_divisora">
+    <p class="text_login" [routerLink]="['/LoginRestauranteComponent']">Ingreso a restaurantes</p>
+</div>
