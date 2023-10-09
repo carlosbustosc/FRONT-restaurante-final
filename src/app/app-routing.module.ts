@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: "restaurantes", component: RestaurantesComponent }, //canActivate:[clienteGuard]
   { path:"RegistroRestauranteComponent", component:RegistroRestauranteComponent },
   { path: "restaurante/:id", component: RestauranteComponent },
-  { path: "**", pathMatch:"full", redirectTo: "restaurantes" }
+  { path: "**", pathMatch:"full", redirectTo: "inicio" }
 
 ];
 

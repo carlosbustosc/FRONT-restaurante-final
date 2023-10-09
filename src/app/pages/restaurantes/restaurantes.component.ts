@@ -59,12 +59,6 @@ export class RestaurantesComponent implements OnInit {
       /*--saludo--*/
       this.nombrePersona = localStorage.getItem('nombre')
 
-      /*-----datos que vienen del cliente-----*/
-      this.DepartamentoCliente =  localStorage.getItem('departamento') 
-      this.CiudadCliente  =  localStorage.getItem('ciudad') 
-      /*-----datos que vienen del cliente-----*/
-
-
 
 
       /*----cargar departamentos  por defecto----*/
@@ -80,7 +74,14 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-          /*-----ciudad por defecto----*/
+      /*-----datos que vienen del cliente-----*/
+      this.DepartamentoCliente =  localStorage.getItem('departamento');
+      this.CiudadCliente       =  localStorage.getItem('ciudad'); 
+      /*-----datos que vienen del cliente-----*/
+
+
+
+        /*----------ciudad por defecto------------*/
           this.elegirCiudad( this.CiudadCliente );
           /*----ciudad por defecto----*/
       
@@ -137,6 +138,7 @@ export class RestaurantesComponent implements OnInit {
 
 
   
+
 
     seleccionarCategoria( categoria:string ){
 
