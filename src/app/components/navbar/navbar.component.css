@@ -5,12 +5,10 @@
     background-color: #682C17;
     position: relative;
     z-index: 3;
-
 }
 
 .base_cajon_login {
-    
-    
+
     width: auto;
     display: table;
     float: right;

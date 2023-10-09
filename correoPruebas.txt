@@ -1,5 +1,8 @@
+
+/*------------GITHUB------------------*/
 proyectosangular09@gmail.com
 cabc1032
+/*------------GITHUB------------------*/
 
 
 
@@ -13,6 +16,7 @@ https://jonmircha.com/git
 
 
 
-
+/*------------BASE DE DATOS------------------*/
 bancolombia009@gmail.com
 cabc1032
+/*------------BASE DE DATOS------------------*/
