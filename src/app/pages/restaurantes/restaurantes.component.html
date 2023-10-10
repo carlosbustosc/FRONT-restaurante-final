@@ -7,7 +7,7 @@
         <div class="base_imagen_ltsx">
             <img src="./assets/img/logo_restaurante_blanco.svg" class="logo_restaurante_blanco"/>
         </div>
-        <h1 class="nombre_persona">Hola {{  nombrePersona  }}</h1>
+        <h1 class="nombre_persona" *ngIf="ocultarSaludo">Hola {{  nombrePersona  }}</h1>
         <p class="texto_introduccion_z">Te presentamos los restaurantes donde puedes comer hamburguesa en {{ CiudadCliente }}</p>
     </div>
 
@@ -18,8 +18,7 @@
 
             <div class="bases_seleccionar_comida">
                 <label class="texto_select">Elegir departamento</label>
-                <select class="seleccionar_ciudad form-control" #val (change)="parametroCiudad( val.value )">
-                    <option>{{ departamentos[ DepartamentoCliente ].departamento }}</option>
+                <select id="departID" class="seleccionar_ciudad form-control" #val (change)="parametroCiudad( departamentos, val.value )">
                     <option *ngFor="let depart of departamentos; let i = index" class="ciudad" [value]="i">{{ depart.departamento }}</option>
                 </select>
             </div>
@@ -27,7 +26,7 @@
 
             <div class="bases_seleccionar_comida input_left">
                 <label class="texto_select">Elegir Ciudad</label>
-                <select class="seleccionar_ciudad form-control" #valCity (change)="elegirCiudad(valCity.value)">
+                <select id="ciudadID" class="seleccionar_ciudad form-control" #valCity (change)="elegirCiudad(valCity.value)">
                     <option>{{ CiudadCliente }}</option>
                     <option *ngFor="let city of ciudades; let i = index" class="ciudad" [value]="city" selected>{{ city }}</option>
                 </select>

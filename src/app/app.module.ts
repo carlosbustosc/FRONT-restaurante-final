@@ -20,6 +20,11 @@ import { LoginRestauranteComponent } from './pages/login-restaurante/login-resta
 
 
 
+/*-----------------importar servicio js--------------*/
+import { CargaJSService } from './services/carga-js.service'; 
+
+
+
 
 @NgModule({
   declarations: [
@@ -42,7 +47,9 @@ import { LoginRestauranteComponent } from './pages/login-restaurante/login-resta
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    CargaJSService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

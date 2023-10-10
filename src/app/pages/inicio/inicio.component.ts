@@ -36,8 +36,8 @@ export class InicioComponent implements OnInit {
     this.usarRuta.navigate([ '/restaurantes' ])
 
     
-     localStorage.setItem('departamento', '28');
-     localStorage.setItem('ciudad', 'Ibágue'); 
+     //localStorage.setItem('departamento', '28');
+     //localStorage.setItem('ciudad', 'Ibagué'); 
   
   }
 
