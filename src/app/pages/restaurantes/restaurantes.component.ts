@@ -22,6 +22,7 @@ import * as jQuery from 'jquery';
   templateUrl: './restaurantes.component.html',
   styleUrls: ['./restaurantes.component.css']
 })
+
 export class RestaurantesComponent implements OnInit {
 
   /*---saludo inicial---*/
@@ -94,7 +95,7 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-       
+
 
       /*----cargar departamentos  por defecto----*/
       this.departamentos = this.conectarServicio.ciudades()
