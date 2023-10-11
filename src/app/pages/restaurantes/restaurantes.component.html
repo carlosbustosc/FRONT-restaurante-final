@@ -25,7 +25,7 @@
             </div>
 
 
-            <div class="bases_seleccionar_comida input_left">
+            <div class="bases_seleccionar_comida input_left" *ngIf="quitarSelectTodasCiudades">
                 <label class="texto_select">Elegir Ciudad</label>
                 <select id="ciudadID" class="seleccionar_ciudad form-control" #valCity (change)="elegirCiudad(valCity.value)">
                     <option  *ngFor="let city of ciudades; let i = index" class="ciudad" [value]="city" [id]="i" >{{ city }}</option>

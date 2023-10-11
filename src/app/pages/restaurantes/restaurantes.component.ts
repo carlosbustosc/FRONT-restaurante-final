@@ -145,9 +145,8 @@ export class RestaurantesComponent implements OnInit {
     /*----select change---*/
     parametroCiudad( array:any, Posicion:any ){
       
-
       if(Posicion == "todos"){
-        
+        this.quitarSelectTodasCiudades = false;
         /*----traer todos los departementos---*/
         this.conectarServicio.ciudades()
             .subscribe( resp => {
@@ -176,6 +175,7 @@ export class RestaurantesComponent implements OnInit {
       
       }else{
 
+        this.quitarSelectTodasCiudades = true;
         this.ciudades = array[ Posicion ].ciudades
       
       }
@@ -233,8 +233,8 @@ export class RestaurantesComponent implements OnInit {
     seleccionarCategoria( categoria:string ){
 
       this.nombreCategoria = categoria
-     console.log( categoria )
-      //console.log( this.guardarArrRestaurante )
+     //console.log( categoria )
+      console.log( this.guardarArrRestaurante )
 
       let RestaurantPorCategoria:any = []
 
@@ -242,7 +242,7 @@ export class RestaurantesComponent implements OnInit {
         
         let todosLosRestaurante = resp;
         let todasLasCategorias  = resp.categoria;
-        //console.log( todasLasCategorias )
+        console.log("categorias: " + todasLasCategorias )
 
         if( todasLasCategorias.indexOf( categoria ) >= 0 ){
 
