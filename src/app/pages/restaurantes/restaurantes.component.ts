@@ -94,6 +94,8 @@ export class RestaurantesComponent implements OnInit {
 
 
 
+       
+
       /*----cargar departamentos  por defecto----*/
       this.departamentos = this.conectarServicio.ciudades()
           .subscribe( (resp:any) => {
