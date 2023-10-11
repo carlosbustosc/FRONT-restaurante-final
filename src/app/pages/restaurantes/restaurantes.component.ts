@@ -11,6 +11,10 @@ import { Router } from "@angular/router"
 /*-------conectar servivio JS-------------*/
 import { CargaJSService } from 'src/app/services/carga-js.service';
 
+/*---importar jquery---*/
+import * as $ from 'jquery';
+import * as jQuery from 'jquery';
+
 
 
 @Component({
@@ -44,6 +48,8 @@ export class RestaurantesComponent implements OnInit {
     contenedorVacio = false;
     contenedorCategoriaRestaurante = false;
     noHayCategoria = false;
+
+    quitarSelectTodasCiudades = false;
 
 
 
@@ -105,7 +111,7 @@ export class RestaurantesComponent implements OnInit {
 
           }else{
             
-            this.parametroCiudad( this.departamentos, 28 );
+            this.parametroCiudad( this.departamentos, 'todos' );
             
           } 
 
@@ -116,14 +122,15 @@ export class RestaurantesComponent implements OnInit {
 
           /*--------------ciudad por defecto local Storage ó por defecto---------------*/
           if( localStorage.getItem('ciudad') ){
-
+            
             this.elegirCiudad( localStorage.getItem('ciudad') );
             this.CiudadCliente = localStorage.getItem('ciudad');
+      
 
           }else{
             
-            this.elegirCiudad( 'Ibagué' );
-            this.CiudadCliente = 'Ibagué'
+            this.elegirCiudad( 'todos' );
+            this.CiudadCliente = 'todos'
 
           }
           
@@ -138,19 +145,55 @@ export class RestaurantesComponent implements OnInit {
     /*----select change---*/
     parametroCiudad( array:any, Posicion:any ){
       
-      this.ciudades = array[ Posicion ].ciudades
+
+      if(Posicion == "todos"){
+        
+        /*----traer todos los departementos---*/
+        this.conectarServicio.ciudades()
+            .subscribe( resp => {
+              //console.log(resp)
+
+              this.departamentos = resp;
+            
+            })
+
+        /*-----------traer todos los restaurantes-------*/
+        this.ciudades = []/*--reset select ciudades--*/
+
+        this.conectarServicio.filtrarRestaurantes( Posicion )
+        .subscribe( resp => {
+            console.log(resp);
+
+            this.guardarArrRestaurante = resp;
+        })
+
+        /*---motrar contenedores---*/
+        this.contenedorRestaurantes = true;
+        this.elegir_comida = true;
+        this.contenedorVacio = false;
+        this.noHayCategoria = false;
+
+      
+      }else{
+
+        this.ciudades = array[ Posicion ].ciudades
+      
+      }
+     
      
     }
     
 
 
 
+
     /*----select change---*/
     elegirCiudad( ciudad:any ){
+
       //console.log( ciudad );
       this.CiudadCliente = ciudad;
 
-      this.conectarServicio.filtrarRestaurantes( ciudad )
+        this.conectarServicio.filtrarRestaurantes( ciudad )
           .subscribe( resp => {
 
             if( resp.length > 0 ){
@@ -187,8 +230,6 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-
-
     seleccionarCategoria( categoria:string ){
 
       this.nombreCategoria = categoria
@@ -215,12 +256,12 @@ export class RestaurantesComponent implements OnInit {
       })
 
 
-      
    
       this.categoriaPorComida = RestaurantPorCategoria 
 
       if(this.categoriaPorComida.length > 0){
 
+        
         console.log("hay restaurante");
         this.noHayCategoria = false;
       

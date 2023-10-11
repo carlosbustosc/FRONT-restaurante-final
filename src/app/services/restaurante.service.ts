@@ -208,7 +208,31 @@ export class RestauranteService {
     /*-----------------------------Filtrar Restaurantes-------------------------*/
     filtrarRestaurantes(city:any){
 
-      return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante.json')
+      if(city == "todos"){
+
+        return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante.json')
+               .pipe(
+                map( (resp:any) => {
+
+                  let arrNuevo:any = [];
+
+                  Object.keys( resp ).forEach( llaves => {
+
+                    let todos = resp[llaves]
+                    //console.log(todos);
+                    
+                    arrNuevo.push(todos); 
+                  })
+                  
+                  return arrNuevo; 
+                
+                })
+               
+                )
+
+      }else{
+
+        return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante.json')
              .pipe(
               map( (resp:any) => {
 
@@ -246,6 +270,9 @@ export class RestauranteService {
              
               )
 
+
+      }
+      
     }
 
 

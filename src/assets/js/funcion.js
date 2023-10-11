@@ -4,10 +4,10 @@ jQuery(document).ready(function($) {
 
         let ValDepart = localStorage.getItem('departamento')
         $(`#departID option[value='${ValDepart}']`).attr("selected", true);
-    
+        
     }else{
     
-        $("#departID option[value='5']").attr("selected", true);
+        $("#departID option[value='-1']").attr("selected", true);
     }
 
 
@@ -19,7 +19,8 @@ jQuery(document).ready(function($) {
     
     }else{
     
-        $("#ciudadID option[value='Anzoátegui']").attr("selected", true);
+        $("#ciudadID option[value='todos']").attr("selected", true);
+       
     }
 
 
