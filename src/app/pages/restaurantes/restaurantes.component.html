@@ -69,11 +69,11 @@
             <div class="informacion_restaurante">
                 <h2 class="titulo_restaurante">{{ restaurante.nombreRestaurante }}</h2>
                 <p class="barrio">{{ restaurante.direccion }}}</p>
+                <p class="barrio">{{ restaurante.ciudad }}</p>
                 <!--<p class="direccion">{{ restaurante.email }}</p>-->
                 <button class="boton_ver_resturante" (click)="verRestaurante( restaurante.id )">Ver resturante</button>
             </div>
-        </div>
-       
+        </div>       
     </div>
 
 
@@ -85,6 +85,8 @@
             <div class="informacion_restaurante">
                 <h2 class="titulo_restaurante">{{ restaurante.nombreRestaurante }}</h2>
                 <p class="barrio">{{ restaurante.direccion }}}</p>
+                <p class="barrio">{{ restaurante.ciudad }}</p>
+
                 <!--<p class="direccion">{{ restaurante.email }}</p>-->
                 <button class="boton_ver_resturante" (click)="verRestaurante( restaurante.id )">Ver resturante</button>
             </div>

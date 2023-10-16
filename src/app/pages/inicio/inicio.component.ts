@@ -18,6 +18,8 @@ export class InicioComponent implements OnInit {
   CiudadPorDefecto:any;
 
 
+  categoriaSeleccionada:any
+
     constructor(private usarRuta: Router){
     }
 
@@ -27,6 +29,11 @@ export class InicioComponent implements OnInit {
   
   }
   
+
+  categoriaInicio( categoria:any ){
+    
+    this.categoriaSeleccionada = categoria;
+  }
   
   
   
@@ -35,6 +42,8 @@ export class InicioComponent implements OnInit {
     console.log('funciona');
     this.usarRuta.navigate([ '/restaurantes' ])
 
+
+    localStorage.setItem('categoriaInicio', this.categoriaSeleccionada);
     
      //localStorage.setItem('departamento', '28');
      //localStorage.setItem('ciudad', 'Ibagué'); 
