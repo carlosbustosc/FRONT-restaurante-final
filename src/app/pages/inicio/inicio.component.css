@@ -33,6 +33,7 @@
     cursor: pointer;
     font-weight: 600;
 
+    
 }
 
 .control_ltsx {
@@ -52,11 +53,37 @@
 }
 
 .subtitulo_inicio {
-    font-size: 40px;
+    font-size: 34px;
     color: #fff;
     text-align: center;
     margin-bottom: 0;
     position: relative;
-    top: -19px;
+    top: -3px;
 }
-    
+.nombre_persona{
+
+    font-size: 32px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 37px;
+    position: relative;
+    top: -13px;
+    text-transform: capitalize;
+
+}
+
+
+.texto_select {
+    font-size: 15px;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    padding: 10px 0px;
+    font-weight: 500;
+    width: 100%;
+}
+
+#categoriaInicio {
+    width: 85%;
+    float: left;
+    border-radius: 10px 0px 0px 10px;
+}

@@ -6,11 +6,13 @@
     <div class="contenedor_logo_y_buscador">
         <img src="./assets/img/logo_restaurante_blanco.svg" class="marca_resturante"/>
         <h1 class="titulo_bienvenido_z3">BIENVENIDO</h1>
+        <h3 class="nombre_persona">{{ nombrePersonaLogueada }}</h3>
+
         <h3 class="subtitulo_inicio">¿Que quieres comer Hoy?</h3>
         <form class="formulario">
             <div class="bases_seleccionar_comida input_left" >
                 <label class="texto_select">Elegir Comida</label>
-                <select class="form-control" #val (change)="categoriaInicio( val.value )">
+                <select id="categoriaInicio" class="form-control" #val (change)="categoriaInicio( val.value )">
                     <option value="Todos">Todas las categorias</option>
                     <option value="Comida rapida">Comida rapida</option>
                     <option value="Carnes">Carnes</option>

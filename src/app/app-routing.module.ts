@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: "loginCliente", component: LoginClienteComponent },
   { path: "LoginRestauranteComponent", component: LoginRestauranteComponent },
   { path: "registroCliente", component: RegistroClienteComponent },
-  { path: "restaurantes", component: RestaurantesComponent }, //canActivate:[clienteGuard]
+  { path: "restaurantes/:categoria", component: RestaurantesComponent }, //canActivate:[clienteGuard]
   { path:"RegistroRestauranteComponent", component:RegistroRestauranteComponent },
   { path: "restaurante/:id", component: RestauranteComponent },
   { path: "**", pathMatch:"full", redirectTo: "inicio" }

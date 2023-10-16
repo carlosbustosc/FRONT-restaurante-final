@@ -76,10 +76,12 @@ export class LoginClienteComponent implements OnInit {
               localStorage.setItem('departamento', resp[0].departamento)
               localStorage.setItem('ciudad', resp[0].ciudad)   
               localStorage.setItem('nombre', resp[0].nombre );
+
+             
               /*----guardar local storage---*/           
 
 
-              this.usarRuta.navigate(['/restaurantes']); //direccionar a la pagina de ingreso
+              this.usarRuta.navigate(['/inicio']); //direccionar a la pagina de ingreso
 
             })
       
