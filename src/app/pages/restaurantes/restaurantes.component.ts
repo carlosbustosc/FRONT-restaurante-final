@@ -9,9 +9,16 @@ import { Router, ActivatedRoute } from "@angular/router"
 
 
 
-
 /*-------conectar servivio JS-------------*/
 import { CargaJSService } from 'src/app/services/carga-js.service';
+
+
+
+/*----formGroup----*/
+import { FormGroup, FormBuilder } from "@angular/forms"
+
+
+
 
 /*---importar jquery---*/
 import * as $ from 'jquery';
@@ -26,6 +33,11 @@ import * as jQuery from 'jquery';
 })
 
 export class RestaurantesComponent implements OnInit {
+
+  /*--select por defecto----*/
+  selectForm:any = FormGroup;
+
+
 
   /*---saludo inicial---*/
     nombrePersona:any;
@@ -69,12 +81,17 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-
     /*---------guardar categoria que viene del inicio-----------*/
     guardarCategoria:any;
 
 
-    constructor( private usarRuta:Router, private recibirParametro:ActivatedRoute,  private conectarServicio:RestauranteService, private cargarJs:CargaJSService ){
+
+    /*----parametro Recibido del inicio----*/
+    parametroRecibido:any;
+
+
+    constructor( private usarRuta:Router, private conectarServicio:RestauranteService, private cargarJs:CargaJSService, private recibirParametro:ActivatedRoute, private fb:FormBuilder ){
+
       
       /*---cargar archivo js---*/
       this.cargarJs.carga(['funcion']);
@@ -104,8 +121,28 @@ export class RestaurantesComponent implements OnInit {
       
 
 
+      /*---recibir parametro del inicio----*/
+      this.recibirParametro.params
+          .subscribe( resp => {
+
+            //console.log('parametroRecibido: ' +  resp['categoria'] )
+            this.parametroRecibido = resp['categoria'];
+          
+          })
+      
+      /*-----select por defecto------*/
+      this.selectForm = this.fb.group({
+        departamentoss: 'todos',
+        categoriass: this.parametroRecibido,
+        ciudadess:""
+      })
+        
+        
+
+
       /*--saludo--*/
       this.nombrePersona = localStorage.getItem('nombre');
+
       if( this.nombrePersona ){
         
         this.ocultarSaludo = true;
@@ -133,12 +170,28 @@ export class RestaurantesComponent implements OnInit {
           /*------------datos que vienen por defecto de Storage ó por defecto---------*/
           if( localStorage.getItem('departamento') ){
 
-            this.parametroCiudad( this.departamentos, localStorage.getItem('departamento') )
+            this.parametroCiudad( this.departamentos, localStorage.getItem('departamento') );
+
+            /*---combos por defecto---*/
+            this.selectForm = this.fb.group({
+              departamentoss: localStorage.getItem('departamento'),
+              categoriass: this.parametroRecibido,
+              ciudadess:""
+            })
+
+        
 
           }else{
             
             this.parametroCiudad( this.departamentos, 'todos' );
-  
+
+            /*---combos por defecto---*/
+            this.selectForm = this.fb.group({
+              departamentoss: 'todos',
+              categoriass: this.parametroRecibido,
+              ciudadess:""
+            })
+
           } 
 
 
@@ -151,6 +204,13 @@ export class RestaurantesComponent implements OnInit {
             
             this.elegirCiudad( localStorage.getItem('ciudad') );
             this.CiudadCliente = localStorage.getItem('ciudad');
+
+            /*---combos por defecto---*/
+             this.selectForm = this.fb.group({
+              departamentoss : localStorage.getItem('departamento'),
+              categoriass    : this.parametroRecibido,
+              ciudadess      : localStorage.getItem('ciudad')
+            })
       
 
           }else{
@@ -158,11 +218,22 @@ export class RestaurantesComponent implements OnInit {
             this.elegirCiudad( 'todos' );
             this.CiudadCliente = 'todos'
 
+
+             /*---combos por defecto---*/
+             this.selectForm = this.fb.group({
+              departamentoss : 'todos',
+              categoriass    : this.parametroRecibido,
+              ciudadess      : 'todos'
+            
+            })
+
           }
           
            
       })
-     
+      
+
+      
     }
 
 
@@ -190,14 +261,18 @@ export class RestaurantesComponent implements OnInit {
         this.conectarServicio.filtrarRestaurantes( Posicion )
         .subscribe( resp => {
             console.log(resp);
-
             this.guardarArrRestaurante = resp;
-           
-        
-          })
+
+
+            /*-----seleccion Categoria Automatico------*/
+            this.seleccionarCategoria( this.parametroRecibido );
+        })
+
+
 
         /*---motrar contenedores---*/
-        this.contenedorRestaurantes = true;
+        //this.contenedorRestaurantes = true;
+        this.contenedorRestaurantes = false;
         this.elegir_comida = true;
         this.contenedorVacio = false;
         this.noHayCategoria = false;
@@ -219,24 +294,31 @@ export class RestaurantesComponent implements OnInit {
 
     /*----select change---*/
     elegirCiudad( ciudad:any ){
-        
+
+
+      this.contenedorRestaurantes = true;
+      this.contenedorCategoriaRestaurante = false;
+
+      
       //console.log( ciudad );
       this.CiudadCliente = ciudad;
 
         this.conectarServicio.filtrarRestaurantes( ciudad )
           .subscribe( resp => {
 
-            if( resp.length > 0 ){
+            if( resp.length > 0 ){  
 
               this.guardarArrRestaurante = resp;
-
               console.log(resp);
 
               /*---motrar contenedores---*/
-              this.contenedorRestaurantes = true;
               this.elegir_comida = true;
               this.contenedorVacio = false;
               this.noHayCategoria = false;
+
+
+               /*-----seleccion Categoria Automatico------*/
+              this.seleccionarCategoria( this.parametroRecibido );
 
             
             }else{
@@ -256,14 +338,11 @@ export class RestaurantesComponent implements OnInit {
     }
 
 
-  
 
+    seleccionarCategoria( categoria:any){
 
-
-    seleccionarCategoria( categoria:any ){
 
       this.nombreCategoria = categoria
-     //console.log( categoria )
       console.log( this.guardarArrRestaurante )
 
       let RestaurantPorCategoria:any = []
@@ -280,6 +359,8 @@ export class RestaurantesComponent implements OnInit {
 
           this.contenedorRestaurantes = false;
           this.contenedorCategoriaRestaurante = true;
+
+          
 
         }
 

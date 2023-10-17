@@ -1,4 +1,4 @@
-jQuery(document).ready(function($) {
+/*-jQuery(document).ready(function($) {
         
     if( localStorage.getItem('departamento') ){
 
@@ -24,6 +24,8 @@ jQuery(document).ready(function($) {
     }
 
 
-});
+})
 
+--*/
+   
 

@@ -219,6 +219,7 @@ export class RestauranteService {
                   Object.keys( resp ).forEach( llaves => {
 
                     let todos = resp[llaves]
+                    todos.id = llaves;
                     //console.log(todos);
                     
                     arrNuevo.push(todos); 

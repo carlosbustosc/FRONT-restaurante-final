@@ -8,33 +8,36 @@
             <img src="./assets/img/logo_restaurante_blanco.svg" class="logo_restaurante_blanco"/>
         </div>
         <h1 class="nombre_persona" *ngIf="ocultarSaludo">Hola {{  nombrePersona  }}</h1>
-        <p class="texto_introduccion_z">Te presentamos los restaurantes donde puedes comer hamburguesa en {{ CiudadCliente }}</p>
+        <p class="texto_introduccion_z">Te presentamos los restaurantes donde puedes comer hamburguesa en tu Ciudad</p>
     </div>
 
    
     <!---selects-->
     <div class="contenedor_selectores_restaurantes">
-        <form class="formulario_selectores">
 
+        <form [formGroup]="selectForm" class="formulario_selectores">
             <div class="bases_seleccionar_comida">
                 <label class="texto_select">Elegir departamento</label>
-                <select id="departID" class="seleccionar_ciudad form-control" #val (change)="parametroCiudad( departamentos, val.value )">
+                
+                <select id="departID" class="seleccionar_ciudad form-control" #val (change)="parametroCiudad( departamentos, val.value )" formControlName="departamentoss">
                     <option class="todas_los_departamentos" value="todos">Todas los departamentos</option>
                     <option *ngFor="let depart of departamentos; let i = index" class="ciudad" [value]="i" [id]="i">{{ depart.departamento }}</option>
                 </select>
+
             </div>
 
 
             <div class="bases_seleccionar_comida input_left" *ngIf="quitarSelectTodasCiudades">
                 <label class="texto_select">Elegir Ciudad</label>
-                <select id="ciudadID" class="seleccionar_ciudad form-control" #valCity (change)="elegirCiudad(valCity.value)">
+
+                <select id="ciudadID" class="seleccionar_ciudad form-control" #valCity (change)="elegirCiudad(valCity.value)" formControlName="ciudadess">
                     <option  *ngFor="let city of ciudades; let i = index" class="ciudad" [value]="city" [id]="i" >{{ city }}</option>
                 </select>
             </div>
 
             <div class="bases_seleccionar_comida input_left" *ngIf="elegir_comida">
                 <label class="texto_select">Elegir Comida</label>
-                <select class="form-control" #valCat (change)="seleccionarCategoria( valCat.value )">
+                <select class="form-control" id="categorias"  #valCat (change)="seleccionarCategoria( valCat.value )" formControlName="categoriass">
                     <option value="Todos">Todas las categorias</option>
                     <option value="Comida rapida">Comida rapida</option>
                     <option value="Carnes">Carnes</option>
@@ -69,11 +72,11 @@
             <div class="informacion_restaurante">
                 <h2 class="titulo_restaurante">{{ restaurante.nombreRestaurante }}</h2>
                 <p class="barrio">{{ restaurante.direccion }}}</p>
+                <p class="barrio">{{ restaurante.ciudad }}</p>
                 <!--<p class="direccion">{{ restaurante.email }}</p>-->
                 <button class="boton_ver_resturante" (click)="verRestaurante( restaurante.id )">Ver resturante</button>
             </div>
-        </div>
-       
+        </div>       
     </div>
 
 
@@ -84,7 +87,9 @@
             <img [src]="restaurante.foto" class="imagen_card"/>
             <div class="informacion_restaurante">
                 <h2 class="titulo_restaurante">{{ restaurante.nombreRestaurante }}</h2>
-                <p class="barrio">{{ restaurante.direccion }}}</p>
+                <p class="barrio">{{ restaurante.direccion }}</p>
+                <p class="barrio">{{ restaurante.ciudad }}</p>
+
                 <!--<p class="direccion">{{ restaurante.email }}</p>-->
                 <button class="boton_ver_resturante" (click)="verRestaurante( restaurante.id )">Ver resturante</button>
             </div>

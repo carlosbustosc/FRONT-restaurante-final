@@ -14,7 +14,6 @@ import { RegistroRestauranteComponent } from './pages/registro-restaurante/regis
 
 
 
-
 /*----importar guard----*/
 import { clienteGuard } from './guard/cliente.guard';
 
@@ -25,7 +24,7 @@ const routes: Routes = [
   { path: "loginCliente", component: LoginClienteComponent },
   { path: "LoginRestauranteComponent", component: LoginRestauranteComponent },
   { path: "registroCliente", component: RegistroClienteComponent },
-  { path: "restaurantes/:id", component: RestaurantesComponent }, //canActivate:[clienteGuard]
+  { path: "restaurantes/:categoria", component: RestaurantesComponent }, //canActivate:[clienteGuard]
   { path:"RegistroRestauranteComponent", component:RegistroRestauranteComponent },
   { path: "restaurante/:id", component: RestauranteComponent },
   { path: "**", pathMatch:"full", redirectTo: "inicio" }

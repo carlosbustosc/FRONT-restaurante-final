@@ -32,7 +32,8 @@
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
     padding-top: 8px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
+    margin-bottom: -3px;
     
 }
 
@@ -44,7 +45,7 @@
 
 .base_detalle_resturante{
 
-    width: 450px;
+    width: 400px;
     display: table;
     float: left;
 
@@ -52,7 +53,7 @@
 
 .base_detalle_carta{
 
-    width: 750px;
+    width: 800px;
     float: right;
     display: table;
 }
@@ -64,26 +65,28 @@
 
 .base_carta_1{
 
-    width: 350px;
+    width: 370px;
     height: 477px;
     float: left;
     background-color: #1A1A1A;
     margin-left: 10px;
     box-sizing: border-box;
     padding: 10px 21px;
-    overflow-y: scroll
+    overflow-y: scroll;
+    margin-left: 20px;
 }
 
 .base_carta_2{
     
-    width: 350px;
+    width: 370px;
     height: 477px;
     float: left;
     background-color: #1A1A1A;
-    margin-left: 30px;
+    margin-left: 20px;
     box-sizing: border-box;
     padding: 10px 21px;
     position: relative;
+    overflow-y: scroll;
 }
 
 .titulo_menu {
@@ -93,6 +96,7 @@
     font-weight: 500;
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
+    margin-bottom: 22px;
 }
 
 .subtitulo_menu {
@@ -137,15 +141,17 @@ span.nombre_tl {
 
 
 .pedido_domicilio {
+
     display: block;
-    width: 87%;
-    padding: 6px 20px;
-    font-size: 18px;
-    color: #fff;
+    width: 100%;
+    padding: 5px 19px;
+    font-size: 17px;
+    color: #FFE;
     border: 0;
     background-color: #682C17;
-    position: absolute;
-    bottom: 23px;
+    position: relative;
+    bottom: 0;
+
 }
 
 .base_descripcion_restaurante{
@@ -235,15 +241,17 @@ span.nombre_tl {
 .base_modal_confirmacion{
 
     width: 600px;
-    display: table;
+    /* display: table; */
     background-color: #fff;
-    height: 500px;
+    height: 602px;
     position: fixed;
     top: 15%;
     z-index: 3;
     left: 0px;
     right: 0px;
     margin: auto;
+    overflow-y: scroll;
+
 }
 
 .icono_restaurante {
@@ -253,16 +261,22 @@ span.nombre_tl {
 
 .mensaje_modal{
 
-    font-size: 20px;
+    font-size: 21px;
     text-align: center;
-    color:#000;
+    color: #000;
+    width: 400px;
+    margin: 0px auto 40px auto;
+    
 }
 
 .base_seleccionados{
-    width: 90%;
-    display: table;
+    width: 80%;
     background-color: #000;
     margin: auto;
+    padding: 20px 40px;
+    display: table;
+    margin: 0px auto 40px auto;
+    max-height: 215px;
 }
 
 .precio_almuerxo_l{
@@ -275,6 +289,123 @@ textarea {
     height: 67px;
     margin-top: 11px;
 }
+
+.comida_seleccionada {
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 17px;
+}
+
+.quitar_ltsx {
+    color: #fff;
+    float: right;
+    cursor: pointer;
+}
+
+.base_imagen_lts{
+
+    width: 100%;
+    display: table;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.base_data{
+
+    width: 100%;
+    display: table;
+}
+
+.enunciado{
+
+    padding-bottom: 10px;
+}
+
+.formulario_data{
+
+    width: 80%;
+    display: table;
+    margin: auto;
+
+
+}
+
+.boton_solicitar_domicilio{
+
+    background-color: #0050ff;
+    color: #fff;
+    border: 0;
+    padding: 8px 20px;
+    margin: 30px 0px;
+    float: right;
+    cursor:pointer;
+}
+
+.icono_cerrar{
+
+    position: absolute;
+    right: 4px;
+    top: 13px;
+    width: 34px;
+    cursor: pointer;
+}
+
+.fondo_trasnparenteModal{
+
+    width: 100%;
+    height: 100vh;
+    background-color: #000000d9;
+    z-index: 3;
+    position: fixed;
+    top: 0;
+}
+
+
+.categoria_restaurante{
+
+    color: #fff;
+    text-align: center;
+    font-weight: 500;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    font-size: 29px;
+
+}
+
+.base_comida_scs{
+
+    width: 100%;
+    display: table;
+    margin-bottom: 10px;
+}
+
+.contenedor_inicio_de_session{
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    background-color: #fff;
+    position: relative;
+    z-index: 9;
+    position: fixed;
+    right: 0px;
+    left: 0px;
+    top:20%
+}
+
+.mensaje_inicio_sesion {
+    
+    font-size: 25px;
+    color: #000;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: uppercase;
+    padding-top: 8px;
+    padding-bottom: 0px;
+    margin-bottom: -3px;
+}
+
 
 
 

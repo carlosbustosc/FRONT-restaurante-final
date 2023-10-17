@@ -2,27 +2,72 @@
 
 
 <div class="fondo_trasparentoso_lts"></div>
+
+
+<!---fondo Pantall Modal MODAL---->
+<div class="fondo_trasnparenteModal" *ngIf="modalPedido"></div>
+<!---fondo Pantall Modal MODAL---->
+
+
 <div class="contenedor_principal_restaurante">
 
-    <div class="base_modal_confirmacion">
-        <img src="./assets/img/logo_negro.svg" class="icono_restaurante"/>    
+    <!---modal informativo de inicio de sesion-->
+    <div class="contenedor_inicio_de_session">
+        <h1 class="mensaje_inicio_sesion">Por favor inicie session para realizar el pedido</h1>
+        <p>Iniciar session</p>
+    </div>
+
+    <!---inicio MODAL---->
+    <div class="base_modal_confirmacion" *ngIf="modalPedido">
+        <img src="./assets/img/cerrar_negro.png" class="icono_cerrar" (click)="cerrarModal()"/>
+        <div class="base_imagen_lts">
+            <img src="./assets/img/logo_negro.svg" class="icono_restaurante"/>    
+        </div>
+
         <h3 class="mensaje_modal">¿Hola Carlos Alberto Bustos esta bien tu pedido?</h3>
         <div class="base_seleccionados">
-            <p class="comida_seleccionada">Cerveza poker<span class="precio_almuerxo_l">$20.000</span></p>
+            <p class="comida_seleccionada" *ngFor="let pedidoListo of arregloPedido">{{ pedidoListo }}<span class="precio_almuerxo_l"> </span></p>
+
         </div>
+
+        <h3 class="mensaje_modal">Lo enviaremos a la siguiente dirección</h3>
+
+        <form [formGroup]="datosCliente" class="formulario_data">
+            <div class="base_data">
+                <label class="enunciado">Ciudad</label>
+                <input type="text"  class="form-control" formControlName="ciudad"/> 
+            </div>
+
+            <div class="base_data">
+                <label class="enunciado">Barrio</label>
+                <input type="text"  class="form-control" formControlName="barrio"/> 
+            </div>
+
+            <div class="base_data">
+                <label class="enunciado">Dirección</label>
+                <input type="text"  class="form-control" formControlName="direccion"/> 
+            </div>
+
+            <div class="base_data">
+                <button type="button" class="boton_solicitar_domicilio"> Solicitar Domicilio </button>
+            </div>
+        </form>
     </div>
+    <!---fin MODAL---->
+
 
     <div class="contenedor_seguro_tsx_2">
         <div class="base_imagen_ltsx">
             <img src="./assets/img/logo_restaurante_blanco.svg" class="logo_restaurante_blanco"/>
         </div>
-        <h2 class="titulo_restaurante_z">Delicias del pacifico</h2>
+        <h2 class="titulo_restaurante_z">{{ informacionRestaurante.nombreRestaurante }}</h2>
+        <p class="categoria_restaurante">{{ informacionRestaurante.categoria }}</p>
 
         <div class="contenedor_detalle_restaurante">
             <div class="base_detalle_resturante">
-                <img src="./assets/img/rest1.jpg" class="imagen_restaurante"/>
+                <img src="{{ informacionRestaurante.foto[0] }}" class="imagen_restaurante"/>
                 <div class="base_descripcion_restaurante">
-                    <p class="texto_restaurante">Somos un restaurante ubicado en la ciudad de bogota, hacemos todo tipo de comida de mar,platos a la carta, y especiales a un precio muy acequible para nuestros clientes.</p>
+                    <p class="texto_restaurante">{{ informacionRestaurante.descripcion }}</p>
                 </div>
             </div>
             <div class="base_detalle_carta">
@@ -30,55 +75,41 @@
                     <h2 class="titulo_menu">NUESTRO MENU</h2>
                     
                     <form class="formulario_menu">
+
+                        <h3 class="subtitulo_menu">Entradas</h3>
+                        <div class="base_comida_scs" *ngFor="let entradas of informacionRestaurante.entradas; let i = index">
+                            <input class="form-check-input" type="checkbox" [value]="entradas" id="{{ entradas }}" (click)="valueEntrada(entradas)"/><span class="nombre_tl">{{ entradas }}</span>
+                            <hr class="linea_divisora_lts">
+                        </div>
+
                         <h3 class="subtitulo_menu">Platos Especiales</h3>
-                        <input type="checkbox" /><span class="nombre_tl">Mojarra frita</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
-
-                        <input type="checkbox" /><span class="nombre_tl">Bandeja paisa</span> <span class="precio">$10.000</span>
-                        <hr class="linea_divisora_lts">
-
-                        <input type="checkbox" /><span class="nombre_tl">Churrasco</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
-
-                        <input type="checkbox" /><span class="nombre_tl">Mojarra frita</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
-                        
-                        <h3 class="subtitulo_menu">Platos del dia</h3>
-                        <input type="checkbox" /><span class="nombre_tl">Almuerzo casero</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
+                        <div class="base_comida_scs" *ngFor="let especial of informacionRestaurante.platosEspeciales; let i = index">
+                            <input class="form-check-input" type="checkbox" [value]="especial" id="{{ especial }}" (click)="valueEspecial(especial)" /><span class="nombre_tl">{{ especial }}</span>
+                            <hr class="linea_divisora_lts">
+                        </div>
 
                         <h3 class="subtitulo_menu">Bebidas</h3>
-                        <input type="checkbox" /><span class="nombre_tl">Agua cristal</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
-
-                        <input type="checkbox" /><span class="nombre_tl">Cerveza club colombia</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
-
-                        <input type="checkbox" /><span class="nombre_tl">Limonada</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
+                        <div class="base_comida_scs" *ngFor="let Bebidas of informacionRestaurante.bebidas; let i = index">
+                            <input class="form-check-input" type="checkbox" [value]="Bebidas" id="{{ Bebidas }}"  (click)="valueBebidas(Bebidas)"/><span class="nombre_tl">{{ Bebidas }}</span>
+                            <hr class="linea_divisora_lts">
+                        </div>
+                    
                     </form>
 
                 </div>
                 <div class="base_carta_2">
                     <h2 class="titulo_menu">PEDIDO</h2>
                     <form class="formulario_menu">
-                        <span><img src="./assets/img/cerrar.png" class="quitar_comida"/></span>
-                        <input type="checkbox" hidden/><span class="nombre_tl">Mojarra frita</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
 
-                        <span><img src="./assets/img/cerrar.png" class="quitar_comida"/></span>
-                        <input type="checkbox" hidden/><span class="nombre_tl">Bandeja paisa</span> <span class="precio">$10.000</span>
-                        <hr class="linea_divisora_lts">
+                        <div class="base_pedido" *ngFor="let pedido of arregloPedido; let i = index">
+                           
+                            <input type="checkbox" hidden/><span class="nombre_tl">{{ pedido }}</span>
+                            <hr class="linea_divisora_lts">
+                        </div>
 
-                        <span><img src="./assets/img/cerrar.png" class="quitar_comida"/></span>
-                        <input type="checkbox" hidden/><span class="nombre_tl">Churrasco</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
-
-                        <span><img src="./assets/img/cerrar.png" class="quitar_comida"/></span>
-                        <input type="checkbox" hidden/><span class="nombre_tl">Mojarra frita</span> <span class="precio">$20.000</span>
-                        <hr class="linea_divisora_lts">
+                
                     </form>
-                    <button class="pedido_domicilio">Solicitar pedido a domicilio</button>
+                    <button class="pedido_domicilio" (click)="solicitarDomicilio()">Solicitar pedido a domicilio</button>
                 </div>
             </div>
         </div>

@@ -4,6 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 
 
+/*-------conectar servivio JS-------------*/
+import { CargaJSService } from 'src/app/services/carga-js.service';
+
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
@@ -19,17 +22,36 @@ export class InicioComponent implements OnInit {
   valueSelect:any;
 
 
-    constructor(private usarRuta: Router){
+  categoriaSeleccionada:any
+
+  nombrePersonaLogueada:any
+
+    constructor(private usarRuta: Router, private cargarJs:CargaJSService){
+
+      /*---cargar archivo js---*/
+      this.cargarJs.carga(['funcion']);
+      /*---cargar archivo js---*/
+
     }
 
 
   ngOnInit(): void {
 
+    if( localStorage.getItem('nombre') ){
+
+      this.nombrePersonaLogueada = localStorage.getItem('nombre')
+    }
   
   }
   
+
+  categoriaInicio( categoria:any ){
+    
+    this.categoriaSeleccionada = categoria;
+  }
   
 
+  
   valorSelect( parametro:any ){
 
     this.valueSelect = parametro;
@@ -39,8 +61,9 @@ export class InicioComponent implements OnInit {
   
   buscarComida(){
     
-    //console.log(this.valueSelect)
-    this.usarRuta.navigate([ '/restaurantes', this.valueSelect ])
+    console.log('funciona');
+    this.usarRuta.navigate([ '/restaurantes', this.categoriaSeleccionada ])
+
 
     
      //localStorage.setItem('departamento', '28');
