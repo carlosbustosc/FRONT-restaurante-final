@@ -199,7 +199,6 @@ export class RegistroRestauranteComponent implements OnInit {
    departa(i:any){
 
     this.city = this.cargarDepartamentos[i].ciudades;
-   
     console.log( this.cargarDepartamentos[i].ciudades )
 
    }

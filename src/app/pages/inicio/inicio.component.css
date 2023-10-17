@@ -23,24 +23,21 @@
     position: relative;
 }
 
-.boton_ingresar_ltsx{
-
-    padding: 7px 16px;
-    background-color: #C59B6D;
+.boton_ingresar_ltsx {
+    padding: 8px 16px;
+    background-color: #03c1d3;
     text-align: center;
     float: left;
     border: 0;
     cursor: pointer;
     font-weight: 600;
-
 }
 
 .control_ltsx {
     float: left;
-    width: 82%;
-    padding: 5px 0px;
-    /* border: 0;*/
-
+    width: 86%;
+    padding: 7px 14px;
+    border-radius: 10px 0px 0px 10px;
 }
 
 .titulo_bienvenido_z3 {

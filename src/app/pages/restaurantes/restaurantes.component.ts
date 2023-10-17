@@ -5,7 +5,9 @@ import { RestauranteService } from 'src/app/services/restaurante.service';
 
 
 /*---------usar rutas ROUTER-----------*/
-import { Router } from "@angular/router"
+import { Router, ActivatedRoute } from "@angular/router"
+
+
 
 
 /*-------conectar servivio JS-------------*/
@@ -65,7 +67,14 @@ export class RestaurantesComponent implements OnInit {
     CiudadCliente:any;
     /*-----datos que vienen del cliente-----*/
 
-    constructor( private usarRuta:Router, private conectarServicio:RestauranteService, private cargarJs:CargaJSService ){
+
+
+
+    /*---------guardar categoria que viene del inicio-----------*/
+    guardarCategoria:any;
+
+
+    constructor( private usarRuta:Router, private recibirParametro:ActivatedRoute,  private conectarServicio:RestauranteService, private cargarJs:CargaJSService ){
       
       /*---cargar archivo js---*/
       this.cargarJs.carga(['funcion']);
@@ -76,9 +85,24 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-
-
     ngOnInit(): void {
+      
+      /*--------recibir parametro de inicio----------*/
+       this.recibirParametro.params.subscribe( resp => {
+        console.log( resp['id'] );
+
+        this.guardarCategoria = resp['id'];
+        
+
+        this.seleccionarCategoria( 'Carnes' );
+      
+      
+      })
+
+      /*----ejecutar automaticamente la funcion de categoria----*/
+      
+      
+
 
       /*--saludo--*/
       this.nombrePersona = localStorage.getItem('nombre');
@@ -106,7 +130,6 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-            
           /*------------datos que vienen por defecto de Storage ó por defecto---------*/
           if( localStorage.getItem('departamento') ){
 
@@ -115,7 +138,7 @@ export class RestaurantesComponent implements OnInit {
           }else{
             
             this.parametroCiudad( this.departamentos, 'todos' );
-            
+  
           } 
 
 
@@ -147,8 +170,10 @@ export class RestaurantesComponent implements OnInit {
 
     /*----select change---*/
     parametroCiudad( array:any, Posicion:any ){
-      
+
+
       if(Posicion == "todos"){
+  
         this.quitarSelectTodasCiudades = false;
         /*----traer todos los departementos---*/
         this.conectarServicio.ciudades()
@@ -167,7 +192,9 @@ export class RestaurantesComponent implements OnInit {
             console.log(resp);
 
             this.guardarArrRestaurante = resp;
-        })
+           
+        
+          })
 
         /*---motrar contenedores---*/
         this.contenedorRestaurantes = true;
@@ -192,7 +219,7 @@ export class RestaurantesComponent implements OnInit {
 
     /*----select change---*/
     elegirCiudad( ciudad:any ){
-
+        
       //console.log( ciudad );
       this.CiudadCliente = ciudad;
 
@@ -233,7 +260,7 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-    seleccionarCategoria( categoria:string ){
+    seleccionarCategoria( categoria:any ){
 
       this.nombreCategoria = categoria
      //console.log( categoria )
@@ -257,6 +284,7 @@ export class RestaurantesComponent implements OnInit {
         }
 
       })
+
 
 
    

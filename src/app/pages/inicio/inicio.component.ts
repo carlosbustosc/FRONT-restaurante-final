@@ -11,11 +11,12 @@ import { Router } from '@angular/router'
 })
 
 
-
 export class InicioComponent implements OnInit {
 
   DepartamentoPorDefecto:any;
   CiudadPorDefecto:any;
+  
+  valueSelect:any;
 
 
     constructor(private usarRuta: Router){
@@ -28,12 +29,18 @@ export class InicioComponent implements OnInit {
   }
   
   
+
+  valorSelect( parametro:any ){
+
+    this.valueSelect = parametro;
+
+  }
   
   
   buscarComida(){
     
-    console.log('funciona');
-    this.usarRuta.navigate([ '/restaurantes' ])
+    //console.log(this.valueSelect)
+    this.usarRuta.navigate([ '/restaurantes', this.valueSelect ])
 
     
      //localStorage.setItem('departamento', '28');
