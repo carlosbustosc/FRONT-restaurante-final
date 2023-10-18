@@ -33,6 +33,10 @@ export class RestauranteComponent implements OnInit {
   /*---formulario modal----*/
   datosCliente: FormGroup;
 
+
+  /*----modal iniciar sesson---*/
+  modalIniciarSession = false;
+
   constructor(private recibirParametro:ActivatedRoute, private conectarServicio:RestauranteService, private fb:FormBuilder  ){
     
 
@@ -75,7 +79,7 @@ export class RestauranteComponent implements OnInit {
 
     }else{
 
-      alert("por favor registrese e inicie sesion para realizar el pedido");
+      this.modalIniciarSession = true;
 
     }
 
@@ -85,6 +89,13 @@ export class RestauranteComponent implements OnInit {
   cerrarModal(){
 
     this.modalPedido = false;
+  }
+
+  
+  cerrarModalSession(){
+
+    this.modalIniciarSession = false;
+    
   }
 
 

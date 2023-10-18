@@ -45,17 +45,19 @@
 
 .base_detalle_resturante{
 
-    width: 400px;
+    width: 540px;
     display: table;
     float: left;
+    margin: 56px auto 50px auto;
 
 }
 
 .base_detalle_carta{
 
-    width: 800px;
+    width: 100%;
     float: right;
     display: table;
+    margin: 40px auto;
 }
 
 .imagen_restaurante{
@@ -65,7 +67,7 @@
 
 .base_carta_1{
 
-    width: 370px;
+    width: 44%;
     height: 477px;
     float: left;
     background-color: #1A1A1A;
@@ -76,37 +78,73 @@
     margin-left: 20px;
 }
 
+.base_carta_1::-webkit-scrollbar {
+    width: 6px; 
+    height: 10px;              /* width of the entire scrollbar */
+  }
+  
+  .base_carta_1::-webkit-scrollbar-track {
+    background: #3b3b3b;
+  }
+  
+  .base_carta_1::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 20px;
+  }
+
+
 .base_carta_2{
-    
-    width: 370px;
+
+    width: 44%;
     height: 477px;
     float: left;
     background-color: #1A1A1A;
-    margin-left: 20px;
+    margin-left: 52px;
     box-sizing: border-box;
     padding: 10px 21px;
     position: relative;
     overflow-y: scroll;
 }
 
+.base_carta_2::-webkit-scrollbar {
+    width: 6px; 
+    height: 10px;              /* width of the entire scrollbar */
+  }
+  
+  .base_carta_2::-webkit-scrollbar-track {
+    background: #3b3b3b;
+  }
+  
+  .base_carta_2::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 20px;
+  }
+
+
+
 .titulo_menu {
+    
     color: #fff;
     font-size: 25px;
     text-align: center;
     font-weight: 500;
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
-    margin-bottom: 22px;
+    margin-bottom: 32px;
+    margin-top: 17px;
 }
 
 .subtitulo_menu {
     color: #fff;
-    font-size: 17px;
+    font-size: 16px;
     text-align: left;
     font-weight: 500;
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
     padding-top: 9px;
+    background-color: #682c17;
+    padding: 10px 20px 9px 20px;
+    text-align: left;
 }
 
 form.formulario_menu {
@@ -342,9 +380,8 @@ textarea {
 }
 
 .icono_cerrar{
-
     position: absolute;
-    right: 4px;
+    right: 13px;
     top: 13px;
     width: 34px;
     cursor: pointer;
@@ -382,7 +419,7 @@ textarea {
 
 .contenedor_inicio_de_session{
     width: 500px;
-    height: 500px;
+    height: 293px;
     margin: auto;
     background-color: #fff;
     position: relative;
@@ -390,7 +427,10 @@ textarea {
     position: fixed;
     right: 0px;
     left: 0px;
-    top:20%
+    top: 37%;
+    padding: 40px;
+    display: flex;
+    align-items: center;
 }
 
 .mensaje_inicio_sesion {
@@ -403,9 +443,48 @@ textarea {
     text-transform: uppercase;
     padding-top: 8px;
     padding-bottom: 0px;
-    margin-bottom: -3px;
+    margin-bottom: 25px;
 }
 
+.iniciar_sesion {
+
+    padding: 7px 15px;
+    background-color: #00c7ff;
+    text-align: center;
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Open Sans', sans-serif;
+    width: 245px;
+    margin: 18px auto 0px auto;
+    cursor: pointer;
+}
+
+.icono_cerrar2 {
+    position: absolute;
+    right: 12px;
+    top: 13px;
+    width: 34px;
+    cursor: pointer;
+}
+
+.base_informacion {
+    width: 100%;
+    display: table;
+}
+
+.oscuro{
+    background-color: #0c6999;
+}
+
+.quitar-left{
+
+    margin-left: 0px;
+}
+
+.logo_restaurante_blanco {
+    margin-bottom: 4px;
+}
 
 
 
