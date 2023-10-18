@@ -8,13 +8,20 @@
 <div class="fondo_trasnparenteModal" *ngIf="modalPedido"></div>
 <!---fondo Pantall Modal MODAL---->
 
+<!--fondo_modal inicie session-->
+<div class="fondo_trasnparenteModal" *ngIf="modalIniciarSession"></div>
+
 
 <div class="contenedor_principal_restaurante">
 
     <!---modal informativo de inicio de sesion-->
-    <div class="contenedor_inicio_de_session">
-        <h1 class="mensaje_inicio_sesion">Por favor inicie session para realizar el pedido</h1>
-        <p>Iniciar session</p>
+    <div class="contenedor_inicio_de_session" *ngIf="modalIniciarSession">
+        <img src="./assets/img/cerrar_negro.png" class="icono_cerrar" (click)="cerrarModalSession()"/>
+        <div class="base_informacion">
+            <h1 class="mensaje_inicio_sesion">Por favor inicie session para realizar el pedido</h1>
+            <p class="iniciar_sesion" [routerLink]="['/loginCliente']">Iniciar session</p>
+            <p class="iniciar_sesion oscuro" [routerLink]="['/registroCliente']">No estoy Registrado</p>
+        </div>
     </div>
 
     <!---inicio MODAL---->
@@ -71,24 +78,27 @@
                 </div>
             </div>
             <div class="base_detalle_carta">
-                <div class="base_carta_1">
+                <div class="base_carta_1 quitar-left">
                     <h2 class="titulo_menu">NUESTRO MENU</h2>
                     
                     <form class="formulario_menu">
 
                         <h3 class="subtitulo_menu">Entradas</h3>
+                        <hr class="linea_divisora_lts">
                         <div class="base_comida_scs" *ngFor="let entradas of informacionRestaurante.entradas; let i = index">
                             <input class="form-check-input" type="checkbox" [value]="entradas" id="{{ entradas }}" (click)="valueEntrada(entradas)"/><span class="nombre_tl">{{ entradas }}</span>
                             <hr class="linea_divisora_lts">
                         </div>
 
                         <h3 class="subtitulo_menu">Platos Especiales</h3>
+                        <hr class="linea_divisora_lts">
                         <div class="base_comida_scs" *ngFor="let especial of informacionRestaurante.platosEspeciales; let i = index">
                             <input class="form-check-input" type="checkbox" [value]="especial" id="{{ especial }}" (click)="valueEspecial(especial)" /><span class="nombre_tl">{{ especial }}</span>
                             <hr class="linea_divisora_lts">
                         </div>
 
                         <h3 class="subtitulo_menu">Bebidas</h3>
+                        <hr class="linea_divisora_lts">
                         <div class="base_comida_scs" *ngFor="let Bebidas of informacionRestaurante.bebidas; let i = index">
                             <input class="form-check-input" type="checkbox" [value]="Bebidas" id="{{ Bebidas }}"  (click)="valueBebidas(Bebidas)"/><span class="nombre_tl">{{ Bebidas }}</span>
                             <hr class="linea_divisora_lts">
@@ -98,7 +108,7 @@
 
                 </div>
                 <div class="base_carta_2">
-                    <h2 class="titulo_menu">PEDIDO</h2>
+                    <h2 class="titulo_menu">TU PEDIDO</h2>
                     <form class="formulario_menu">
 
                         <div class="base_pedido" *ngFor="let pedido of arregloPedido; let i = index">
