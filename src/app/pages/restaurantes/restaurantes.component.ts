@@ -407,6 +407,8 @@ export class RestaurantesComponent implements OnInit {
 
       //console.log(id);
       this.usarRuta.navigate([ 'restaurante', id ])
+
+      localStorage.setItem( 'id', id );
     
     }
 

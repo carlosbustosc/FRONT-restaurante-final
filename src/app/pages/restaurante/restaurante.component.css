@@ -226,7 +226,7 @@ span.nombre_tl {
 }
 
 .caja_comentario_ltsx {
-    width: 100%;
+    width: 42%;
     display: table;
     background-color: #682c1799;
     margin-bottom: 36px;
@@ -292,6 +292,25 @@ span.nombre_tl {
 
 }
 
+
+.base_modal_confirmacion::-webkit-scrollbar {
+    width: 8px; 
+    height: 10px;              /* width of the entire scrollbar */
+  }
+  
+.base_modal_confirmacion::-webkit-scrollbar-track {
+    background: #969696;
+  }
+  
+.base_modal_confirmacion::-webkit-scrollbar-thumb {
+    background-color: #000;
+    border-radius: 20px;
+    border: 1px solid white;
+  }
+
+
+
+
 .icono_restaurante {
     width: 130px;
     margin: 0px auto 40px auto;
@@ -308,13 +327,26 @@ span.nombre_tl {
 }
 
 .base_seleccionados{
+
     width: 80%;
     background-color: #000;
     margin: auto;
-    padding: 20px 40px;
+    padding: 20px 40px 7px 40px;
     display: table;
     margin: 0px auto 40px auto;
     max-height: 215px;
+}
+
+.otra_direccion {
+    text-align: center;
+    margin-bottom: 47px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+}
+
+.bajar_bottom{
+
+    margin-bottom: 5px;
 }
 
 .precio_almuerxo_l{
@@ -322,10 +354,11 @@ span.nombre_tl {
     float:right;
 }
 
-textarea {
-    width: 100%;
-    height: 67px;
+textarea{
+    width: 42%;
+    height: 112px;
     margin-top: 11px;
+    padding: 11px 14px;
 }
 
 .comida_seleccionada {
@@ -484,6 +517,24 @@ textarea {
 
 .logo_restaurante_blanco {
     margin-bottom: 4px;
+}
+
+
+.dividor_comentarios{
+
+    width: 100%;
+    height: 1px;
+    border: 1px solid #fff;
+    margin-top: 30px;
+}
+
+.boton_registrar_comentario {
+    padding: 6px 16px;
+    border: 0px;
+    margin-top: 9px;
+    margin-bottom: 90px;
+    background-color: #008eff;
+    color: #fff;
 }
 
 

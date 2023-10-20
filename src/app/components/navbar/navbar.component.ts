@@ -99,9 +99,13 @@ export class NavbarComponent implements OnInit {
 
 
 
+  verPerfil(){
 
+    this.usarRuta.navigate([ '/perfil', localStorage.getItem('idPersona') ]);
+
+  }
 
  
-
+  
 
 }

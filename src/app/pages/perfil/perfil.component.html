@@ -1,0 +1,81 @@
+<app-navbar></app-navbar>
+
+<div class="contenedor_principal_perfil">
+    <div class="seccion_foto_y_menu">
+        <div class="base_detalle_lts">
+            <div class="circulo_imagen"></div>
+            <div class="base_informacion">
+                <p class="nombres">Carlos Alberto Bustos</p>
+                <p class="ciudad">bogota</p>
+                <br>
+                <form class="formulario">
+                    <input class="file" type="file" placeholder="subir_imagen">
+                </form>
+            </div>
+        </div>
+
+        <hr class="linea_divisora">
+
+        <p class="texto_menu">Editar Informacion</p>
+        <hr class="linea_divisora">
+        <p class="texto_menu">Domicilios Solicitados</p>
+        <hr class="linea_divisora">
+        <p class="texto_menu">Restaurantes favoritos</p>
+
+    </div>
+
+    <div class="seccion_del_formulario">
+        <h1 class="titulo">Presentamos tu Informacion</h1>
+        <p class="descripcion">Puedes Actualizar tu informacion</p>
+
+        <form [formGroup]="formActualizacion" class="formularioActualizacion">
+            <div class="base_input">
+                <label class="texto_label">Nombre Completo</label>
+                <input type="text" class="form-control" formControlName="nombre"/>
+            </div>
+
+            <div class="base_input">
+                <label class="texto_label">Correo Electronico</label>
+                <input type="text" class="form-control" formControlName="email"/>
+            </div>
+
+            <div class="base_input">
+                <label class="texto_label">Contraseña</label>
+                <input type="password" class="form-control" formControlName="pass"/>
+            </div>
+
+            <div class="base_input">
+                <label class="texto_label">Numero Celular</label>
+                <input type="text" class="form-control" formControlName="celular"/>
+            </div>
+
+            <div class="base_input">
+                <label class="texto_label">Departamento</label>
+                <select type="text" class="form-control" formControlName="departamento" #f (change)="selecDepartamento(f.value)">
+                    <option *ngFor="let departamento of guardarDepartamentos; let i = index" [value]="i" [selected]="i == numeroDepart">{{ departamento.departamento }}</option>
+                </select>
+            </div>
+
+            <div class="base_input">
+                <label class="texto_label">Ciudad</label>
+                <select type="text" class="form-control" formControlName="ciudad">
+                    <option *ngFor="let ciudad of  guardarCiudades" [selected]="ciudad == ciudadPorDefecto">{{ ciudad }}</option>
+                </select>
+            </div>
+
+            <div class="base_input">
+                <label class="texto_label">Barrio</label>
+                <input type="text" class="form-control" formControlName="barrio"/>
+            </div>
+
+            <div class="base_input">
+                <label class="texto_label">Dirección</label>
+                <input type="text" class="form-control" formControlName="direccion"/>
+            </div>
+
+            <div class="base_input">
+                <button type="button" class="btn btn-primary mover_boton" (click)="actualizarInformacion()">Actualizar informacion</button>
+            </div>
+        </form>
+    </div>
+</div>

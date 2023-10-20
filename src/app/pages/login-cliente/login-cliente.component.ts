@@ -73,17 +73,34 @@ export class LoginClienteComponent implements OnInit {
               console.log(resp);
               
               /*----guardar local storage---*/
-              localStorage.setItem('departamento', resp[0].departamento)
-              localStorage.setItem('ciudad',       resp[0].ciudad)   
-              localStorage.setItem('nombre',       resp[0].nombre );
               localStorage.setItem('barrio',       resp[0].barrio)
+              localStorage.setItem('celular',      resp[0].celular)
+              localStorage.setItem('ciudad',       resp[0].ciudad)
+              localStorage.setItem('departamento', resp[0].departamento)
               localStorage.setItem('direccion',    resp[0].direccion)
+              localStorage.setItem('email',        resp[0].email );
+              localStorage.setItem('idPersona',    resp[0].idPersona );
+  
+              localStorage.setItem('nombre',       resp[0].nombre );
+              localStorage.setItem('pass',         resp[0].pass );
+              localStorage.setItem('pass2',        resp[0].pass2 );
 
-             
+
               /*----guardar local storage---*/           
 
+              
+              if( localStorage.getItem('id') ){
+                
+                this.usarRuta.navigate(['/restaurante', localStorage.getItem('id')]); //direccionar a la pagina de ingreso
 
-              this.usarRuta.navigate(['/inicio']); //direccionar a la pagina de ingreso
+              }else{
+
+                this.usarRuta.navigate( ['inicio'] ); //direccionar a la pagina de ingreso
+                
+              }
+
+              
+              
 
             })
       

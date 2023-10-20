@@ -31,13 +31,14 @@
             <img src="./assets/img/logo_negro.svg" class="icono_restaurante"/>    
         </div>
 
-        <h3 class="mensaje_modal">¿Hola Carlos Alberto Bustos esta bien tu pedido?</h3>
+        <h3 class="mensaje_modal">¿Hola {{ nombreUsuario }} esta bien tu pedido?</h3>
         <div class="base_seleccionados">
             <p class="comida_seleccionada" *ngFor="let pedidoListo of arregloPedido">{{ pedidoListo }}<span class="precio_almuerxo_l"> </span></p>
 
         </div>
 
-        <h3 class="mensaje_modal">Lo enviaremos a la siguiente dirección</h3>
+        <h3 class="mensaje_modal bajar_bottom">Lo enviaremos a la siguiente dirección</h3>
+        <p class="otra_direccion">Si estas en otro lugar puedes cambiarla</p>
 
         <form [formGroup]="datosCliente" class="formulario_data">
             <div class="base_data">
@@ -56,7 +57,7 @@
             </div>
 
             <div class="base_data">
-                <button type="button" class="boton_solicitar_domicilio"> Solicitar Domicilio </button>
+                <button type="button" class="boton_solicitar_domicilio" (click)="pedirDomicilio()">Sí, Pedir Domicilio </button>
             </div>
         </form>
     </div>
@@ -124,31 +125,24 @@
             </div>
         </div>
 
+        <hr class="dividor_comentarios">
+
         <div class="contenedor_comentarios_restaurante">
             <h3 class="comentarios_restaurante">COMENTARIOS</h3>
-            <div class="caja_comentario_ltsx">
-                <h1 class="nombre_persona">Carlos Alberto Bustos Caviedes</h1>
-                <p class="comentario_lts">Excelente lugar,  la atención es muy buena</p>
+
+            <div class="caja_comentario_ltsx" *ngFor="let comentarios of guardarComentarios">
+                <h1 class="nombre_persona">{{ comentarios.nombre }}</h1>
+                <p class="comentario_lts"> {{ comentarios.correo }}</p>
+                <p class="comentario_lts"> {{ comentarios.comentario }}</p>
                 <p class="calificacion_txt">Excelente</p>
             </div>
 
-            <div class="caja_comentario_ltsx">
-                <h1 class="nombre_persona">Carlos Alberto Bustos Caviedes</h1>
-                <p class="comentario_lts">Excelente lugar,  la atención es muy buena</p>
-                <p class="calificacion_txt">Excelente</p>
-            </div>
-
-            <div class="caja_comentario_ltsx">
-                <h1 class="nombre_persona">Carlos Alberto Bustos Caviedes</h1>
-                <p class="comentario_lts">Excelente lugar,  la atención es muy buena</p>
-                <p class="calificacion_txt">Excelente</p>
-            </div>
-        </div>
 
         <div class="base_formulario_comentario">
-            <form class="form_comentario">
-                <label class="txt_mensaje">Escriba sus comentarios</label>
-                <textarea type="textarea"></textarea>
+            <form [formGroup]="formComentario" class="form_comentario">
+                <label class="txt_mensaje">Escriba sus comentarios</label><br>
+                <textarea type="textarea" formControlName="comentario"></textarea><br>
+                <button class="boton_registrar_comentario" (click)="comentar()">Comentar</button>
             </form>
         </div>
     </div>

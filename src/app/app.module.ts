@@ -21,7 +21,9 @@ import { LoginRestauranteComponent } from './pages/login-restaurante/login-resta
 
 
 /*-----------------importar servicio js--------------*/
-import { CargaJSService } from './services/carga-js.service'; 
+import { CargaJSService } from './services/carga-js.service';
+import { InternaRestauranteComponent } from './pages/interna-restaurante/interna-restaurante.component';
+import { PerfilComponent } from './pages/perfil/perfil.component'; 
 
 
 
@@ -36,7 +38,9 @@ import { CargaJSService } from './services/carga-js.service';
     RegistroClienteComponent,
     RestauranteComponent,
     RegistroRestauranteComponent,
-    LoginRestauranteComponent
+    LoginRestauranteComponent,
+    InternaRestauranteComponent,
+    PerfilComponent
 
 
   ],
