@@ -24,7 +24,7 @@ import { restauranteGuard } from './guard/restaurante.guard';
 
 const routes: Routes = [
 
-  { path: "inicio", component: InicioComponent, canActivate:[clienteGuard] },
+  { path: "inicio", component: InicioComponent },
   { path: "loginCliente", component: LoginClienteComponent },
   { path: "perfil/:id", component:PerfilComponent },
   { path: "LoginRestauranteComponent", component: LoginRestauranteComponent },

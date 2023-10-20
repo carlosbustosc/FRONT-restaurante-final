@@ -1,4 +1,11 @@
 <div class="contenedor_header">
+    <!--menu-->
+    <div class="contenedor_menu">
+        <ul>
+            <li class="texto_menu" [routerLink]="['/inicio']">Inicio</li>
+        </ul>
+    </div>
+
     <div class="base_cajon_login">
         <button type="button" class="login_plataforma" (click)="mostrarMenu()" *ngIf="botonLogin">LOGIN</button>
     </div>      

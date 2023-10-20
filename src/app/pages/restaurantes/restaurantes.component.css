@@ -195,4 +195,18 @@
     text-transform: uppercase;
 }
 
+.icono_favoritos {
+    position: absolute;
+    left: 20px;
+    top: 25px;
+    background-color: #000000ba;
+    border-radius: 7px;
+    width: 30px;
+    cursor: pointer;
+}
+
+.corazon_hovers{
+
+    display: none;
+}
 

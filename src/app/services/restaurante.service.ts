@@ -336,33 +336,80 @@ export class RestauranteService {
       localStorage.removeItem('pass2');
 
 
-
-
-
-
-
     }
 
 
 
     /*---------------------Pedir Domicilio----------------*/
-    agendarDomicilio( pedido:object, formulario:any, nombre:any, correo:any){
+    agendarDomicilio( idRestauranteTS:any, nombresResturanteTS:string, fotoRestauranteTS:any, mesTS:any, nombreTS:any, correoTS:any, pedidoTS:any, DatosClienteTS:any ){
 
 
       const formAgendamientoDomicilio = {
 
-        nombre: nombre,
-        correo: correo,
-        pedido: pedido,
-        ciudad: formulario.barrio,
-        barrio: formulario.ciudad,
-        direccion: formulario.direccion,
+        idRestaurante: idRestauranteTS,
+        correoCliente: correoTS,
+        fecha: mesTS,
+        imagen: fotoRestauranteTS,
+        nombreCliente: nombreTS,
+        nombreRestaurante:nombresResturanteTS,
+        pedido: pedidoTS,
+        ciudad:DatosClienteTS.ciudad,
+        barrio:DatosClienteTS.barrio,
+        direccionCliente:DatosClienteTS.direccion,
 
       }
 
-      return this.usarHttp.post('https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios.json', formAgendamientoDomicilio );
+      return this.usarHttp.post('https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios.json', formAgendamientoDomicilio )
+                  
 
     }
+
+
+
+
+
+    /*-------------------------Trear agendados al perfil del cliente--------------*/
+    traerDomiciliosAgendados( correo:any ){
+
+      return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios.json')
+              .pipe(
+                map( (resp:any) => {
+
+                    let NuevoArreglo:any = []
+                    
+                    Object.keys( resp ).forEach( llaves => {
+
+                      let todasLasLLaves = resp[llaves];
+                      todasLasLLaves.idDomicilio = llaves;
+
+                    })
+
+                    Object.values( resp ).forEach( (valores:any) => {
+
+                      let todosLosCorreos = valores.correoCliente;
+                      
+                      if( todosLosCorreos.indexOf( correo ) >= 0 ){
+
+                        NuevoArreglo.push( valores );
+
+                      }
+
+                    })
+                  
+                    return NuevoArreglo;
+                
+                  })
+              )
+
+    }
+
+
+
+
+
+
+
+
 
 
     /*-----------------------Comentarios-----------------------*/
@@ -549,7 +596,95 @@ export class RestauranteService {
 
           return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/registroCliente/${ idPersona }.json`)
 
+
         }
 
+
+
+
+
+
+
+      /*-------------------traer Un Restaurante para favoritos--------------------*/
+      registrarFavorito( dataRESP:any ){
+
+        
+        const registrarFavorito = {
+
+          foto:    dataRESP.foto[0],
+          nombre:  dataRESP.nombreRestaurante,
+          ciudad:  dataRESP.ciudad,
+          visitarRestaurante: dataRESP.id,
+          descripcion: dataRESP.descripcion
+
+
+     
+        }
+
+        console.log(dataRESP)
+  
+        return this.usarHttp.post(`https://restaurante-15f7b-default-rtdb.firebaseio.com/favoritos.json`, registrarFavorito )
+                .pipe(
+                  map( (resp:any) => {
+                    
+
+                    const registrarFavorito = {
+
+                      foto:    dataRESP.foto[0],
+                      nombre:  dataRESP.nombreRestaurante,
+                      ciudad:  dataRESP.ciudad,
+                      id: resp.name
+                    
+                    }
+
+
+                    return registrarFavorito
+
+                  })
+                )
+
+      }
+
+
+
+      /*-----------------------------------------------Cargar restaurantes favoritos------------------------------------*/
+      cargarRestaurantesFavoritos(){
+
+        return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/favoritos.json`)
+                .pipe(
+                  map( (resp:any) => {
+
+                    let nuevoArr:any = []
+
+                    Object.keys( resp ).forEach( llaves => {
+                      
+
+                      let todosLosDatos = resp[llaves];
+                      todosLosDatos.id = llaves;
+                      nuevoArr.push(todosLosDatos)
+                    
+                    })
+
+                    return nuevoArr;
+
+                  })
+                )
+      }
+    
+
+
+      /*-------------------------------borrar favorito--------------------------------------*/
+      borrarFavoritos( id:any ){
+
+        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/favoritos/${ id }.json`)
+                            
+      }
+
+
+      /*------------------------------borrar pedido-----------------------------*/
+      borrarPedido( id:any ){
+
+        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios/${ id }.json`)
+      }
 
 }

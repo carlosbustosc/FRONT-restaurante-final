@@ -9,7 +9,7 @@ import { RestauranteService } from 'src/app/services/restaurante.service';
 
 
 /*---------recibir parametro-----------*/
-import { ActivatedRoute } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 
 
 @Component({
@@ -33,9 +33,18 @@ export class PerfilComponent implements OnInit {
 
   parametroURL:any;
 
+
+  guardarDomiciliosAgendados:any = []
+
+  guardarRestaurantesFavoritos:any = []
+
+  /*---pantallas----*/
+  pantallaInformacion = true;
+  pantallaDomicilios  = false;
+  pantallaFavoritos = false;
   
 
-  constructor(private conectarServicios:RestauranteService, private fb:FormBuilder, private recibirParametro:ActivatedRoute){
+  constructor(private usarRuta:Router, private conectarServicios:RestauranteService, private fb:FormBuilder, private recibirParametro:ActivatedRoute){
 
     
     /*---recibir parametro---*/
@@ -71,7 +80,36 @@ export class PerfilComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    /*--------------cargar domicilios agendados------------*/
+    let correoPerfil = localStorage.getItem('correo')
+
+    this.conectarServicios.traerDomiciliosAgendados( correoPerfil  )
+        .subscribe( resp => {
+         
+          this.guardarDomiciliosAgendados = resp;
+          console.log( this.guardarDomiciliosAgendados );
+
+        })
+
+
+
+     /*-----------cargar restaurantes favoritos--------*/
+     this.conectarServicios.cargarRestaurantesFavoritos()
+        .subscribe( (resp:any) => {
+
+          console.log( resp );
+          this.guardarRestaurantesFavoritos = resp
+       
+        })
+
+
+  }
+
+
+
+
 
 
   /*--------------llenando campos------*/
@@ -112,8 +150,6 @@ export class PerfilComponent implements OnInit {
 
 
 
-
-
   /*--traer cidades por change---*/
   selecDepartamento(value:any){
 
@@ -148,6 +184,89 @@ export class PerfilComponent implements OnInit {
         } )
 
   }
+
+
+
+
+
+  verInformacion(){
+
+    this.pantallaInformacion = true;
+    this.pantallaDomicilios  = false;
+    this.pantallaFavoritos = false;
+
+  }
+
+  verDomicilios(){
+    
+    this.pantallaInformacion = false;
+    this.pantallaDomicilios  = true;
+    this.pantallaFavoritos = false;
+
+  }
+
+  verFavoritos(){
+    
+    this.pantallaInformacion = false;
+    this.pantallaDomicilios  = false;
+    this.pantallaFavoritos   = true;
+  }
+
   
+
+  irAlRestaurante( idRestaurante:any ){
+
+    //console.log('restaurante/' + idRestaurante)
+    this.usarRuta.navigate(['restaurante/', idRestaurante])
+
+  }
+
+
+
+
+  CancelarPedido( id:any ){
+
+    if (window.confirm("¿Desea Cancelar el pedido?")) {
+      
+      this.conectarServicios.borrarPedido( id )
+      .subscribe( resp => {
+        console.log(resp);
+      })
+
+    }else{
+      alert("Puede serguir con su pedido")
+      
+    }
+
+  }
+
+
+
+
+
+
+  irAlRestauranteFavorito( visitar:any ){
+
+      this.usarRuta.navigate(['restaurante/', visitar])
+  }
+
+
+  borrarFavorito( id:any ){
+
+    if (window.confirm("¿Desea borrar este favorito?")) {
+      
+      this.conectarServicios.borrarFavoritos( id )
+      .subscribe( resp => {
+        console.log(resp);
+      })
+
+    }else{
+      alert("Puede serguir con su archivo")
+      
+    }
+
+   
+
+  }
 
 }

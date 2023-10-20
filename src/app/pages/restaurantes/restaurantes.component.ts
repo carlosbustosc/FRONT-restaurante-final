@@ -90,6 +90,12 @@ export class RestaurantesComponent implements OnInit {
     parametroRecibido:any;
 
 
+    verificarFavorito:any
+
+    corazonNormal = true;
+    corazonRojo = false;
+
+
     constructor( private usarRuta:Router, private conectarServicio:RestauranteService, private cargarJs:CargaJSService, private recibirParametro:ActivatedRoute, private fb:FormBuilder ){
 
       
@@ -103,6 +109,19 @@ export class RestaurantesComponent implements OnInit {
 
 
     ngOnInit(): void {
+
+      /*-------------¿esta logueado?--------------*/
+      if( localStorage.getItem('correo') ){
+
+          this.corazonNormal = true;
+
+        }else{
+
+          this.corazonNormal = false;
+        
+      }
+
+
       
       /*--------recibir parametro de inicio----------*/
        this.recibirParametro.params.subscribe( resp => {
@@ -409,8 +428,47 @@ export class RestaurantesComponent implements OnInit {
       this.usarRuta.navigate([ 'restaurante', id ])
 
       localStorage.setItem( 'id', id );
-    
+      
     }
 
 
+
+    /*---------------------FAVORITOS-------------------*/
+    agregarFavoritos( data:any, i:number ){
+
+      console.log(data)
+      
+      this.conectarServicio.registrarFavorito( data )
+      .subscribe( resp => {
+          console.log( resp )
+
+          this.verificarFavorito = resp.id
+          
+          $(`#favorito${i}`).css('display', 'none');
+          $(`#favoritoH${i}`).css('display', 'block');
+
+
+        })
+
+       
+    }
+
+    /*--
+    borrarCategoria( i:any ){
+
+          $(`#favorito${i}`).css('display', 'block');
+          $(`#favoritoH${i}`).css('display', 'none');
+
+    }
+    --*/
+
+
+
+             
+  
+   
+
+
+    
+    
 }
