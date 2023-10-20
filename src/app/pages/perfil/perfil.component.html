@@ -16,66 +16,117 @@
 
         <hr class="linea_divisora">
 
-        <p class="texto_menu">Editar Informacion</p>
+        <p class="texto_menu" (click)="verInformacion()">Editar Informacion</p>
         <hr class="linea_divisora">
-        <p class="texto_menu">Domicilios Solicitados</p>
+        <p class="texto_menu" (click)="verDomicilios()">Domicilios Solicitados</p>
         <hr class="linea_divisora">
-        <p class="texto_menu">Restaurantes favoritos</p>
+        <p class="texto_menu" (click)="verFavoritos()">Restaurantes favoritos</p>
 
     </div>
 
-    <div class="seccion_del_formulario">
-        <h1 class="titulo">Presentamos tu Informacion</h1>
-        <p class="descripcion">Puedes Actualizar tu informacion</p>
 
-        <form [formGroup]="formActualizacion" class="formularioActualizacion">
-            <div class="base_input">
-                <label class="texto_label">Nombre Completo</label>
-                <input type="text" class="form-control" formControlName="nombre"/>
-            </div>
 
-            <div class="base_input">
-                <label class="texto_label">Correo Electronico</label>
-                <input type="text" class="form-control" formControlName="email"/>
-            </div>
+    <div class="base_principal_informacion">
+        <div class="seccion_del_formulario" *ngIf="pantallaInformacion">
+            <h1 class="titulo">Presentamos tu Informacion</h1>
+            <p class="descripcion">Puedes Actualizar tu informacion</p>
 
-            <div class="base_input">
-                <label class="texto_label">Contraseña</label>
-                <input type="password" class="form-control" formControlName="pass"/>
-            </div>
+            <form [formGroup]="formActualizacion" class="formularioActualizacion">
+                <div class="base_input">
+                    <label class="texto_label">Nombre Completo</label>
+                    <input type="text" class="form-control" formControlName="nombre"/>
+                </div>
 
-            <div class="base_input">
-                <label class="texto_label">Numero Celular</label>
-                <input type="text" class="form-control" formControlName="celular"/>
-            </div>
+                <div class="base_input">
+                    <label class="texto_label">Correo Electronico</label>
+                    <input type="text" class="form-control" formControlName="email"/>
+                </div>
 
-            <div class="base_input">
-                <label class="texto_label">Departamento</label>
-                <select type="text" class="form-control" formControlName="departamento" #f (change)="selecDepartamento(f.value)">
-                    <option *ngFor="let departamento of guardarDepartamentos; let i = index" [value]="i" [selected]="i == numeroDepart">{{ departamento.departamento }}</option>
-                </select>
-            </div>
+                <div class="base_input">
+                    <label class="texto_label">Contraseña</label>
+                    <input type="password" class="form-control" formControlName="pass"/>
+                </div>
 
-            <div class="base_input">
-                <label class="texto_label">Ciudad</label>
-                <select type="text" class="form-control" formControlName="ciudad">
-                    <option *ngFor="let ciudad of  guardarCiudades" [selected]="ciudad == ciudadPorDefecto">{{ ciudad }}</option>
-                </select>
-            </div>
+                <div class="base_input">
+                    <label class="texto_label">Numero Celular</label>
+                    <input type="text" class="form-control" formControlName="celular"/>
+                </div>
 
-            <div class="base_input">
-                <label class="texto_label">Barrio</label>
-                <input type="text" class="form-control" formControlName="barrio"/>
-            </div>
+                <div class="base_input">
+                    <label class="texto_label">Departamento</label>
+                    <select type="text" class="form-control" formControlName="departamento" #f (change)="selecDepartamento(f.value)">
+                        <option *ngFor="let departamento of guardarDepartamentos; let i = index" [value]="i" [selected]="i == numeroDepart">{{ departamento.departamento }}</option>
+                    </select>
+                </div>
 
-            <div class="base_input">
-                <label class="texto_label">Dirección</label>
-                <input type="text" class="form-control" formControlName="direccion"/>
-            </div>
+                <div class="base_input">
+                    <label class="texto_label">Ciudad</label>
+                    <select type="text" class="form-control" formControlName="ciudad">
+                        <option *ngFor="let ciudad of  guardarCiudades" [selected]="ciudad == ciudadPorDefecto">{{ ciudad }}</option>
+                    </select>
+                </div>
 
-            <div class="base_input">
-                <button type="button" class="btn btn-primary mover_boton" (click)="actualizarInformacion()">Actualizar informacion</button>
+                <div class="base_input">
+                    <label class="texto_label">Barrio</label>
+                    <input type="text" class="form-control" formControlName="barrio"/>
+                </div>
+
+                <div class="base_input">
+                    <label class="texto_label">Dirección</label>
+                    <input type="text" class="form-control" formControlName="direccion"/>
+                </div>
+
+                <div class="base_input">
+                    <button type="button" class="btn btn-primary mover_boton" (click)="actualizarInformacion()">Actualizar informacion</button>
+                </div>
+            </form>
+        </div>
+
+        <!---SECCION DOMICILIOS--->
+        <div class="contenedor_domicilios" *ngIf="pantallaDomicilios">  
+            <h1 class="titulo2">Estos son tus pedidos</h1>
+            <div class="row bajar_cajon">
+
+                <div class="card paddigns col-md-6" *ngFor="let domicilio of guardarDomiciliosAgendados">
+                    <img src="{{ domicilio.imagen }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ domicilio.nombreRestaurante }}</h5>
+                      
+                      <li class="card-text" *ngFor="let comida of domicilio.pedido">{{ comida }}</li>
+                      <p class="fecha_text">{{ domicilio.fecha }}</p>
+
+
+                      <a class="btn btn-primary" (click)="irAlRestaurante( domicilio.idRestaurante )">Ir al Restaurante</a>
+                      <a class="btn btn-danger rojoMg" (click)="CancelarPedido( domicilio.idDomicilio )">Cancelar Pedido</a>
+
+
+                    </div>
+                  </div>
+                
             </div>
-        </form>
+        </div>
+
+
+         <!---SECCION FAVORITOS--->
+         <div class="base_favoritos" *ngIf="pantallaFavoritos">
+            <h1 class="titulo2">Estos son tus restaurantes favoritos</h1>
+
+            <div class="row bajar_cajon" *ngFor="let favoritos of guardarRestaurantesFavoritos; let i = index">
+                <div class="col-md-4">
+                    <img src="{{ favoritos.foto }}" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ favoritos.nombre }}</h5>
+                      <p class="card-text">{{ favoritos.descripcion }}</p>
+                      <p class="card-text"><small class="text-body-secondary">{{ favoritos.cuidad }}</small></p>
+                      <button class="btn btn-primary" (click)="irAlRestauranteFavorito( favoritos.visitarRestaurante )">Ir al restaurante</button>
+                      <button class="btn btn-danger borrar_favorito" (click)="borrarFavorito( favoritos.id )">Borrar favorito</button>
+
+                    </div>
+                  </div>
+            </div>
+         </div>
+         <
     </div>
 </div>

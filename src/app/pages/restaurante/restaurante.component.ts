@@ -50,6 +50,8 @@ export class RestauranteComponent implements OnInit {
   guardarComentarios:any = [];
 
 
+  idRestaurante:any;
+
   constructor(private usarRuta: Router, private recibirParametro:ActivatedRoute, private conectarServicio:RestauranteService, private fb:FormBuilder  ){
     
     /*----formComentario----*/
@@ -93,7 +95,8 @@ export class RestauranteComponent implements OnInit {
     this.recibirParametro.params
         .subscribe( resp => {
 
-          console.log("recibido: "+ resp['id']);
+          console.log("recibido: "+ resp['id'] );
+          this.idRestaurante = resp['id']
 
           /*-----traer un restaurante------*/
           this.conectarServicio.traerUnRestaurante( resp['id'] )
@@ -139,11 +142,22 @@ export class RestauranteComponent implements OnInit {
 
   pedirDomicilio( ){
 
+    let idRestaurante = this.idRestaurante;
+    let nombresResturante = this.informacionRestaurante.nombreRestaurante;
+    let fotoRestaurante = this.informacionRestaurante.foto[0]
+    let fecha = new Date();
+    let mes = fecha.toDateString();
+
+
     let nombre = localStorage.getItem('nombre');
     let correo = localStorage.getItem('correo');
+    let pedido = this.arregloPedido;
+    let DatosCliente = this.datosCliente.value;
+    
 
-      this.conectarServicio.agendarDomicilio( this.arregloPedido, this.datosCliente.value, nombre, correo )
-          .subscribe( resp => {
+      this.conectarServicio.agendarDomicilio( idRestaurante, nombresResturante, fotoRestaurante, mes, nombre, correo, pedido, DatosCliente)
+    
+      .subscribe( resp => {
             console.log( resp );
 
             this.modalPedido = false;
@@ -158,6 +172,7 @@ export class RestauranteComponent implements OnInit {
            
           
           })
+        
   }
 
 

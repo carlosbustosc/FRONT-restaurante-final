@@ -74,6 +74,7 @@
                 <p class="barrio">{{ restaurante.direccion }}}</p>
                 <p class="barrio">{{ restaurante.ciudad }}</p>
                 <!--<p class="direccion">{{ restaurante.email }}</p>-->
+                <img src="./assets/img/favorito.png" class="icono_favoritos"/>
                 <button class="boton_ver_resturante" (click)="verRestaurante( restaurante.id )">Ver resturante</button>
             </div>
         </div>       
@@ -84,6 +85,9 @@
     <div class="contenedor_cards" *ngIf="contenedorCategoriaRestaurante">
 
         <div class="card_1_restaurante" *ngFor="let restaurante of categoriaPorComida; let i = index" >
+            <img src="./assets/img/favorito.png" id="favorito{{i}}" *ngIf="corazonNormal" class="icono_favoritos original"  (click)="agregarFavoritos(restaurante, i)"/>
+            <img src="./assets/img/favorito_seleccionado.png" id="favoritoH{{i}}"  class="icono_favoritos corazon_hovers" />
+
             <img [src]="restaurante.foto" class="imagen_card"/>
             <div class="informacion_restaurante">
                 <h2 class="titulo_restaurante">{{ restaurante.nombreRestaurante }}</h2>

@@ -117,12 +117,25 @@ p.ciudad {
     font-family: 'Open Sans', sans-serif;
     font-weight: 600;
     font-size: 43px;
-    float: left;
+    /* float: left; */
     padding: 15px 0px 0px 0px;
     text-transform: none;
     color: #000;
     margin-bottom: 0px;
+    text-align: center;
 }
+
+.titulo2 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 36px;
+    padding: 15px 0px 0px 0px;
+    text-transform: none;
+    color: #000;
+    margin-bottom: 0px;
+    text-align: center;
+}
+
 
 .descripcion{
     font-family: 'Open Sans', sans-serif;
@@ -159,4 +172,67 @@ p.ciudad {
 
     margin: 20px 0px;
     float: right;
+}
+
+.contenedor_domicilios {
+    width: 800px;
+    display: table;
+    margin: 90px auto;
+}
+
+.base_favoritos {
+    width: 800px;
+    display: table;
+    margin: 90px auto;
+}
+
+
+
+
+.base_principal_informacion{
+
+    width: 900px;
+    display:table;
+    margin:auto;
+}
+
+.paddigns{
+
+    margin: 20px;
+    box-sizing: border-box;
+}
+
+.card.paddigns.col-md-6 {
+    width: 45%;
+}
+
+.btn.btn-primary {
+    margin-top: 14px;
+}
+
+img.card-img-top {
+    height: 230px;
+}
+
+p.fecha_text {
+    font-weight: 700;
+    padding-top: 20px;
+}
+
+.bajar_cajon{
+
+    margin-top: 30px;
+}
+
+
+.borrar_favorito{
+
+    margin-top: 14px;
+    margin-left: 13px;
+
+}
+
+.rojoMg {
+    margin-left: 20px;
+    margin-top: 12px;
 }
