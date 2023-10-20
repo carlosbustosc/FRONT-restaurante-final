@@ -3,6 +3,15 @@ import { Component } from '@angular/core';
 /*---importar formgroup---*/
 import { FormGroup, FormBuilder, Validators } from "@angular/forms"
 
+/*--------------conectar servicios-----------------*/
+import { RestauranteService } from 'src/app/services/restaurante.service';
+
+/*-----------usar ruta------------*/
+import { Router } from '@angular/router';
+
+
+
+
 @Component({
   selector: 'app-login-restaurante',
   templateUrl: './login-restaurante.component.html',
@@ -12,7 +21,7 @@ export class LoginRestauranteComponent {
 
   loginRestaurante:FormGroup;
 
-  constructor(private fb:FormBuilder ){
+  constructor(private usarRuta:Router, private fb:FormBuilder, private conectarServicio:RestauranteService ){
 
     this.loginRestaurante = this.fb.group({
 
@@ -48,8 +57,19 @@ export class LoginRestauranteComponent {
 
     }else{
 
-      console.log(this.loginRestaurante);
-    
+      let correo =  this.loginRestaurante.controls['usuario'].value;
+      let pass   =  this.loginRestaurante.controls['pass'].value;
+
+      console.log(pass)
+
+      this.conectarServicio.loginRestaurante( correo, pass )
+          .subscribe( resp => {
+            console.log(resp);
+
+            this.usarRuta.navigate(['/internaRestaurante'])
+            
+          })
+
     }
   }
 

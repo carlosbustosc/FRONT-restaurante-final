@@ -9,7 +9,7 @@
     </div>
 
     <div class="cajon_perfil_rest" *ngIf="mostrarVentanaPerfil">
-        <p class="textos_perfil">Perfil</p>
+        <p class="textos_perfil" (click)="verPerfil()">Perfil</p>
         <p class="textos_perfil" (click)="cerrarSesion()">Cerrar Sesion</p>
     </div>
 </div>

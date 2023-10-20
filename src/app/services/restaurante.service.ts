@@ -14,15 +14,20 @@ import { map } from "rxjs/operators";
 
 export class RestauranteService {
 
-
   correoStorage:any = "";
   passStorage:string = ""
 
+  guardarCorreo:any = ""
+
+
+  
   constructor(private usarHttp:HttpClient ) { 
 
-    /*----validar que este el correo --*/
+  /*----validar que este el correo --*/
     this.leerCorreo();
- 
+    this.leerCorreoAlCargar()
+
+   
   }
 
 
@@ -79,12 +84,19 @@ export class RestauranteService {
 
     return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/registroCliente.json')
                         .pipe(
-                          map( resp => {
+                          map( (resp:any) => {
   
                             /*----creamos el arreglo nuevo----*/
                             const clienteArr:any = [];
+
+                            Object.keys( resp ).forEach( llaves => {
+
+                              let accederObjSinLLaves = resp[llaves];
+                              accederObjSinLLaves.idPersona = llaves
+
+                            })
   
-                            Object.values( resp ).forEach( respDatos => {
+                            Object.values( resp ).forEach( (respDatos:any) => {
   
                               let todosLosDatos   = respDatos;//traemos todos los datos de la base
                               let todosLosCorreos = todosLosDatos.email;// traemos solo los email
@@ -309,9 +321,235 @@ export class RestauranteService {
       localStorage.removeItem('ciudad');
       localStorage.removeItem('nombre');
 
+      localStorage.removeItem('categoria');
+
+      localStorage.removeItem('barrio');
+
+      localStorage.removeItem('direccion');
+      localStorage.removeItem('id');
+
+      localStorage.removeItem('idPersona');
+      localStorage.removeItem('celular');
+      localStorage.removeItem('email');
+
+      localStorage.removeItem('pass');
+      localStorage.removeItem('pass2');
+
+
+
+
+
+
 
     }
 
+
+
+    /*---------------------Pedir Domicilio----------------*/
+    agendarDomicilio( pedido:object, formulario:any, nombre:any, correo:any){
+
+
+      const formAgendamientoDomicilio = {
+
+        nombre: nombre,
+        correo: correo,
+        pedido: pedido,
+        ciudad: formulario.barrio,
+        barrio: formulario.ciudad,
+        direccion: formulario.direccion,
+
+      }
+
+      return this.usarHttp.post('https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios.json', formAgendamientoDomicilio );
+
+    }
+
+
+    /*-----------------------Comentarios-----------------------*/
+    comentarioRestaurante(nombreTS:any, correoTS:any, comentarioTS:string, correoRestauranteTS:string){
+
+      let comentario = {
+
+        nombre:nombreTS,
+        correo:correoTS,
+        comentario:comentarioTS,
+        correoRestaurante : correoRestauranteTS,
+      }
+
+    return this.usarHttp.post( 'https://restaurante-15f7b-default-rtdb.firebaseio.com/comentarios.json', comentario )
+               .pipe(
+                map( (resp:any) => {
+
+                  let comentario = {
+
+                    nombre:nombreTS,
+                    correo:correoTS,
+                    comentario:comentarioTS,
+                    correoRestaurante : correoRestauranteTS,
+                    id: resp.name
+                  
+                  }
+
+                  return comentario;
+                
+                })
+              )
+    }
+
+
+
+
+    /*-------------------------Traer Comentarios-------------------------*/
+    cargarComentarios(){
+
+      return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/comentarios.json')
+                  .pipe(
+                    map( (resp:any) => {
+
+                      let nuevoArreglo:any = []
+                      /*----filtramos por correo---*/
+                      Object.values( resp ).forEach( (todosRESP:any) => {
+
+                        let todosLosDatos   = todosRESP;
+                        let todosLosCorreos = todosLosDatos.correoRestaurante;
+                       
+              
+                        if( todosLosCorreos.indexOf( 'marino@gmail.com' ) >= 0  ){
+
+                          nuevoArreglo.push( todosLosDatos )
+
+                        }
+              
+                      })
+                      
+                      return nuevoArreglo
+
+                    })
+                  )
+
+    }
+
+
+
+
+
+    /*-------------------------------------LOGIN RESTAURANTES---------------------------------*/
+    loginRestaurante( correo:string, passTS:any ){
+
+      return this.usarHttp.get( 'https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante.json' )
+                .pipe(
+                  map( data => {
+
+                    let NuevoArregloRestaurante:any = []
+
+                    Object.values( data ).forEach( dataRESP => {
+
+                      let todosLosDatos   = dataRESP;
+                      let todosLosCorreos = dataRESP.email;
+                      
+                      if( todosLosCorreos.indexOf( correo ) >=0 ){
+                        
+                        NuevoArregloRestaurante.push( todosLosDatos )
+                        console.log( todosLosDatos )
+                     
+                      
+                      }else{
+
+                   
+                      
+                      }
+
+                   
+                    })
+
+
+                    if( NuevoArregloRestaurante.length > 0 ){
+
+                      if( passTS ==  NuevoArregloRestaurante[0].pass ){
+
+                        /*--guardar en local storage el correo--*/
+                        localStorage.setItem('correoREST', NuevoArregloRestaurante[0].email );
+                        return NuevoArregloRestaurante;
+                      
+                      }else{
+
+                        alert("NO es igual la contraseña")
+                      }
+                    
+                    }else{
+
+                      alert("El correo no existe");
+                    
+                    }
+
+                  })
+                
+                )
+
+    }
+
+
+    leerCorreoAlCargar(){
+
+      if( localStorage.getItem('correoREST') ){
+
+        this.guardarCorreo = localStorage.getItem('correoREST')
+      
+      }else{
+
+        this.guardarCorreo = ""
+      
+      }
+
+    }
+
+    validarIngresoResturante(){
+
+      return this.guardarCorreo.length > 2;
+
+    }
+
+
+        /*-------------------------------------FIN LOGIN RESTAURANTES---------------------------------*/
+
+
+
+        /*-------------------------------------ACTUALIZAR DATOS----------------------------------*/
+
+        actualizarDatos( DatosForm:any ){
+
+          let datosActualizar = {
+
+            nombre:             DatosForm.nombre,
+            email:              DatosForm.email,
+            pass:               DatosForm.pass,
+            celular:            DatosForm.celular,
+            departamento:       DatosForm.departamento,
+            ciudad:             DatosForm.ciudad,
+            barrio:             DatosForm.barrio,
+            direccion:          DatosForm.direccion,
+
+          }
+
+          let idPersona = localStorage.getItem('idPersona');
+
+          return this.usarHttp.put(`https://restaurante-15f7b-default-rtdb.firebaseio.com/registroCliente/${ idPersona }.json`, datosActualizar)
+        
+        }
+
+
+
+
+
+
+
+
+        /*---------------------------TRAER UN USUARIO---------------------------*/
+        traerUnUsuario( idPersona:any ){
+
+          return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/registroCliente/${ idPersona }.json`)
+
+        }
 
 
 }

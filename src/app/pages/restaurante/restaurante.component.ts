@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 /*---recibir parametro---*/
-import { ActivatedRoute } from "@angular/router";
+import { Router,  ActivatedRoute } from "@angular/router";
 
 
 /*-----------------conectar servicio-----------------*/
@@ -27,6 +27,9 @@ export class RestauranteComponent implements OnInit {
   informacionRestaurante:any = []
   modalPedido = false;
 
+
+  nombreUsuario:any; 
+
   arregloPedido:any = [];
   
 
@@ -37,8 +40,24 @@ export class RestauranteComponent implements OnInit {
   /*----modal iniciar sesson---*/
   modalIniciarSession = false;
 
-  constructor(private recibirParametro:ActivatedRoute, private conectarServicio:RestauranteService, private fb:FormBuilder  ){
+
+  /*---guardar comentario---*/
+  formComentario: FormGroup;
+
+
+
+  /*-----cargar comentarios-----*/
+  guardarComentarios:any = [];
+
+
+  constructor(private usarRuta: Router, private recibirParametro:ActivatedRoute, private conectarServicio:RestauranteService, private fb:FormBuilder  ){
     
+    /*----formComentario----*/
+    this.formComentario = this.fb.group({
+      comentario: ""
+    })
+
+
 
     /*----cargar formulario dle MODAL----*/
     this.datosCliente = this.fb.group({
@@ -52,7 +71,25 @@ export class RestauranteComponent implements OnInit {
   
   
   ngOnInit(): void {
-  
+
+    
+     /*--------cargar Comentarios del resturante-----------*/
+     this.conectarServicio.cargarComentarios()
+     .subscribe( resp => {
+       console.log(resp);
+ 
+       this.guardarComentarios = resp;
+       
+      
+ 
+     })
+
+
+    
+    /*--traer nombre usuario---*/
+    this.nombreUsuario = localStorage.getItem('nombre');
+
+
     this.recibirParametro.params
         .subscribe( resp => {
 
@@ -69,21 +106,64 @@ export class RestauranteComponent implements OnInit {
   }
 
 
+
+  
+
   solicitarDomicilio(){
+    
 
+    if( this.arregloPedido <= 0){
 
-    if( localStorage.getItem('correo') ){
-        
-      this.modalPedido = true;
-      
-
+      alert('No ha solicitado pedido')
     }else{
 
-      this.modalIniciarSession = true;
+      if( localStorage.getItem('correo') ){
+        
+        this.modalPedido = true;
+        
+  
+      }else{
+  
+        this.modalIniciarSession = true;
+  
+      }
 
     }
 
   }
+
+
+
+
+
+
+  pedirDomicilio( ){
+
+    let nombre = localStorage.getItem('nombre');
+    let correo = localStorage.getItem('correo');
+
+      this.conectarServicio.agendarDomicilio( this.arregloPedido, this.datosCliente.value, nombre, correo )
+          .subscribe( resp => {
+            console.log( resp );
+
+            this.modalPedido = false;
+
+            setTimeout(function(){
+              alert("su pedido ha sido agendado correctamente");
+            }, 500)
+
+            setTimeout(function(){
+              window.location.href = "/inicio";
+            }, 1000)
+           
+          
+          })
+  }
+
+
+
+
+
 
 
   cerrarModal(){
@@ -108,6 +188,7 @@ export class RestauranteComponent implements OnInit {
     if( posicion === -1 ){/*----si no existe en el arreglo agreguelo---*/
      
       this.arregloPedido.push( valor )
+      localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );/*---guardar como array---*/
       //console.log("agrego: " + this.arregloPedido );
 
     }else{
@@ -130,6 +211,7 @@ export class RestauranteComponent implements OnInit {
     if(posicion2 === -1){
   
       this.arregloPedido.push( valueEspecial );
+      localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );/*---guardar como array---*/
 
     }else{
 
@@ -153,6 +235,8 @@ export class RestauranteComponent implements OnInit {
     }else{
 
       this.arregloPedido.splice( posicion3, 1 );
+      localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );/*---guardar como array---*/
+    
     }
 
   }
@@ -160,4 +244,54 @@ export class RestauranteComponent implements OnInit {
 
 
 
+  comentar(){
+
+    let nombre = localStorage.getItem('nombre');
+    let correo = localStorage.getItem('correo');
+    let correoRestaurante = this.informacionRestaurante.email;
+ 
+
+
+    let comentar = this.formComentario.controls['comentario'].value;
+    console.log(comentar);
+
+
+   
+    this.conectarServicio.comentarioRestaurante(nombre, correo, comentar, correoRestaurante)
+        .subscribe( resp => {
+          console.log(resp);
+        })
+
+    
+
+        
+    /*--------cargar Comentarios del resturante-----------*/
+    this.conectarServicio.cargarComentarios()
+    .subscribe( resp => {
+      console.log(resp);
+
+      this.guardarComentarios = resp;
+      
+      alert("tu comentario de ha registrado correctmente");
+
+      this.formComentario.reset();
+
+    })
 }
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+    
+
+

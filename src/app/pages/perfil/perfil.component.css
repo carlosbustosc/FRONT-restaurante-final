@@ -1,0 +1,162 @@
+
+.contenedor_principal_perfil{
+    width: 100%;
+    display: table;
+}
+
+.seccion_foto_y_menu{
+
+    width: 450px;
+    height: 100vh;
+    background-color: #682C17;
+    padding: 30px;
+    position: relative;
+    top: 3px;
+    float: left;
+}
+
+.base_detalle_lts{
+
+    width: 400px;
+    display: table;
+    margin-bottom: 40px;
+    
+}
+
+.circulo_imagen{
+
+    width: 130px;
+    height: 130px;
+    background-image: url('../../../assets/img/rest3.jpg');
+    border-radius:100%;
+    background-size: cover;
+    float: left;
+    position: relative;
+    margin-top: 38px;
+}
+
+.base_informacion {
+    margin-left: 22px;
+    width: 224px;
+    float: left;
+    position: relative;
+    top: 38px;
+}
+
+.nombres {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 19px;
+    float: left;
+    padding: 15px 0px 0px 0px;
+    text-transform: capitalize;
+    color: #fff;
+    margin-bottom: 0px;
+}
+
+p.ciudad {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    font-size: 17px;
+    float: left;
+    padding: 0px 0px 0px 0px;
+    text-transform: capitalize;
+    color: #fff;
+    margin-bottom: 0px;
+}
+
+.formulario{
+    width: 100%;
+    top: 11px;
+    position: relative;
+    display: inline-block;
+}
+
+.linea_divisora{
+
+    border:0px;
+    width: 100%;
+    height: 1px;
+    background-color: #fff;
+}
+
+
+.texto_menu {
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    font-size: 18px;
+    float: left;
+    padding: 0px 34px;
+    text-transform: capitalize;
+    text-align: center;
+    cursor: pointer;
+}
+
+.texto_menu:hover{
+
+    text-decoration: underline;
+}
+
+.file{
+    width: 149px;
+    background-color: #afafaf;
+    border: none;
+    border-radius: 23px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.seccion_del_formulario {
+    width: 600px;
+    display: table;
+    margin: 90px auto 0px auto;
+}
+
+.titulo {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 43px;
+    float: left;
+    padding: 15px 0px 0px 0px;
+    text-transform: none;
+    color: #000;
+    margin-bottom: 0px;
+}
+
+.descripcion{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 100;
+    font-size: 20px;
+    float: left;
+    padding: 2px 0px 0px 0px;
+    text-transform: none;
+    color: #606060;
+    margin-bottom: 0px;
+}
+
+.base_input{
+
+    width: 100%;
+    display: table;
+    margin-bottom: 12px;
+}
+
+.texto_label {
+    margin-bottom: 4px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 100;
+    font-size: 15px;
+}
+
+.formularioActualizacion {
+    width: 100%;
+    margin-top: 62px;
+    display: inline-block;
+}
+
+.mover_boton{
+
+    margin: 20px 0px;
+    float: right;
+}
