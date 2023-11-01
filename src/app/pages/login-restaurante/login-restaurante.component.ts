@@ -65,10 +65,18 @@ export class LoginRestauranteComponent {
       this.conectarServicio.loginRestaurante( correo, pass )
           .subscribe( resp => {
             console.log(resp);
-
-            this.usarRuta.navigate(['/internaRestaurante'])
             
+            this.usarRuta.navigate(['/internaRestaurante'])
+
+            
+            localStorage.setItem('nombreRestaurante', resp[0].nombreRestaurante );
+            localStorage.setItem('foto', resp[0].foto[0] );
+            localStorage.setItem('email', resp[0].email);
+        
           })
+
+          /*--retornar informacion --*/
+          /*-----Mandar a storage--*/
 
     }
   }

@@ -23,7 +23,8 @@ import { LoginRestauranteComponent } from './pages/login-restaurante/login-resta
 /*-----------------importar servicio js--------------*/
 import { CargaJSService } from './services/carga-js.service';
 import { InternaRestauranteComponent } from './pages/interna-restaurante/interna-restaurante.component';
-import { PerfilComponent } from './pages/perfil/perfil.component'; 
+import { PerfilComponent } from './pages/perfil/perfil.component';
+import { PerfilRestauranteComponent } from './pages/perfil-restaurante/perfil-restaurante.component'; 
 
 
 
@@ -40,7 +41,8 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
     RegistroRestauranteComponent,
     LoginRestauranteComponent,
     InternaRestauranteComponent,
-    PerfilComponent
+    PerfilComponent,
+    PerfilRestauranteComponent
 
 
   ],

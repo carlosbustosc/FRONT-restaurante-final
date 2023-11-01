@@ -335,18 +335,21 @@ export class RestauranteService {
       localStorage.removeItem('pass');
       localStorage.removeItem('pass2');
 
+      localStorage.removeItem('ValorAgendado')
+
 
     }
 
 
 
     /*---------------------Pedir Domicilio----------------*/
-    agendarDomicilio( idRestauranteTS:any, nombresResturanteTS:string, fotoRestauranteTS:any, mesTS:any, nombreTS:any, correoTS:any, pedidoTS:any, DatosClienteTS:any ){
+    agendarDomicilio( idRestauranteTS:any, nombresResturanteTS:string, fotoRestauranteTS:any, emailRestauranteTS:any, mesTS:any, nombreTS:any, correoTS:any, pedidoTS:any, DatosClienteTS:any ){
 
 
       const formAgendamientoDomicilio = {
 
         idRestaurante: idRestauranteTS,
+        emailRestaurante: emailRestauranteTS, 
         correoCliente: correoTS,
         fecha: mesTS,
         imagen: fotoRestauranteTS,
@@ -387,10 +390,21 @@ export class RestauranteService {
                     Object.values( resp ).forEach( (valores:any) => {
 
                       let todosLosCorreos = valores.correoCliente;
+                      let todosLosCorreosRestaurante =  valores.emailRestaurante;
                       
+                      
+                      /*---me retorna perfil cliente----*/
                       if( todosLosCorreos.indexOf( correo ) >= 0 ){
 
                         NuevoArreglo.push( valores );
+
+                      }
+                      
+                      /*----me retorna todos los que recibe el restaurantes---*/
+                      if( todosLosCorreosRestaurante.indexOf( correo ) >= 0 ){
+
+                        NuevoArreglo.push( valores );
+
 
                       }
 

@@ -17,7 +17,6 @@ export const clienteGuard: CanActivateFn = (route, state) => {
   
 
   if( conectarServicio.validarCorreo() ){
-  
     return true;
 
   }else{

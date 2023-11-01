@@ -257,10 +257,8 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-
     /*----select change---*/
     parametroCiudad( array:any, Posicion:any ){
-
 
       if(Posicion == "todos"){
   
@@ -303,8 +301,7 @@ export class RestaurantesComponent implements OnInit {
         this.ciudades = array[ Posicion ].ciudades
       
       }
-     
-     
+       
     }
     
 

@@ -8,8 +8,10 @@ import { Router,  ActivatedRoute } from "@angular/router";
 import { RestauranteService } from 'src/app/services/restaurante.service';
 
 
+
 /*------usar FormGroup-----*/
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+
 
 
 
@@ -20,9 +22,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 })
 
 
-
 export class RestauranteComponent implements OnInit {
-  
   
   informacionRestaurante:any = []
   modalPedido = false;
@@ -71,10 +71,10 @@ export class RestauranteComponent implements OnInit {
   }
   
   
+
   
   ngOnInit(): void {
 
-    
      /*--------cargar Comentarios del resturante-----------*/
      this.conectarServicio.cargarComentarios()
      .subscribe( resp => {
@@ -113,7 +113,6 @@ export class RestauranteComponent implements OnInit {
   
 
   solicitarDomicilio(){
-    
 
     if( this.arregloPedido <= 0){
 
@@ -124,11 +123,10 @@ export class RestauranteComponent implements OnInit {
         
         this.modalPedido = true;
         
-  
       }else{
   
         this.modalIniciarSession = true;
-  
+
       }
 
     }
@@ -138,13 +136,12 @@ export class RestauranteComponent implements OnInit {
 
 
 
-
-
   pedirDomicilio( ){
 
     let idRestaurante = this.idRestaurante;
     let nombresResturante = this.informacionRestaurante.nombreRestaurante;
-    let fotoRestaurante = this.informacionRestaurante.foto[0]
+    let fotoRestaurante = this.informacionRestaurante.foto[0];
+    let emailRestaurante =  this.informacionRestaurante.email;
     let fecha = new Date();
     let mes = fecha.toDateString();
 
@@ -153,9 +150,11 @@ export class RestauranteComponent implements OnInit {
     let correo = localStorage.getItem('correo');
     let pedido = this.arregloPedido;
     let DatosCliente = this.datosCliente.value;
+
+    
     
 
-      this.conectarServicio.agendarDomicilio( idRestaurante, nombresResturante, fotoRestaurante, mes, nombre, correo, pedido, DatosCliente)
+      this.conectarServicio.agendarDomicilio( idRestaurante, nombresResturante, fotoRestaurante, emailRestaurante, mes, nombre, correo, pedido, DatosCliente)
     
       .subscribe( resp => {
             console.log( resp );
@@ -165,15 +164,20 @@ export class RestauranteComponent implements OnInit {
             setTimeout(function(){
               alert("su pedido ha sido agendado correctamente");
             }, 500)
-
-            setTimeout(function(){
-              window.location.href = "/inicio";
-            }, 1000)
-           
-          
-          })
         
-  }
+            setTimeout(function(){
+
+              window.location.href = `/perfil/${ localStorage.getItem('idPersona') }`;
+            
+          }, 1000) 
+
+          
+          /*---guardar valor en locaStorage----*/
+          localStorage.setItem('ValorAgendado', 'SiAgendado');
+
+      })
+  
+    }
 
 
 

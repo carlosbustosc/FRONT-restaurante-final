@@ -236,3 +236,20 @@ p.fecha_text {
     margin-left: 20px;
     margin-top: 12px;
 }
+
+.no_agendados {
+    width: 100%;
+    height: auto;
+    background-color: #00a6ff;
+    border-radius: 11px;
+    text-align: center;
+}
+
+.texto_no_domicilio {
+    
+    font-size: 31px;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    padding: 23px 0px 23px 0px;
+}

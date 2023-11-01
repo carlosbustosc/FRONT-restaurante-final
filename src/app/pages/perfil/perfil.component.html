@@ -5,7 +5,7 @@
         <div class="base_detalle_lts">
             <div class="circulo_imagen"></div>
             <div class="base_informacion">
-                <p class="nombres">Carlos Alberto Bustos</p>
+                <p class="nombres">{{ nombrePersonaPerfil }}</p>
                 <p class="ciudad">bogota</p>
                 <br>
                 <form class="formulario">
@@ -18,7 +18,7 @@
 
         <p class="texto_menu" (click)="verInformacion()">Editar Informacion</p>
         <hr class="linea_divisora">
-        <p class="texto_menu" (click)="verDomicilios()">Domicilios Solicitados</p>
+        <p class="texto_menu" (click)="verDomicilios( guardarDomiciliosAgendados )">Domicilios Solicitados</p>
         <hr class="linea_divisora">
         <p class="texto_menu" (click)="verFavoritos()">Restaurantes favoritos</p>
 
@@ -82,6 +82,8 @@
             </form>
         </div>
 
+
+
         <!---SECCION DOMICILIOS--->
         <div class="contenedor_domicilios" *ngIf="pantallaDomicilios">  
             <h1 class="titulo2">Estos son tus pedidos</h1>
@@ -99,12 +101,18 @@
                       <a class="btn btn-primary" (click)="irAlRestaurante( domicilio.idRestaurante )">Ir al Restaurante</a>
                       <a class="btn btn-danger rojoMg" (click)="CancelarPedido( domicilio.idDomicilio )">Cancelar Pedido</a>
 
-
                     </div>
                   </div>
                 
             </div>
         </div>
+
+
+        <!----no hay agendaos--->
+        <div class="no_agendados" *ngIf="noAgendados">
+            <p class="texto_no_domicilio">No tienes Domicilios Agendados</p>
+        </div>
+
 
 
          <!---SECCION FAVORITOS--->

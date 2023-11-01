@@ -19,6 +19,8 @@ import { Router, ActivatedRoute } from '@angular/router'
 })
 
 
+
+
 export class PerfilComponent implements OnInit {
 
   guardarArregloCliente:any = {};
@@ -32,8 +34,7 @@ export class PerfilComponent implements OnInit {
   ciudadPorDefecto:any;
 
   parametroURL:any;
-
-
+  
   guardarDomiciliosAgendados:any = []
 
   guardarRestaurantesFavoritos:any = []
@@ -42,6 +43,12 @@ export class PerfilComponent implements OnInit {
   pantallaInformacion = true;
   pantallaDomicilios  = false;
   pantallaFavoritos = false;
+
+  /*----nombre persona perfil------*/
+  nombrePersonaPerfil:any
+  agendado:any;
+
+  noAgendados = false;
   
 
   constructor(private usarRuta:Router, private conectarServicios:RestauranteService, private fb:FormBuilder, private recibirParametro:ActivatedRoute){
@@ -54,17 +61,7 @@ export class PerfilComponent implements OnInit {
     })
 
 
-     /*---traer un cliente---*/
-     this.conectarServicios.traerUnUsuario( this.parametroURL )
-     .subscribe( resp => {
-
-        /*---funcion llenar formulario pasando la data---*/
-          this.llenarFormulario( resp )
-
-     })
-
-   
-
+  
       this.formActualizacion = this.fb.group({
         nombre:             this.guardarArregloCliente.nombre,
         email:              this.guardarArregloCliente.email,
@@ -82,6 +79,41 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
 
+      /*----traer nombre de la persona si esta en local storage---*/
+      this.nombrePersonaPerfil = localStorage.getItem('nombre');
+
+      
+      /*-----traer si esta agendado----*/
+      this.agendado = localStorage.getItem('ValorAgendado');
+      console.log( this.agendado );
+
+      if( this.agendado ){
+
+
+        this.pantallaDomicilios  = true;
+        this.pantallaInformacion = false;
+
+        
+      }else{
+
+        this.pantallaInformacion = true;
+
+      }
+
+
+       /*---traer un cliente---*/
+       this.conectarServicios.traerUnUsuario( this.parametroURL )
+       .subscribe( resp => {
+  
+          /*---funcion llenar formulario pasando la data---*/
+            this.llenarFormulario( resp )
+
+       })
+
+
+
+
+
     /*--------------cargar domicilios agendados------------*/
     let correoPerfil = localStorage.getItem('correo')
 
@@ -90,10 +122,16 @@ export class PerfilComponent implements OnInit {
          
           this.guardarDomiciliosAgendados = resp;
           console.log( this.guardarDomiciliosAgendados );
+          
+
+         
 
         })
 
 
+    
+  
+  
 
      /*-----------cargar restaurantes favoritos--------*/
      this.conectarServicios.cargarRestaurantesFavoritos()
@@ -197,11 +235,28 @@ export class PerfilComponent implements OnInit {
 
   }
 
-  verDomicilios(){
+  verDomicilios( domicilios:any ){
     
     this.pantallaInformacion = false;
     this.pantallaDomicilios  = true;
     this.pantallaFavoritos = false;
+
+
+      /*----verificar si existe domicilios---*/
+      
+      if( domicilios.length > 0){
+        
+        this.pantallaDomicilios = true;
+        this.noAgendados = false;
+  
+      }else{
+          
+        this.noAgendados = true;
+        this.pantallaDomicilios = false;
+  
+      }
+       /*----verificar domicilios---*/
+
 
   }
 
@@ -217,11 +272,10 @@ export class PerfilComponent implements OnInit {
   irAlRestaurante( idRestaurante:any ){
 
     //console.log('restaurante/' + idRestaurante)
-    this.usarRuta.navigate(['restaurante/', idRestaurante])
+    this.usarRuta.navigate(['restaurante/', idRestaurante]);
+
 
   }
-
-
 
 
   CancelarPedido( id:any ){

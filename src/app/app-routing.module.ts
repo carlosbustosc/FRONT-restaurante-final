@@ -16,6 +16,10 @@ import { InternaRestauranteComponent } from './pages/interna-restaurante/interna
 import { RegistroRestauranteComponent } from './pages/registro-restaurante/registro-restaurante.component';
 
 
+/*----importar componente perfilRestaurante------------*/
+import { PerfilRestauranteComponent } from './pages/perfil-restaurante/perfil-restaurante.component';
+
+
 
 /*----importar guard----*/
 import { clienteGuard } from './guard/cliente.guard';
@@ -33,7 +37,8 @@ const routes: Routes = [
   { path: "RegistroRestaurante", component:RegistroRestauranteComponent },
   { path: "restaurante/:id", component: RestauranteComponent },
   { path: "internaRestaurante", component:InternaRestauranteComponent, canActivate:[ restauranteGuard ] },
-  { path: "**", pathMatch:"full", redirectTo: "inicio" }
+  { path: 'perfilRestaurante', component: PerfilRestauranteComponent },
+  { path: "**", pathMatch:"full", redirectTo: "perfilRestaurante" }
 
 ];
 
@@ -42,4 +47,6 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
+
 export class AppRoutingModule { }
