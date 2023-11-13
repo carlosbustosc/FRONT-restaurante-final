@@ -37,7 +37,8 @@ export class NavbarComponent implements OnInit {
   botonRestaurante = true;
 
   botonPedidos = false;
-
+  
+  botonNotificaciones = false;
  
   constructor( private usarRuta:Router,  private conectarServicio: RestauranteService ){
 
@@ -52,7 +53,10 @@ export class NavbarComponent implements OnInit {
       this.botonLogin = false;
 
         if( localStorage.getItem('nombre') ){
+          
           this.nombrePerfil = localStorage.getItem('nombre');
+          this.botonNotificaciones = true;
+
         }else{
           this.nombrePerfil = localStorage.getItem('nombreRestaurante');
           this.botonInicio = false;

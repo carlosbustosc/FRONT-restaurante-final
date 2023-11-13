@@ -7,16 +7,17 @@
 
             <li class="texto_menu" [routerLink]="['/internaRestaurante']" *ngIf="botonPedidos">Ver Pedidos Solictados</li>
 
+            <li class="texto_menu" [routerLink]="['/internaRestaurante']" *ngIf="botonNotificaciones">Notificaciones <span class="cuadro_notificacion">2</span></li>
+
         </ul>
     </div>
+
 
     <div class="base_cajon_login">
         <button type="button" class="login_plataforma" (click)="mostrarMenu()" *ngIf="botonLogin">LOGIN</button>
     </div>      
     <div class="contenedor_perfil" *ngIf="contenedorPerfil">
         <h2 class="nombre_person_perfil">{{ nombrePerfil  }}</h2>
-
-
         <img src="./assets/img/foto_perfil.jpg"   class="foto_perfil" (click)="ventanaPerfil()"/>
         <img src="./assets/img/flecha_abajo.png"  class="foto_abajo" (click)="ventanaPerfil()"/>
     </div>
@@ -26,6 +27,15 @@
         <p class="textos_perfil" (click)="cerrarSesion()">Cerrar Sesion</p>
     </div>
 </div>
+
+
+<!---notificaciones-->
+<div class="base_notificaciones">
+    <p class="texto_notificacion">Su Pedido Ha sido Cancelado</p>
+    <p class="texto_notificacion">Su Pedido Ha sido Aceptado</p>
+    <p class="texto_notificacion">Su Pedido esta en proceso y llegara pronto</p>
+</div>
+
 
 <div class="base_logins" *ngIf="mostrarMenuLogin">
     <p class="text_login" [routerLink]="['/loginCliente']">Ingreso a clientes</p>

@@ -5,7 +5,6 @@ import { CanActivateFn } from '@angular/router';
 import { RestauranteService } from '../services/restaurante.service';
 
 
-
 /*-----usar ruta*---*/
 import { Router } from '@angular/router';
 

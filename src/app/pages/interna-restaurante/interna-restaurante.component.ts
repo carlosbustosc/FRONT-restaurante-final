@@ -21,6 +21,8 @@ export class InternaRestauranteComponent implements OnInit{
   mostrarPantallaDetalle = false;
   mostrarPantallaInformacion = true;
 
+  pantallaPedidoEntregado = false;
+
   constructor(private conectarServicio:RestauranteService ){
 
   } 
@@ -31,7 +33,7 @@ export class InternaRestauranteComponent implements OnInit{
      let emailRestaurante = localStorage.getItem('email');
 
      
-     this.conectarServicio.traerPedidosDeRestaurante()
+     this.conectarServicio.traerPedidosDeRestaurante( emailRestaurante )
          .subscribe( resp => {
           
           this.dataPedidos = resp;
@@ -61,5 +63,105 @@ export class InternaRestauranteComponent implements OnInit{
 
 
   }
+
+
+
+
+
+  /*---rechazar pedido-------*/
+  rechazarPedido(detalleCliente:any){
+      
+
+    if (confirm('¿Desea eliminar este registro?')) {
+      this.conectarServicio.borrarPedido( detalleCliente.idCliente )
+          .subscribe( resp => {
+            console.log(resp)
+            alert('Este pedido ha sido rechazado')
+          })
+
+
+      /*---------notificacion----------*/
+      let infoNotificacion = {
+
+        correoCliente:  detalleCliente.correoCliente,
+        notificacion :  'Su Pedido Ha sido Cancelado por ' + localStorage.getItem('nombreRestaurante')
+     
+      }
+  
+      this.conectarServicio.ResgitrarNotificacion( infoNotificacion )
+
+
+    } else {
+      console.log('No Se ha Borrado el Registro');
+    }
+   
+
+  }
+
+
+
+
+
+
+   /*-----aceptar pedido----*/
+   aceptarPedido( detalleCliente:any ){
+     
+
+
+    let infoNotificacion = {
+
+      correoCliente: detalleCliente.correoCliente,
+      notificacion : 'Su Pedido Ha sido Aceptado por ' + localStorage.getItem('nombreRestaurante')
+   
+    }
+
+    this.conectarServicio.ResgitrarNotificacion( infoNotificacion )
+              .subscribe( resp => {
+                console.log(resp)
+                alert('ha sido aceptado correctamente')
+              })
+   
+  }
+
+
+
+
+
+
+
+
+  /*-----------------pedido Entregado-----*/
+   pedidoEntregado( detalleCliente:any ){
+
+   
+              if (confirm('¿Se ha Entregado el pedido?')) {
+
+                this.conectarServicio.borrarPedido( detalleCliente.idCliente )
+                      .subscribe( resp => {
+                        console.log( resp );
+
+                        alert(" El pedido fue entregado y sera eliminado de la base de datos");
+                      })
+          
+
+                /*---------notificacion----------*/
+                let infoNotificacion = {
+          
+                  correoCliente:  detalleCliente.correoCliente,
+                  notificacion :  'Su Pedido Ha sido Entregado por ' + localStorage.getItem('nombreRestaurante')
+               
+                }
+            
+                this.conectarServicio.ResgitrarNotificacion( infoNotificacion )
+          
+          
+              } else {
+                console.log('No Se ha Borrado el Registro');
+              }
+   
+              
+
+
+   }
 
 }

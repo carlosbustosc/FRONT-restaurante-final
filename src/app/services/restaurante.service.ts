@@ -415,23 +415,33 @@ export class RestauranteService {
 
 
     /*------traer pedidos a perfil resturante-------------*/
-    traerPedidosDeRestaurante(){
+    traerPedidosDeRestaurante( correoRestaurante:any ){
 
       return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios.json`)
                   .pipe(
-                    map( resp => {
+                    map( (resp:any) => {
                       
                     
                       const arregloRecibidos:any[] = []
                       
-                      Object.values(  resp ).forEach( sinllaves => {
+                      Object.keys( resp ).forEach( keys => {
+              
+                        
+                        let TODOSdatos = resp[keys];
+                        TODOSdatos.idCliente = keys;
+                
+                       
+
+                      })
+
+                      Object.values(  resp ).forEach( (sinllaves:any) => {
                         
                         let todos = sinllaves;
                         let correosRestaurantes = sinllaves.emailRestaurante;
 
                         console.log( correosRestaurantes )
 
-                        if( correosRestaurantes.indexOf( 'marino@gmail.com' ) >= 0){
+                        if( correosRestaurantes.indexOf( correoRestaurante ) >= 0){
 
                           arregloRecibidos.push( todos )
 
@@ -606,7 +616,7 @@ export class RestauranteService {
 
     validarIngresoResturante(){
 
-      return this.guardarCorreo.length > 2;
+      return this.guardarCorreo.length > 1;
 
     }
 
@@ -739,6 +749,25 @@ export class RestauranteService {
       borrarPedido( id:any ){
 
         return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios/${ id }.json`)
+      }
+
+
+
+
+
+      /*----------------------------Notificaciones---------------------*/
+      ResgitrarNotificacion( notificar:any ){
+        
+        let nota = {
+
+          correoCliente : notificar.correoCliente,
+          notificacion  : notificar.notificacion
+
+
+        }
+
+        return this.usarHttp.post(`https://restaurante-15f7b-default-rtdb.firebaseio.com/notificaciones.json`, nota);
+
       }
 
 }
