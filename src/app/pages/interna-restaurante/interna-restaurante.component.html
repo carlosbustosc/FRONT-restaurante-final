@@ -26,6 +26,7 @@
             <p class="comida_pedida" *ngFor="let comida of informacionDetalle.pedido">{{ comida }}</p>
         </div>
 
+        
         <div class="base_botones_ltsx" *ngIf="mostrarPantallaDetalle">
             <button class="botones_pedidos btn btn-danger quitar_left" (click)="rechazarPedido( informacionDetalle )">Rechazar pedido</button>
             <button class="botones_pedidos btn btn-success" (click)="aceptarPedido(informacionDetalle)" >Aceptar Pedido</button>
