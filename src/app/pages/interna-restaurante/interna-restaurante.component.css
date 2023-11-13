@@ -1,0 +1,142 @@
+*{
+
+    margin:0px;
+    padding: 0px;
+}
+
+
+.contenido_principal{
+
+    width: 100%;
+
+}
+
+.conteendor_mensajes {
+    width: 25%;
+    height: 100vh;
+    float: left;
+    border-left: 1px solid #e2e2e2;
+    border-right: 1px solid #e2e2e2;
+    background-color: #efefef;
+    max-width: 369px;
+}
+
+
+
+.base_mensaje{
+
+    width: 100%;
+    display: table;
+    border-bottom: 1px solid #afa9a9;
+}
+
+.mensaje_nuevo {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    font-size: 16px;
+    text-align: center;
+    padding: 12px 10px;
+    font-weight: 600;
+    cursor:pointer;
+}
+
+.titulo_mensajes{
+
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    border-bottom: 1px solid red;
+    padding: 20px;
+}
+
+.circulo_rojo{
+
+    width: 13px;
+    height: 13px;
+    background-color: red;
+    border-radius: 100%;
+    display: inline-block;
+    float: right;
+    right: 11%;
+    position: relative;
+    top: 4px;
+}
+
+.contenedor_detalle {
+    width: 70%;
+    float: left;
+    display: table;
+    padding: 30px 50px;
+  
+}
+
+.nombre_persona{
+    font-size: 2.5rem;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    font-size: 25px;
+    margin-bottom: 12px !important;
+    text-transform: uppercase;
+    color: #000000;
+}
+
+.detalle_pedido {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.pedidos{
+    width: 100%;
+    display: table;
+    padding: 40px;
+    background-color: #ffffff2e;
+    margin-top: 20px;
+    /* border-radius: 23px; */
+    border: 1px solid #0000001f;
+}
+
+.base_botones_ltsx{
+
+    width: 100%;
+    display: table;
+    padding: 20px 0px;
+    margin-top: 20px;
+}
+
+.botones_pedidos {
+    border: none;
+    padding: 10px 20px;
+    margin-left: 20px;
+    font-size: 17px;
+}
+
+.quitar_left{
+
+    margin-left: 0px;
+}
+
+.base_informacion {
+    width: 76%;
+    padding: 20px 40px;
+    background-color: #0dcaf052;
+    text-align: center;
+    margin: 10% auto;
+}
+
+h1.texto_titulo {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 500;
+    font-size: 28px;
+    margin-bottom: 0px !important;
+    color: #0086a1;
+}
+
+img.foto_perfil {
+    width: 69px;
+    margin-bottom: 21px;
+    margin-top: -29px;
+}
+

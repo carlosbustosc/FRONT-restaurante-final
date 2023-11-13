@@ -336,6 +336,14 @@ export class RestauranteService {
       localStorage.removeItem('pass2');
 
       localStorage.removeItem('ValorAgendado')
+    
+
+      /*---resturante---*/
+      localStorage.removeItem('nombreRestaurante')
+      localStorage.removeItem('correoREST')
+      localStorage.removeItem('foto')
+      localStorage.removeItem('ValorAgendado')
+
 
 
     }
@@ -380,18 +388,12 @@ export class RestauranteService {
 
                     let NuevoArreglo:any = []
                     
-                    Object.keys( resp ).forEach( llaves => {
-
-                      let todasLasLLaves = resp[llaves];
-                      todasLasLLaves.idDomicilio = llaves;
-
-                    })
+                  
 
                     Object.values( resp ).forEach( (valores:any) => {
 
                       let todosLosCorreos = valores.correoCliente;
-                      let todosLosCorreosRestaurante =  valores.emailRestaurante;
-                      
+                 
                       
                       /*---me retorna perfil cliente----*/
                       if( todosLosCorreos.indexOf( correo ) >= 0 ){
@@ -400,13 +402,6 @@ export class RestauranteService {
 
                       }
                       
-                      /*----me retorna todos los que recibe el restaurantes---*/
-                      if( todosLosCorreosRestaurante.indexOf( correo ) >= 0 ){
-
-                        NuevoArreglo.push( valores );
-
-
-                      }
 
                     })
                   
@@ -414,6 +409,42 @@ export class RestauranteService {
                 
                   })
               )
+
+    }
+
+
+
+    /*------traer pedidos a perfil resturante-------------*/
+    traerPedidosDeRestaurante(){
+
+      return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios.json`)
+                  .pipe(
+                    map( resp => {
+                      
+                    
+                      const arregloRecibidos:any[] = []
+                      
+                      Object.values(  resp ).forEach( sinllaves => {
+                        
+                        let todos = sinllaves;
+                        let correosRestaurantes = sinllaves.emailRestaurante;
+
+                        console.log( correosRestaurantes )
+
+                        if( correosRestaurantes.indexOf( 'marino@gmail.com' ) >= 0){
+
+                          arregloRecibidos.push( todos )
+
+                        }
+           
+                      })
+
+
+                      return arregloRecibidos
+
+                    })
+                  )
+          
 
     }
 
@@ -499,11 +530,20 @@ export class RestauranteService {
 
       return this.usarHttp.get( 'https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante.json' )
                 .pipe(
-                  map( data => {
+                  map( (data:any) => {
 
                     let NuevoArregloRestaurante:any = []
+                    
+                    Object.keys( data ).forEach( llaves => {
 
-                    Object.values( data ).forEach( dataRESP => {
+                      let todasLasLLaves = data[llaves];
+                      todasLasLLaves.idRestaurante = llaves;
+
+                    })
+
+
+
+                    Object.values( data ).forEach( (dataRESP:any) => {
 
                       let todosLosDatos   = dataRESP;
                       let todosLosCorreos = dataRESP.email;

@@ -1,1 +1,45 @@
-<p>interna-restaurante works!</p>
+
+<app-navbar></app-navbar>
+
+<div class="contenido_principal">
+    <div class="conteendor_mensajes">
+        <h1 class="titulo_mensajes">PEDIDOS</h1>
+
+        <div class="base_mensaje" *ngFor="let pedido of dataPedidos; let i = index"  (click)="verMensaje(i + 1, i)">
+            <p class="mensaje_nuevo">{{ pedido.nombreCliente }} <span class="circulo_rojo" id="{{ i + 1 }}"></span></p>
+        </div>
+    </div>
+
+    <div class="contenedor_detalle">
+        <div class="pedidos" *ngIf="mostrarPantallaDetalle">
+            <img src="./assets/img/foto_perfil.jpg" class="foto_perfil"/>
+            <h1 class="nombre_persona">{{ informacionDetalle.nombreCliente  }}</h1>
+            <p class="detalle_pedido">Correo Cliente: {{ informacionDetalle.correoCliente }}</p>
+            <p class="detalle_pedido">ciudad: {{ informacionDetalle.ciudad }}</p>
+            <p class="detalle_pedido">barrio: {{ informacionDetalle.barrio }}</p>
+            <p class="detalle_pedido">direccionCliente: {{ informacionDetalle.direccionCliente }}</p>
+            <p class="detalle_pedido">Fecha de solictud: {{ informacionDetalle.fecha  }}</p>
+        </div>
+
+        <div class="pedidos" *ngIf="mostrarPantallaDetalle">
+            <h1 class="nombre_persona">PEDIDO</h1>
+            <p class="comida_pedida" *ngFor="let comida of informacionDetalle.pedido">{{ comida }}</p>
+        </div>
+
+        <div class="base_botones_ltsx" *ngIf="mostrarPantallaDetalle">
+            <button class="botones_pedidos btn btn-danger quitar_left">Rechazar pedido</button>
+            <button class="botones_pedidos btn btn-success">Aceptar Pedido</button>
+            <button class="botones_pedidos btn btn-info">Pedido Entregado</button>
+        </div>
+
+        <div class="base_informacion" *ngIf="mostrarPantallaInformacion">
+            <h1 class="texto_titulo">Seleccione un mensaje</h1>
+        </div>
+    </div>
+
+   
+
+</div>
+
+
+

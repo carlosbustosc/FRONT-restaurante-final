@@ -28,6 +28,16 @@ export class NavbarComponent implements OnInit {
   num:number  = 1
   num2:number = 1;
 
+  nombreRestaurante:any;
+
+  nombreCliente = false;
+  nombreResturante = false;
+
+  botonInicio = true;
+  botonRestaurante = true;
+
+  botonPedidos = false;
+
  
   constructor( private usarRuta:Router,  private conectarServicio: RestauranteService ){
 
@@ -35,11 +45,21 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if( localStorage.getItem('nombre') ){
+    /*---cliente---*/
+    if( localStorage.getItem('nombre') || localStorage.getItem('correoREST')){
 
-      this.nombrePerfil = localStorage.getItem('nombre');
       this.contenedorPerfil  = true;
       this.botonLogin = false;
+
+        if( localStorage.getItem('nombre') ){
+          this.nombrePerfil = localStorage.getItem('nombre');
+        }else{
+          this.nombrePerfil = localStorage.getItem('nombreRestaurante');
+          this.botonInicio = false;
+          this.botonRestaurante = false;
+          this.botonPedidos = true;
+        }
+
 
     }else{
 
@@ -49,7 +69,10 @@ export class NavbarComponent implements OnInit {
     
     }
 
-     
+  
+
+   
+
  
     }
   
@@ -100,8 +123,22 @@ export class NavbarComponent implements OnInit {
 
 
   verPerfil(){
+    
 
-    this.usarRuta.navigate([ '/perfil', localStorage.getItem('idPersona') ]);
+    if( localStorage.getItem('idPersona') ){
+        
+      this.usarRuta.navigate([ '/perfil', localStorage.getItem('idPersona') ]);
+
+    }
+
+
+    else if( localStorage.getItem('idRestaurante') ){
+        
+      this.usarRuta.navigate([ '/perfilRestaurante', localStorage.getItem('idRestaurante') ]);
+
+    }
+    
+    
 
   }
 

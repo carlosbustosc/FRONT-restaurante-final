@@ -12,7 +12,15 @@ import { RestauranteService } from 'src/app/services/restaurante.service';
   styleUrls: ['./interna-restaurante.component.css']
 })
 export class InternaRestauranteComponent implements OnInit{
-  
+    
+  dataPedidos:any = []
+  posicion:any
+
+  informacionDetalle:any = {}
+
+  mostrarPantallaDetalle = false;
+  mostrarPantallaInformacion = true;
+
   constructor(private conectarServicio:RestauranteService ){
 
   } 
@@ -22,16 +30,35 @@ export class InternaRestauranteComponent implements OnInit{
     /*---traer correo localStorage---*/
      let emailRestaurante = localStorage.getItem('email');
 
-     console.log( emailRestaurante )
-
-     this.conectarServicio.traerDomiciliosAgendados( 'carnesTolima@gmail.com' )
+     
+     this.conectarServicio.traerPedidosDeRestaurante()
          .subscribe( resp => {
-
+          
+          this.dataPedidos = resp;
           console.log(resp);
 
         })
 
       
+
+  }
+
+
+  verMensaje( valor:number, valor2:number){
+  
+      console.log(valor)
+
+      this.posicion = document.getElementById(`${valor}`)
+      this.posicion.style.display = "none"
+      
+
+      this.informacionDetalle =  this.dataPedidos[valor2];
+      console.log(this.informacionDetalle );
+
+
+      this.mostrarPantallaDetalle = true;
+      this.mostrarPantallaInformacion = false;
+
 
   }
 

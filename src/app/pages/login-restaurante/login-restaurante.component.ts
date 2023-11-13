@@ -68,7 +68,7 @@ export class LoginRestauranteComponent {
             
             this.usarRuta.navigate(['/internaRestaurante'])
 
-            
+            localStorage.setItem('idRestaurante', resp[0].idRestaurante );
             localStorage.setItem('nombreRestaurante', resp[0].nombreRestaurante );
             localStorage.setItem('foto', resp[0].foto[0] );
             localStorage.setItem('email', resp[0].email);

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InternaRestauranteComponent } from './interna-restaurante.component';
+import { InternaRestauranteComponent } from './InternaRestauranteComponent';
 
 describe('InternaRestauranteComponent', () => {
   let component: InternaRestauranteComponent;

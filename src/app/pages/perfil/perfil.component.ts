@@ -117,14 +117,13 @@ export class PerfilComponent implements OnInit {
     /*--------------cargar domicilios agendados------------*/
     let correoPerfil = localStorage.getItem('correo')
 
-    this.conectarServicios.traerDomiciliosAgendados( correoPerfil  )
+    this.conectarServicios.traerDomiciliosAgendados( 'david@gmail.com'  )
         .subscribe( resp => {
          
           this.guardarDomiciliosAgendados = resp;
           console.log( this.guardarDomiciliosAgendados );
           
 
-         
 
         })
 

@@ -2,8 +2,11 @@
     <!--menu-->
     <div class="contenedor_menu">
         <ul>
-            <li class="texto_menu" [routerLink]="['/inicio']">Inicio</li>
-            <li class="texto_menu" [routerLink]="['/restaurantes/Carnes']">Restaurantes</li>
+            <li class="texto_menu" [routerLink]="['/inicio']" *ngIf="botonInicio">Inicio</li>
+            <li class="texto_menu" [routerLink]="['/restaurantes/Carnes']" *ngIf="botonRestaurante">Restaurantes</li>
+
+            <li class="texto_menu" [routerLink]="['/internaRestaurante']" *ngIf="botonPedidos">Ver Pedidos Solictados</li>
+
         </ul>
     </div>
 
@@ -12,6 +15,8 @@
     </div>      
     <div class="contenedor_perfil" *ngIf="contenedorPerfil">
         <h2 class="nombre_person_perfil">{{ nombrePerfil  }}</h2>
+
+
         <img src="./assets/img/foto_perfil.jpg"   class="foto_perfil" (click)="ventanaPerfil()"/>
         <img src="./assets/img/flecha_abajo.png"  class="foto_abajo" (click)="ventanaPerfil()"/>
     </div>

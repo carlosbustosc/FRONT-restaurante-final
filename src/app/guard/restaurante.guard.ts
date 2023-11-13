@@ -19,7 +19,6 @@ export const restauranteGuard: CanActivateFn = (route, state) => {
 
 
   if( conectarServicio.validarIngresoResturante() ){
-
     return true;
   
   }else{
