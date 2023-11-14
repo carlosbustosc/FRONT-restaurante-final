@@ -28,6 +28,8 @@ export class NavbarComponent implements OnInit {
   num:number  = 1
   num2:number = 1;
 
+  numeroNotificaciones:number = 8;
+
   nombreRestaurante:any;
 
   nombreCliente = false;
@@ -39,12 +41,28 @@ export class NavbarComponent implements OnInit {
   botonPedidos = false;
   
   botonNotificaciones = false;
+
+  BaseNotificaciones = false;
+
+  guardarNotificacion:any[] = []
+
+  num3 = 0;
+
+  numNotificaciones = false;
+
+  numeroMensajes = 8
+
+  numNotificacionesMensajes = true;
+
+  notificacionMensajes = false;
  
   constructor( private usarRuta:Router,  private conectarServicio: RestauranteService ){
 
   }
 
   ngOnInit(): void {
+
+
 
     /*---cliente---*/
     if( localStorage.getItem('nombre') || localStorage.getItem('correoREST')){
@@ -56,6 +74,25 @@ export class NavbarComponent implements OnInit {
           
           this.nombrePerfil = localStorage.getItem('nombre');
           this.botonNotificaciones = true;
+          this.notificacionMensajes = true;
+
+          /*-------cargar notificaciones------*/
+          this.conectarServicio.cargarNotificaciones( localStorage.getItem('correo') )
+              .subscribe( resp => {
+                console.log(resp)
+                
+                if( resp.length > 0 ){
+                  this.numNotificaciones = true;
+                }else{
+                  this.numNotificaciones = false;
+                }
+
+
+                this.guardarNotificacion = resp
+                this.numeroNotificaciones = this.guardarNotificacion.length;
+
+              })
+
 
         }else{
           this.nombrePerfil = localStorage.getItem('nombreRestaurante');
@@ -127,7 +164,6 @@ export class NavbarComponent implements OnInit {
 
 
   verPerfil(){
-    
 
     if( localStorage.getItem('idPersona') ){
         
@@ -141,9 +177,47 @@ export class NavbarComponent implements OnInit {
       this.usarRuta.navigate([ '/perfilRestaurante', localStorage.getItem('idRestaurante') ]);
 
     }
+
+  }
+
+
+  abrirNotificaciones(){
+      
+    this.numNotificaciones = false;
     
+    if( this.num3 == 0 ){
+      
+      this.BaseNotificaciones = true;
+      this.num3 = 1;
+
+    }else{
+      
+      this.BaseNotificaciones = false;
+      this.num3 = 0;
+
+
+    }
+    
+  }
+
+
+  borrarNotificacion( data:any, posicion:number ){
+    
+    console.log( data.idNotificacion )
     
 
+    if (confirm('¿Desea eliminar esta notificacion?')) {
+    
+      this.conectarServicio.borrarNotificaciones( data.idNotificacion )
+            .subscribe( resp => {
+              console.log(resp)
+              
+        
+            
+            })
+    
+    }
+    
   }
 
  

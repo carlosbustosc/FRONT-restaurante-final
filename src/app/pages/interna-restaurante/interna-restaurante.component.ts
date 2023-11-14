@@ -23,6 +23,10 @@ export class InternaRestauranteComponent implements OnInit{
 
   pantallaPedidoEntregado = false;
 
+  mostrarPantallaAceptado = false;
+
+  mostrarMensajes = false;
+
   constructor(private conectarServicio:RestauranteService ){
 
   } 
@@ -38,7 +42,7 @@ export class InternaRestauranteComponent implements OnInit{
           
           this.dataPedidos = resp;
           console.log(resp);
-
+      
         })
 
       
@@ -46,13 +50,36 @@ export class InternaRestauranteComponent implements OnInit{
   }
 
 
-  verMensaje( valor:number, valor2:number){
+  verMensaje( valor:number, valor2:number, datos:any){
   
       console.log(valor)
 
       this.posicion = document.getElementById(`${valor}`)
       this.posicion.style.display = "none"
       
+
+      /*---cargar notificaciones----*/
+      this.conectarServicio.cargarNotificaciones( datos.correoCliente )
+          .subscribe( resp => {
+            console.log(resp[0].estado)
+
+            if(resp[0].estado == "aceptado"){
+            
+              this.mostrarPantallaDetalle = false;
+              this.mostrarPantallaInformacion = false;
+              this.mostrarPantallaAceptado = true;
+
+            }else{
+              
+              this.mostrarPantallaDetalle = true;
+              this.mostrarPantallaInformacion = false;
+              this.mostrarPantallaAceptado = false;
+            }
+
+          })
+      /*---cargar notificaciones----*/
+
+
 
       this.informacionDetalle =  this.dataPedidos[valor2];
       console.log(this.informacionDetalle );
@@ -111,7 +138,8 @@ export class InternaRestauranteComponent implements OnInit{
     let infoNotificacion = {
 
       correoCliente: detalleCliente.correoCliente,
-      notificacion : 'Su Pedido Ha sido Aceptado por ' + localStorage.getItem('nombreRestaurante')
+      notificacion : 'Su Pedido Ha sido Aceptado por ' + localStorage.getItem('nombreRestaurante'),
+      estado: 'aceptado'
    
     }
 
@@ -148,7 +176,8 @@ export class InternaRestauranteComponent implements OnInit{
                 let infoNotificacion = {
           
                   correoCliente:  detalleCliente.correoCliente,
-                  notificacion :  'Su Pedido Ha sido Entregado por ' + localStorage.getItem('nombreRestaurante')
+                  notificacion :  'Su Pedido Ha sido Entregado por ' + localStorage.getItem('nombreRestaurante'),
+                  estado: 'entregado'
                
                 }
             

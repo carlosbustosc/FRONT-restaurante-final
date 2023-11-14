@@ -7,7 +7,9 @@
 
             <li class="texto_menu" [routerLink]="['/internaRestaurante']" *ngIf="botonPedidos">Ver Pedidos Solictados</li>
 
-            <li class="texto_menu" [routerLink]="['/internaRestaurante']" *ngIf="botonNotificaciones">Notificaciones <span class="cuadro_notificacion">2</span></li>
+            <li class="texto_menu" *ngIf="botonNotificaciones" (click)="abrirNotificaciones()">Notificaciones <span class="cuadro_notificacion" *ngIf="numNotificaciones">{{ numeroNotificaciones }}</span></li>
+
+            <li class="texto_menu" *ngIf="notificacionMensajes">Mensajes <span class="cuadro_notificacion" *ngIf="numNotificacionesMensajes">{{ numeroMensajes }}</span></li>
 
         </ul>
     </div>
@@ -30,10 +32,10 @@
 
 
 <!---notificaciones-->
-<div class="base_notificaciones">
-    <p class="texto_notificacion">Su Pedido Ha sido Cancelado</p>
-    <p class="texto_notificacion">Su Pedido Ha sido Aceptado</p>
-    <p class="texto_notificacion">Su Pedido esta en proceso y llegara pronto</p>
+<div class="base_notificaciones" *ngIf="BaseNotificaciones">
+    <p class="texto_notificacion" *ngFor="let nota of guardarNotificacion; let i = index">{{ nota.notificacion }} 
+        <span><button class="btn btn-danger" (click)="borrarNotificacion( nota, i )">borrar</button></span>
+    </p>
 </div>
 
 

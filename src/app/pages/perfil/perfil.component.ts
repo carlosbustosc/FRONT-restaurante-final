@@ -117,14 +117,12 @@ export class PerfilComponent implements OnInit {
     /*--------------cargar domicilios agendados------------*/
     let correoPerfil = localStorage.getItem('correo')
 
-    this.conectarServicios.traerDomiciliosAgendados( 'david@gmail.com'  )
+    this.conectarServicios.traerDomiciliosAgendados( correoPerfil  )
         .subscribe( resp => {
          
           this.guardarDomiciliosAgendados = resp;
           console.log( this.guardarDomiciliosAgendados );
           
-
-
         })
 
 
@@ -278,10 +276,11 @@ export class PerfilComponent implements OnInit {
 
 
   CancelarPedido( id:any ){
+    
 
     if (window.confirm("¿Desea Cancelar el pedido?")) {
       
-      this.conectarServicios.borrarPedido( id )
+      this.conectarServicios.borrarPedido( id.idDomicilio )
       .subscribe( resp => {
         console.log(resp);
       })

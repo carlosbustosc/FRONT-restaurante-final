@@ -189,5 +189,12 @@ li{
     font-size: 14px;
     margin-bottom: 0px;
     border-bottom: 1px solid #008497;
-    padding: 6px 20px;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+button.btn.btn-danger {
+    float: right;
+    font-size: 13px;
+    padding: 0px 10px;
 }

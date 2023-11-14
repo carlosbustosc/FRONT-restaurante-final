@@ -388,6 +388,13 @@ export class RestauranteService {
 
                     let NuevoArreglo:any = []
                     
+                    /*---retornar llaves--*/
+                    Object.keys( resp ).forEach( llaves => {
+
+                      let todosLosResgitrosSinLLaves = resp[llaves]
+                      todosLosResgitrosSinLLaves.idDomicilio = llaves;
+
+                    })
                   
 
                     Object.values( resp ).forEach( (valores:any) => {
@@ -751,7 +758,7 @@ export class RestauranteService {
         return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios/${ id }.json`)
       }
 
-
+     
 
 
 
@@ -761,13 +768,65 @@ export class RestauranteService {
         let nota = {
 
           correoCliente : notificar.correoCliente,
-          notificacion  : notificar.notificacion
+          notificacion  : notificar.notificacion,
+          estado : notificar.estado
 
 
         }
 
         return this.usarHttp.post(`https://restaurante-15f7b-default-rtdb.firebaseio.com/notificaciones.json`, nota);
 
+      }
+
+
+
+
+
+      /*--------------------cargar Notificaciones--------------------*/
+      cargarNotificaciones( correo:any ){
+      
+          return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/notificaciones.json`)
+                      .pipe(
+                        map( (resp:any) => {
+                          
+                          let nuevoArr:any = [];
+                          
+                          /*--llaves--*/
+                          Object.keys( resp ).forEach( keys => {
+                              
+                            let llaves = resp[keys]
+                            llaves.idNotificacion = keys
+
+                          })  
+
+                          Object.values( resp ).forEach( (resp:any) => {
+                              
+                            let todosLosDatodFueraDeLasLLaves = resp;
+                            let todosLosCorreos = resp.correoCliente
+                            console.log(todosLosCorreos)
+                            
+                            if( todosLosCorreos.indexOf( correo ) >= 0 ){
+
+                              nuevoArr.push(todosLosDatodFueraDeLasLLaves);
+
+                            }
+
+                          })
+                          
+                          return nuevoArr
+                        
+                        })
+                      )
+
+      }
+
+
+      /*----------------------------borrar Notificaciones----------------------*/
+      borrarNotificaciones( id:any ){
+          
+        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/notificaciones/${ id }.json`)
+
+        
       }
 
 }
