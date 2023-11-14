@@ -11,8 +11,11 @@ import { RegistroClienteComponent } from './pages/registro-cliente/registro-clie
 import { RestauranteComponent } from './pages/restaurante/restaurante.component';
 import { RegistroRestauranteComponent } from './pages/registro-restaurante/registro-restaurante.component'; 
 
+
 /*----importar formularios---*/
 import { FormsModule, ReactiveFormsModule } from '@angular/forms' 
+
+
 
 /*-----importar HttpClientModule----*/
 import { HttpClientModule } from '@angular/common/http';

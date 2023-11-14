@@ -35,12 +35,12 @@
         </div>
 
         <!---mensajes----->
-        <div class="enviar_mensajes" *ngIf="mostrarMensajes">
+        <div class="enviar_mensajes" *ngIf="mostrarPantallaDetalle">
             <h2>Envie un mensaje a {{ informacionDetalle.nombreCliente }}</h2>
 
-            <form>
-                <textarea class="form-control mensaje"></textarea>
-                <button class="btn btn-primary btn_Enviar">Enviar</button>
+            <form >
+                <textarea type="textarea" name="mensaje" class="form-control mensaje" [(ngModel)]="mensaje"></textarea>
+                <button class="btn btn-primary btn_Enviar" (click)="enviarMensaje()">Enviar</button>
             </form>
         </div>
 
@@ -66,7 +66,6 @@
                 <p class="comida_pedida" *ngFor="let comida of informacionDetalle.pedido">{{ comida }}</p>
             </div>
 
-            
             <h1 class="texto_titulo">El pedido ya ha sido Aceptado</h1>
         </div>
     </div>

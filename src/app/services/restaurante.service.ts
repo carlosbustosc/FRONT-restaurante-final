@@ -808,6 +808,7 @@ export class RestauranteService {
                             if( todosLosCorreos.indexOf( correo ) >= 0 ){
 
                               nuevoArr.push(todosLosDatodFueraDeLasLLaves);
+                           
 
                             }
 
@@ -821,12 +822,38 @@ export class RestauranteService {
       }
 
 
-      /*----------------------------borrar Notificaciones----------------------*/
+      /*----------------------------borrar Notificaciones-----------------------*/
       borrarNotificaciones( id:any ){
           
         return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/notificaciones/${ id }.json`)
 
-        
       }
+
+
+      
+
+
+
+      /*------------------------------------guardar mensajes--------------------------*/
+      guardarMensajes( formMensaje:any ){
+
+          let mensajes = {
+
+            emailCliente : formMensaje.correoCliente,
+            emailResturante: formMensaje.emailRestaurante,
+            mensaje : formMensaje.mensaje,
+            nombreRestaurante: formMensaje.nombreRestaurante
+          }
+
+         console.log( mensajes );
+
+            
+         /*
+          return this.usarHttp.post( `https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajes.json`, mensajes );
+          */
+
+      }
+
+      
 
 }

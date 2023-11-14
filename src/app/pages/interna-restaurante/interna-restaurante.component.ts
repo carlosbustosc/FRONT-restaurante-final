@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 
@@ -24,15 +25,23 @@ export class InternaRestauranteComponent implements OnInit{
   pantallaPedidoEntregado = false;
 
   mostrarPantallaAceptado = false;
+  mostrarMensajes = true;
 
-  mostrarMensajes = false;
+  mensaje ='';
 
-  constructor(private conectarServicio:RestauranteService ){
 
+  constructor(private conectarServicio:RestauranteService, private fb: FormBuilder ){
+    
+   
   } 
   
+
+
+
+
+
   ngOnInit(): void {
-    
+
     /*---traer correo localStorage---*/
      let emailRestaurante = localStorage.getItem('email');
 
@@ -45,40 +54,29 @@ export class InternaRestauranteComponent implements OnInit{
       
         })
 
-      
-
+  
   }
 
 
   verMensaje( valor:number, valor2:number, datos:any){
-  
+    
       console.log(valor)
 
       this.posicion = document.getElementById(`${valor}`)
       this.posicion.style.display = "none"
       
 
-      /*---cargar notificaciones----*/
+    /*----cargar notificaciones-----*/
       this.conectarServicio.cargarNotificaciones( datos.correoCliente )
           .subscribe( resp => {
-            console.log(resp[0].estado)
-
-            if(resp[0].estado == "aceptado"){
-            
-              this.mostrarPantallaDetalle = false;
-              this.mostrarPantallaInformacion = false;
-              this.mostrarPantallaAceptado = true;
-
-            }else{
-              
-              this.mostrarPantallaDetalle = true;
-              this.mostrarPantallaInformacion = false;
-              this.mostrarPantallaAceptado = false;
-            }
+           // console.log(resp)
+                      
+            this.mostrarPantallaDetalle = true;
+            this.mostrarPantallaInformacion = false;
+            this.mostrarPantallaAceptado = false;
 
           })
       /*---cargar notificaciones----*/
-
 
 
       this.informacionDetalle =  this.dataPedidos[valor2];
@@ -127,14 +125,9 @@ export class InternaRestauranteComponent implements OnInit{
 
 
 
-
-
-
    /*-----aceptar pedido----*/
    aceptarPedido( detalleCliente:any ){
      
-
-
     let infoNotificacion = {
 
       correoCliente: detalleCliente.correoCliente,
@@ -150,11 +143,6 @@ export class InternaRestauranteComponent implements OnInit{
               })
    
   }
-
-
-
-
-
 
 
 
@@ -188,9 +176,40 @@ export class InternaRestauranteComponent implements OnInit{
                 console.log('No Se ha Borrado el Registro');
               }
    
-              
-
 
    }
 
+
+
+
+
+
+
+
+
+   /*-------------enviar Mensaje-----------*/
+   enviarMensaje(){
+    
+    
+     /*-----se esta realizando la inscripcion con ngModel------*/
+    console.log( this.mensaje ); 
+
+    const mensaje = {
+      emailRestaurante   : localStorage.getItem('correoREST'),
+      mensaje            : this.mensaje,
+      nombreRestaurante  : localStorage.getItem('nombreRestaurante'),
+      correoCliente      : this.informacionDetalle.correoCliente,
+    }
+
+    //console.log( mensaje );
+
+
+    this.conectarServicio.guardarMensajes( mensaje )
+         
+
+   }
+   
+
 }
+
+
