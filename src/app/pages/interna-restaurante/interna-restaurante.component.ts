@@ -184,9 +184,6 @@ export class InternaRestauranteComponent implements OnInit{
 
 
 
-
-
-
    /*-------------enviar Mensaje-----------*/
    enviarMensaje(){
     
