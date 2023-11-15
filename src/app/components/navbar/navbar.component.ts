@@ -115,6 +115,8 @@ export class NavbarComponent implements OnInit {
 
                 this.guardarMensajes = resp;
                 this.numeroMensajes = this.guardarMensajes.length;
+
+              
               
               })
 
@@ -158,6 +160,8 @@ export class NavbarComponent implements OnInit {
               .subscribe( resp => {
                 console.log(resp)
                 this.guardarMensajes = resp;
+
+                this.numeroMensajes = this.guardarMensajes.length;
               })
 
 

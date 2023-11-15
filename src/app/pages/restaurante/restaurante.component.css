@@ -3,7 +3,7 @@
     width: 100%;
     display: table;
     background-color: red;
-    background-image: url("../../../assets/img/fondo2.jpg");
+    background-image: url("../../../assets/img/fondo3.jpg");
     background-size: cover;
     background-attachment: fixed;
 }
@@ -45,9 +45,9 @@
 
 .base_detalle_resturante{
 
-    width: 540px;
+    width: 50%;
     display: table;
-    float: left;
+    float: inherit;
     margin: 56px auto 50px auto;
 
 }
@@ -66,16 +66,14 @@
 }
 
 .base_carta_1{
-
     width: 44%;
-    height: 477px;
+    height: 800px;
     float: left;
-    background-color: #1A1A1A;
-    margin-left: 10px;
+    background-color: #284144;
     box-sizing: border-box;
-    padding: 10px 21px;
+    padding: 37px 38px;
     overflow-y: scroll;
-    margin-left: 20px;
+    /* border-radius: 22px;*/
 }
 
 .base_carta_1::-webkit-scrollbar {
@@ -98,10 +96,10 @@
     width: 44%;
     height: 477px;
     float: left;
-    background-color: #1A1A1A;
+    background-color: #007a88;
     margin-left: 52px;
     box-sizing: border-box;
-    padding: 10px 21px;
+    padding: 32px 40px;
     position: relative;
     overflow-y: scroll;
 }
@@ -136,15 +134,16 @@
 
 .subtitulo_menu {
     color: #fff;
-    font-size: 16px;
+    font-size: 21px;
     text-align: left;
-    font-weight: 500;
+    font-weight: 900;
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
     padding-top: 9px;
-    background-color: #682c17;
+    /* background-color: #ffffff; */
     padding: 10px 20px 9px 20px;
     text-align: left;
+    text-align: center;
 }
 
 form.formulario_menu {
@@ -181,14 +180,17 @@ span.nombre_tl {
 .pedido_domicilio {
 
     display: block;
-    width: 100%;
-    padding: 5px 19px;
-    font-size: 17px;
-    color: #FFE;
+    width: 71%;
+    padding: 5px 19px 9px 19px;
+    font-size: 19px;
+    color: #007a88;
     border: 0;
-    background-color: #682C17;
+    background-color: #ffffff;
     position: relative;
     bottom: 0;
+    font-weight: 500;
+    border-radius: 13px;
+    margin: 35px auto;
 
 }
 
@@ -197,14 +199,14 @@ span.nombre_tl {
     width: 100%;
     padding: 30px;
     display: table;
-    background-color: #682c17;
+    background-color: #ffffff;
 
 }
 
 .texto_restaurante {
     font-family: 'Open Sans';
-    font-weight: 200;
-    color: #fff;
+    font-weight: 500;
+    color: #015761;
     font-size: 16px;
 }
 
@@ -226,12 +228,13 @@ span.nombre_tl {
 }
 
 .caja_comentario_ltsx {
-    width: 42%;
+    width: 50%;
     display: table;
-    background-color: #682c1799;
+    background-color: #0000006e;
     margin-bottom: 36px;
     padding: 20px 30px 6px 20px;
     border-radius: 10px;
+    border: 1px solid #fff;
 }
 
 .nombre_persona {
@@ -247,7 +250,7 @@ span.nombre_tl {
     color: #fff;
     font-size: 15px;
     text-align: left;
-    font-weight: 100;
+    font-weight: 600;
     font-family: 'Open Sans', sans-serif;
     padding-bottom: 4px;
     margin-bottom: 3px;
@@ -320,7 +323,7 @@ span.nombre_tl {
 
     font-size: 21px;
     text-align: center;
-    color: #000;
+    color: #015761;
     width: 400px;
     margin: 0px auto 40px auto;
     
@@ -329,7 +332,7 @@ span.nombre_tl {
 .base_seleccionados{
 
     width: 80%;
-    background-color: #000;
+    background-color: #007a88;
     margin: auto;
     padding: 20px 40px 7px 40px;
     display: table;

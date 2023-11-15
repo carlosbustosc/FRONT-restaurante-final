@@ -9,11 +9,9 @@
 
 .conteendor_mensajes {
     width: 25%;
-    height: 124vh;
+    height: 110vh;
     float: left;
-    border-left: 1px solid #e2e2e2;
-    border-right: 1px solid #e2e2e2;
-    background-color: #efefef;
+    background-color: #0095a9;
     max-width: 369px;
 }
 
@@ -26,13 +24,17 @@
 }
 
 .mensaje_nuevo {
+    
     font-family: 'Open Sans', sans-serif;
     font-weight: 200;
-    font-size: 16px;
+    font-size: 15px;
     text-align: center;
     padding: 12px 10px;
     font-weight: 600;
-    cursor:pointer;
+    cursor: pointer;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 3px;
 }
 
 .titulo_mensajes{
@@ -41,8 +43,10 @@
     font-weight: 700;
     font-size: 18px;
     text-align: center;
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid white;
     padding: 20px;
+    color: #fff;
+    background-color: #015761;
 }
 
 .circulo_rojo{
@@ -60,9 +64,10 @@
 
 .contenedor_detalle {
     width: 70%;
-    float: left;
+    /* float: left; */
     display: table;
     padding: 30px 50px;
+    margin: auto;
   
 }
 
@@ -73,7 +78,7 @@
     font-size: 25px;
     margin-bottom: 12px !important;
     text-transform: uppercase;
-    color: #000000;
+    color: #015761;
 }
 
 .detalle_pedido {
@@ -81,6 +86,7 @@
     font-weight: 500;
     margin-bottom: 6px;
     font-size: 16px;
+    color: #015761;
 }
 
 .pedidos{
@@ -166,3 +172,77 @@ h2 {
     margin:20px 0px;
 }
 
+.base_pedidos_perfil_rest{
+
+    width: 100%;
+    display: table;
+    margin-bottom: 50px;
+}
+
+
+
+.base_comentarios{
+
+    width: 100%;
+    display: table;
+    margin-top: 99px;
+
+}
+
+.base_comnetario{
+
+    width: 45%;
+    display: table;
+    padding: 40px;
+    border: 1px solid #00aec3;
+    float: left;
+    margin: 20px;
+    border-radius: 17px;
+   
+    
+}
+
+p {
+    margin-bottom: 3px;
+}
+
+.nombre {
+    font-weight: 500;
+    font-size: 16px;
+    border-bottom: 1px solid white;
+    color: #015761;
+    margin-bottom: 0px;
+    line-height: 19px;
+}
+
+p.correo {
+    font-weight: 500;
+    font-size: 19px;
+    border-bottom: 1px solid white;
+    color: #015761;
+    margin-bottom: 0px;
+    line-height: 19px;
+}
+
+.base_comnetario {
+    width: 45%;
+    display: table;
+    padding: 26px 26px 31px 29px;
+    border: 1px solid #00aec3;
+    float: left;
+    margin: 0px 10px;
+    border-radius: 17px;
+    margin-bottom: 27px;
+}
+
+.bajar_boton{
+
+    margin-top: 20px;
+}
+
+.comentario {
+    font-size: 17px;
+    border-bottom: 1px solid white;
+    color: #015761;
+    margin-bottom: 0px;
+}

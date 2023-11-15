@@ -29,6 +29,10 @@ export class InternaRestauranteComponent implements OnInit{
 
   mensaje ='';
 
+  guardarComentarios:any[] = []
+
+  base_comentarios = false;
+
 
   constructor(private conectarServicio:RestauranteService, private fb: FormBuilder ){
     
@@ -58,7 +62,9 @@ export class InternaRestauranteComponent implements OnInit{
 
 
   verMensaje( valor:number, valor2:number, datos:any){
-    
+      
+     this.base_comentarios = false;
+
       console.log(valor)
       console.log(datos.correoCliente)
 
@@ -210,11 +216,46 @@ export class InternaRestauranteComponent implements OnInit{
           this.mensaje = ""
 
         })
+   }
 
 
-         
+
+
+  traerComentarios(){
+
+    this.mostrarPantallaDetalle = false;
+    this.mostrarPantallaDetalle = false;
+    
+    this.mostrarPantallaInformacion = false;
+
+    this.base_comentarios = true;
+
+    this.conectarServicio.cargarComentarios()
+        .subscribe( resp => {
+          console.log( resp )
+
+          this.guardarComentarios = resp;
+
+        })
 
    }
+
+
+
+   borrarComentariosPerfil( datos:any){
+    
+
+      if (confirm('¿Desea borrar este comentario?')) {
+  
+        this.conectarServicio.borrarComentarioPerfil( datos.id )
+        .subscribe( resp => {
+          console.log( resp )
+        })
+
+      }
+      
+  
+     }
    
 
 }

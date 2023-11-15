@@ -3,13 +3,25 @@
 
 <div class="contenido_principal">
     <div class="conteendor_mensajes">
-        <h1 class="titulo_mensajes">PEDIDOS</h1>
 
-        <div class="base_mensaje" *ngFor="let pedido of dataPedidos; let i = index"  (click)="verMensaje(i + 1, i, pedido )">
-            <p class="mensaje_nuevo">{{ pedido.nombreCliente }} <span class="circulo_rojo" id="{{ i + 1 }}"></span></p>
+        <div class="base_pedidos_perfil_rest">
+            <h1 class="titulo_mensajes">PEDIDOS</h1>
+
+            <div class="base_mensaje" *ngFor="let pedido of dataPedidos; let i = index"  (click)="verMensaje(i + 1, i, pedido )">
+                <p class="mensaje_nuevo">{{ pedido.nombreCliente }} <span class="circulo_rojo" id="{{ i + 1 }}"></span></p>
+            </div>
+        </div>
+
+        <div class="base_pedidos_perfil_rest">
+            <h1 class="titulo_mensajes">ADMIN COMENTARIOS</h1>
+
+            <div class="base_mensaje" (click)="traerComentarios()">
+                <p class="mensaje_nuevo">Ver comentarios</p>
+            </div>
         </div>
     </div>
 
+    <!-----seccion detalle---->
     <div class="contenedor_detalle">
         <div class="pedidos" *ngIf="mostrarPantallaDetalle">
             <img src="./assets/img/foto_perfil.jpg" class="foto_perfil"/>
@@ -34,6 +46,8 @@
             <button class="botones_pedidos btn btn-info"    (click)="pedidoEntregado( informacionDetalle )">Pedido Entregado</button>
         </div>
 
+
+
         <!---mensajes----->
         <div class="enviar_mensajes" *ngIf="mostrarPantallaDetalle">
             <h2>Envie un mensaje a {{ informacionDetalle.nombreCliente }}</h2>
@@ -43,35 +57,23 @@
                 <button class="btn btn-primary btn_Enviar" (click)="enviarMensaje()">Enviar</button>
             </form>
         </div>
-
+        
+        <!---texto informativo---->
         <div class="base_informacion" *ngIf="mostrarPantallaInformacion">
             <h1 class="texto_titulo">Seleccione un mensaje</h1>
         </div>
 
-        <!--aceptado-->
-        <div class="base_informacion" *ngIf="mostrarPantallaAceptado">
 
-            <div class="pedidos">
-                <img src="./assets/img/foto_perfil.jpg" class="foto_perfil"/>
-                <h1 class="nombre_persona">{{ informacionDetalle.nombreCliente  }}</h1>
-                <p class="detalle_pedido">Correo Cliente: {{ informacionDetalle.correoCliente }}</p>
-                <p class="detalle_pedido">ciudad: {{ informacionDetalle.ciudad }}</p>
-                <p class="detalle_pedido">barrio: {{ informacionDetalle.barrio }}</p>
-                <p class="detalle_pedido">direccionCliente: {{ informacionDetalle.direccionCliente }}</p>
-                <p class="detalle_pedido">Fecha de solictud: {{ informacionDetalle.fecha  }}</p>
+        <!----ver comentarios-->
+        <div class="base_comentarios" *ngIf="base_comentarios">
+            <div class="base_comnetario" *ngFor="let comentariosPerfil of guardarComentarios">
+                <p class="nombre">{{ comentariosPerfil.nombre }}</p>
+                <p class="correo">{{ comentariosPerfil.correo }}</p>
+                <p class="comentario">{{ comentariosPerfil.comentario }}</p>
+                <button class="btn btn-danger bajar_boton" (click)="borrarComentariosPerfil( comentariosPerfil )">Borrar comentario</button>
             </div>
-    
-            <div class="pedidos">
-                <h1 class="nombre_persona">PEDIDO</h1>
-                <p class="comida_pedida" *ngFor="let comida of informacionDetalle.pedido">{{ comida }}</p>
-            </div>
-
-            <h1 class="texto_titulo">El pedido ya ha sido Aceptado</h1>
         </div>
     </div>
-
-   
-
 </div>
 
 

@@ -516,6 +516,14 @@ export class RestauranteService {
                     map( (resp:any) => {
 
                       let nuevoArreglo:any = []
+                      
+                      Object.keys( resp ).forEach( llaves => {
+                          
+                      let todos = resp[llaves];
+                      todos.id = llaves;
+                      })
+
+
                       /*----filtramos por correo---*/
                       Object.values( resp ).forEach( (todosRESP:any) => {
 
@@ -969,6 +977,15 @@ export class RestauranteService {
 
                               })
                             )
+
+      }
+
+
+
+      /*-----------------------Borrar comentario del perfil--------------------------*/
+      borrarComentarioPerfil( id:any ){
+
+        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/comentarios/${ id }.json`);
 
       }
 

@@ -3,7 +3,7 @@
 .contenedor_principal_restaurantes{
     width: 100%;
     display: table;
-    background-image: url('../../../assets/img/fondo2.jpg');
+    background-image: url('../../../assets/img/fondo3.jpg');
     background-size: cover;
     background-attachment: fixed;
     height: 100vh;
@@ -84,7 +84,7 @@
 .card_1_restaurante {
     width: 47%;
     display: table;
-    background-color: #000000b3;
+    background-color: #ffffff;
     float: left;
     padding: 19px 14px;
     margin: 0px 15px 30px 13px;
@@ -121,7 +121,7 @@
 
     font-size: 21px;
     text-align: center;
-    color: #fff;
+    color: #00aec3;
     font-family: 'Open Sans', sans-serif;
     font-weight: 700;
 
@@ -129,7 +129,7 @@
 
 .barrio {
     font-family: 'Open Sans', sans-serif;
-    color: #fff;
+    color: #00aec3;
     font-weight: 400;
     margin-bottom: 3px;
     text-align: center;
@@ -146,7 +146,7 @@
 
 .boton_ver_resturante {
     width: 150px;
-    border: 1px solid #fff;
+    border: 1px solid #17b5c8;
     padding: 2px 12px 4px 12px;
     display: block;
     text-align: center;
@@ -154,11 +154,12 @@
     background-color: inherit;
     position: absolute;
     bottom: 0;
-    color: #fff;
+    color: #ffffff;
     cursor: pointer;
     margin: auto;
     left: 0;
     right: 0;
+    background-color: #05b0c4;
 }
 
 .boton_ver_resturante:hover{
@@ -170,7 +171,7 @@
 .contenedor_no_resgitros {
     max-width: 1200px;
     width: 100%;
-    background-color: #682c17cf;
+    background-color: #00aec38a;
     margin: auto;
     position: relative;
     display: table;
