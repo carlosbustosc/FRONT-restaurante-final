@@ -165,16 +165,10 @@ li{
     border-radius: 6px;
 }
 
-.base_notificaciones{
 
-    width: 400px;
-    height: 100px;
-    background-color: #fff;
-    position: relative;
-}
 
 .base_notificaciones {
-    width: 616px;
+    width: 534px;
     display: table;
     background-color: #fff;
     position: absolute;
@@ -188,13 +182,132 @@ li{
     font-weight: 100;
     font-size: 14px;
     margin-bottom: 0px;
-    border-bottom: 1px solid #008497;
-    padding: 10px 20px;
-    text-align: center;
+    padding: 19px 0px 24px 0px;
+    text-align: left;
 }
 
 button.btn.btn-danger {
-    float: right;
+    float: left;
+    font-size: 13px;
+    padding: 3px 10px 1px 10px;
+    margin-top: 0;
+    margin-left: 14px;
+    margin-right: 12px;
+}
+
+.border_notificacion {
+    border-bottom: 1px solid #21c5a0a3;
+}
+
+
+.base_mensajes{
+    width: 500px;
+    display: table;
+    background-color: white;
+    position: absolute;
+    z-index: 9;
+    margin-left: 609px;
+}
+
+.nombre_resturante {
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 0px;
+}
+
+.base_mensaje_internos {
+    width: 100%;
+    padding: 11px 10px 1px 29px;
+    float: left;
+
+}
+
+button.btn.btn-success.responder {
+        /* float: right; */
+        font-size: 13px;
+        padding: 4px 9px 6px 9px;
+        margin-right: 10px;
+        margin-top: 0;
+}
+
+.base_botones {
     font-size: 13px;
     padding: 0px 10px;
+    margin-right: 10px;
+    margin-top: 9%;
+    padding-bottom: 18px;
+}
+
+.base_principal_m {
+    width: 100%;
+    display: table;
+    border-bottom: 1px solid #006c6f57;
+}
+
+
+.texto_notificacion2{
+
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 100;
+    font-size: 14px;
+    margin-bottom: 0px;
+    text-align: left;
+    padding: 0px 0px 7px 0px;     
+}
+
+button.btn.btn-danger.boton_rojo {
+    padding: 3px 10px 6px 10px;
+}
+
+.contenedor_flotante_mensajes{
+
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    background-color: #003726c2;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+}
+
+.caja_de_mensaje{
+
+    width: 600px;
+    display: table;
+    background-color: #fff;
+    position: fixed;
+    margin: auto;
+    left: 0px;
+    right: 0px;
+    padding: 30px 50px 54px 50px;
+    box-sizing: border-box;
+}
+
+.textarea2{
+
+    width: 100%;
+    height: 150px;
+    margin-bottom: 20px;
+    padding: 20px;
+    font-size: 16px;
+}
+
+.titulo_respuesta{
+
+    font-size: 37px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    margin-bottom: 0px;
+    text-transform: capitalize;
+}
+
+img.cerrar_icono {
+    width: 32px;
+    position: absolute;
+    right: 12px;
+    top: 11px;
+    cursor: pointer;
 }

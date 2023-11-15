@@ -839,8 +839,8 @@ export class RestauranteService {
 
           let mensajes = {
 
-            emailCliente : formMensaje.correoCliente,
-            emailResturante: formMensaje.emailRestaurante,
+            emailCliente : formMensaje.emailCliente,
+            emailResturante: formMensaje.emailResturante,
             mensaje : formMensaje.mensaje,
             nombreRestaurante: formMensaje.nombreRestaurante
           }
@@ -848,9 +848,127 @@ export class RestauranteService {
          console.log( mensajes );
 
             
-         /*
-          return this.usarHttp.post( `https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajes.json`, mensajes );
-          */
+         
+        return this.usarHttp.post( `https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajes.json`, mensajes );
+          
+
+      }
+
+
+
+
+      /*---------------------------cargar mensajes---------------------------------*/
+      cargarMensajes( correo:any ){
+
+        return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajes.json`)
+                            .pipe(
+                              map( (resp:any) => {
+
+                                let arregloNuevo:any[] = [];
+                                
+
+                                /*---llaves---*/
+                                Object.keys( resp ).forEach( (llaves:any) => {
+                                  
+                                  const objetos = resp[llaves]
+                                  objetos.id = llaves;
+                                  
+
+                                })
+
+                                Object.values( resp ).forEach( (resp:any) => {
+                                  //console.log(resp)
+                             
+                                  let todos = resp
+                                  let todosCorreos = resp.emailCliente 
+
+
+                                  if( todosCorreos.indexOf( correo ) >= 0 ){
+                                            
+                                      arregloNuevo.push( todos );
+                                  
+                                    }
+                                
+                                })
+
+                                return arregloNuevo
+
+                              })
+                            )
+
+      }
+
+
+
+
+
+
+
+      /*----------------------------------Borrar Mensajes----------------------------*/
+      borrarMensajes( id:any ){
+
+        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajes/${ id }.json`)
+
+      }
+
+
+
+
+      /*------------------------------------guardar Mensajes Resturante------------------*/
+      mensajesParaRestaurante( datosRespuesta:any ){
+        
+        const mensajeRestaurante = {
+
+          emailResturante :    datosRespuesta.emailResturante,
+          emailCliente :       datosRespuesta.emailCliente,
+          mensaje :            datosRespuesta.mensaje,
+          nombreRestaurante :  datosRespuesta.nombreRestaurante
+       
+
+        }
+
+        console.log(mensajeRestaurante)
+
+        return this.usarHttp.post('https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajesResturante.json', mensajeRestaurante) 
+
+      }
+
+
+
+
+
+      /*-----------------------------cargar mensajes restaurante----------------------*/
+      cargarMensajesRestaurante(){
+
+        return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajesResturante.json`)
+                            .pipe(
+                              map( (resp:any) => {
+                                  
+                             
+                                let nuevoArr:any[] = [];
+
+                                Object.keys( resp ).forEach( llaves => { 
+                                  let datos = resp[llaves];
+                                  datos.id = llaves;
+                                })
+
+
+                                Object.values( resp ).forEach( (resp2:any) => {
+                                  let objetos = resp2
+                                  let todosCorreosRestaurante = objetos.emailResturante
+
+                                
+                                  if( todosCorreosRestaurante.indexOf( 'marino@gmail.com' ) >= 0 ){
+                                    nuevoArr.push(objetos)
+                        
+                                  }
+      
+                                })
+
+                                return nuevoArr
+
+                              })
+                            )
 
       }
 

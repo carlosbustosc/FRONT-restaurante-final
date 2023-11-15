@@ -48,6 +48,8 @@ export class NavbarComponent implements OnInit {
 
   num3 = 0;
 
+  num4 = 0;
+
   numNotificaciones = false;
 
   numeroMensajes = 8
@@ -55,7 +57,32 @@ export class NavbarComponent implements OnInit {
   numNotificacionesMensajes = true;
 
   notificacionMensajes = false;
- 
+
+  guardarMensajes:any[] = [];
+
+  mostrarMensajes:boolean = false;
+
+  ventanaMensajesRespuesta = false;
+
+  nombreRespuesta:any
+
+  mensajeRespuesta = "";
+
+  emailClienteMensaje = ""
+
+  emailRestauranteMensaje = ""
+  
+  guardarMensajesRestaurante:any;
+
+  mostrarMensajesRestaurante = false;
+  
+  nombreRestaurant = ""
+  
+  nombreCliente1 = false;
+
+  nombreResturante1 = false
+
+
   constructor( private usarRuta:Router,  private conectarServicio: RestauranteService ){
 
   }
@@ -76,6 +103,25 @@ export class NavbarComponent implements OnInit {
           this.botonNotificaciones = true;
           this.notificacionMensajes = true;
 
+          this.nombreCliente1 = false;
+          this.nombreResturante1 = true;
+
+
+
+          /*------cargar mensajes en la bandeja de entreda---------*/
+          this.conectarServicio.cargarMensajes(  localStorage.getItem('email')  )
+              .subscribe( resp => {
+                console.log(resp);
+
+                this.guardarMensajes = resp;
+                this.numeroMensajes = this.guardarMensajes.length;
+              
+              })
+
+
+
+
+
           /*-------cargar notificaciones------*/
           this.conectarServicio.cargarNotificaciones( localStorage.getItem('correo') )
               .subscribe( resp => {
@@ -95,7 +141,28 @@ export class NavbarComponent implements OnInit {
 
 
         }else{
+
+          /*------------nav Restaurante-------------*/
+
+          this.notificacionMensajes = true;
+
+          this.nombreCliente1 = true;
+          this.nombreResturante1 = false
+
           this.nombrePerfil = localStorage.getItem('nombreRestaurante');
+
+          
+          
+          /*-----cargar mensajes restaurante--------*/
+          this.conectarServicio.cargarMensajesRestaurante()
+              .subscribe( resp => {
+                console.log(resp)
+                this.guardarMensajes = resp;
+              })
+
+
+
+
           this.botonInicio = false;
           this.botonRestaurante = false;
           this.botonPedidos = true;
@@ -220,7 +287,118 @@ export class NavbarComponent implements OnInit {
     
   }
 
+
+
+
+  abrirMensajes(){
+    
+
+    this.numNotificacionesMensajes = false;
+
+    if( this.num4 == 0 ){
+      
+      this.mostrarMensajes = true;
+      this.num4 = 1;
+    
+    }else{
+      
+      this.mostrarMensajes = false;
+      this.num4 = 0;
+
+    }
+    
+
+  }
+
+
+  borrarMensajes( objeto:any ){
+    
+
+    if ( confirm('¿Seguro desea eliminar este mensaje?') ) {
+        this.conectarServicio.borrarMensajes( objeto.id )
+            .subscribe( resp => {
+              console.log(resp);
+            } )
+    }
+
+  }
+
+
+
+  cerrar_ventana_mensajes(){
+      
+    this.ventanaMensajesRespuesta = false;
+
+  }
+
+
  
+  abrirVentanaMensajes( datos:any ){
+    
+    this.mostrarMensajes = false;
+    this.ventanaMensajesRespuesta = true;
+    this.nombreRespuesta = datos.nombreRestaurante
+
+    this.emailClienteMensaje = datos.emailCliente
+    this.emailRestauranteMensaje = datos.emailResturante
+
+    this.nombreRestaurant = datos.nombreRestaurante
+
   
+    console.log( datos )
+  
+  }
+  
+
+  enviarRespuesta(){
+
+    const mensajeRespuesta = {
+
+      emailResturante : this.emailRestauranteMensaje,
+      emailCliente : this.emailClienteMensaje,
+      mensaje : this.mensajeRespuesta,
+      nombreRestaurante :  this.nombreRestaurant
+
+    }
+
+    
+    this.conectarServicio.mensajesParaRestaurante( mensajeRespuesta )
+        .subscribe( resp => {
+          
+          console.log(resp)
+          alert(' se ha enviado correctamente');
+          this.mensajeRespuesta = ""
+          this.ventanaMensajesRespuesta = false;
+
+        })
+
+  }
+  
+
+
+  enviarRespuesta2(){
+
+    const mensajeRespuesta = {
+      
+      emailCliente : this.emailClienteMensaje,
+      emailResturante : this.emailRestauranteMensaje,
+      mensaje : this.mensajeRespuesta,
+      nombreRestaurante :  this.nombreRestaurant
+
+    }
+
+    console.log(mensajeRespuesta)
+
+    this.conectarServicio.guardarMensajes( mensajeRespuesta )
+        .subscribe( resp => {
+          console.log( resp );
+         
+          alert("el mensaje se ha enviado con exito")
+          this.ventanaMensajesRespuesta = false;
+
+      
+        })
+
+  }
 
 }

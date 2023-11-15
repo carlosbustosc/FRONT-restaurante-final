@@ -54,14 +54,15 @@ export class InternaRestauranteComponent implements OnInit{
       
         })
 
-  
   }
 
 
   verMensaje( valor:number, valor2:number, datos:any){
     
       console.log(valor)
+      console.log(datos.correoCliente)
 
+      
       this.posicion = document.getElementById(`${valor}`)
       this.posicion.style.display = "none"
       
@@ -202,6 +203,15 @@ export class InternaRestauranteComponent implements OnInit{
 
 
     this.conectarServicio.guardarMensajes( mensaje )
+        .subscribe( resp => {
+          console.log( resp );
+         
+          alert("el mensaje se ha enviado con exito")
+          this.mensaje = ""
+
+        })
+
+
          
 
    }
