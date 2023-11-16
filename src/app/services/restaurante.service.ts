@@ -386,7 +386,7 @@ export class RestauranteService {
               .pipe(
                 map( (resp:any) => {
 
-                    let NuevoArreglo:any = []
+                    let NuevoArreglo2:any = []
                     
                     /*---retornar llaves--*/
                     Object.keys( resp ).forEach( llaves => {
@@ -399,20 +399,22 @@ export class RestauranteService {
 
                     Object.values( resp ).forEach( (valores:any) => {
 
+                    
                       let todosLosCorreos = valores.correoCliente;
-                 
+                
                       
                       /*---me retorna perfil cliente----*/
-                      if( todosLosCorreos.indexOf( correo ) >= 0 ){
+                      if( todosLosCorreos.indexOf( 'david@gmail.com' ) >= 0 ){
 
-                        NuevoArreglo.push( valores );
-
+                        NuevoArreglo2.push( valores );
+                    
                       }
                       
-
                     })
-                  
-                    return NuevoArreglo;
+                    
+                    
+                    return NuevoArreglo2;
+                    
                 
                   })
               )
@@ -988,6 +990,67 @@ export class RestauranteService {
         return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/comentarios/${ id }.json`);
 
       }
+
+
+
+
+
+
+
+      /*----------------------------guardar FOTO PERFIL------------------------*/
+      guardarFotoPerfil( foto:any, correo:any ){
+        
+ 
+        const datos = {
+          
+          correoF: correo,
+          fotoF: foto
+        }
+
+        console.log(datos)
+
+        return this.usarHttp.post(`https://restaurante-15f7b-default-rtdb.firebaseio.com/fotos.json`, datos);
+        
+      }  
+
+      
+
+
+      /*--------------------------cargar Imagen de perfil------------------------*/
+      cargarImagenPerfil(correo:any){
+
+        return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/fotos.json')
+                            .pipe(
+                              map( (resp:any) => {
+                               
+                                
+                                let correoNuevo:any[] = [];
+
+                                Object.keys( resp ).forEach( resp2 => {
+                                  //console.log( resp[resp2].fotoF[0] )
+                                  let objeto = resp[resp2]
+                                  objeto.id = resp2;
+
+                                  //console.log(objeto)
+
+                                  if( correo === resp[resp2].correoF){
+                                    
+                                    correoNuevo.push(objeto)
+
+                                  }
+
+                                })
+
+                                return correoNuevo 
+                                
+                              })
+                            )
+      }
+
+
+
+    
+
 
       
 

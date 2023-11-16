@@ -89,12 +89,13 @@ hr.linea_divisora {
 }
 
 .foto_perfil {
-    width: 36px;
+    width: 37px;
+    height: 38px;
     border-radius: 100%;
     float: left;
     margin-left: 18px;
     margin-top: 8px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .foto_abajo {

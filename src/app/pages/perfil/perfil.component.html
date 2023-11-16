@@ -3,13 +3,14 @@
 <div class="contenedor_principal_perfil">
     <div class="seccion_foto_y_menu">
         <div class="base_detalle_lts">
-            <div class="circulo_imagen"></div>
+            <img src="{{ guardarImagenPerfil[0].fotoF[0] }}" class="circulo_imagen"/>
             <div class="base_informacion">
                 <p class="nombres">{{ nombrePersonaPerfil }}</p>
                 <p class="ciudad">bogota</p>
                 <br>
                 <form class="formulario">
-                    <input class="file" type="file" placeholder="subir_imagen">
+      
+                    <input type="file" accept=".png, .jpg, .jpeg" (change)="subirImagen($event)" class="file form-control control_input" placeholder="subir_imagen"/>
                 </form>
             </div>
         </div>

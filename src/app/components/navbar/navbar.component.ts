@@ -82,12 +82,22 @@ export class NavbarComponent implements OnInit {
 
   nombreResturante1 = false
 
+  guardarImagenPerfil:any
 
   constructor( private usarRuta:Router,  private conectarServicio: RestauranteService ){
 
   }
 
   ngOnInit(): void {
+    
+    /*--------------cargar foto perfil---------------*/
+    this.conectarServicio.cargarImagenPerfil( localStorage.getItem('correo') )
+    .subscribe( (resp:any) => {
+      console.log( resp )
+
+      this.guardarImagenPerfil = resp 
+
+    })
 
 
 

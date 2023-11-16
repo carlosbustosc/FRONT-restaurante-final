@@ -49,6 +49,12 @@ export class PerfilComponent implements OnInit {
   agendado:any;
 
   noAgendados = false;
+
+  guardarImagen:any[] = [];
+
+  guardarImagenPerfil:any[] = []
+
+  num1 = 0
   
 
   constructor(private usarRuta:Router, private conectarServicios:RestauranteService, private fb:FormBuilder, private recibirParametro:ActivatedRoute){
@@ -78,6 +84,21 @@ export class PerfilComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    
+        this.conectarServicios.cargarImagenPerfil( localStorage.getItem('correo') )
+            .subscribe( (resp:any) => {
+             
+
+              this.guardarImagenPerfil = resp 
+
+              console.log(this.guardarImagenPerfil)
+
+            })
+
+
+
+
 
       /*----traer nombre de la persona si esta en local storage---*/
       this.nombrePersonaPerfil = localStorage.getItem('nombre');
@@ -120,16 +141,16 @@ export class PerfilComponent implements OnInit {
     this.conectarServicios.traerDomiciliosAgendados( correoPerfil  )
         .subscribe( resp => {
          
+          console.log(resp)
+
           this.guardarDomiciliosAgendados = resp;
           console.log( this.guardarDomiciliosAgendados );
           
-        })
+        },)
 
 
     
   
-  
-
      /*-----------cargar restaurantes favoritos--------*/
      this.conectarServicios.cargarRestaurantesFavoritos()
         .subscribe( (resp:any) => {
@@ -317,8 +338,44 @@ export class PerfilComponent implements OnInit {
       
     }
 
-   
-
+  
   }
+
+
+   /*----subir imagen------*/
+   subirImagen( imagen:any){
+    
+    console.log(imagen.target.files[0]); 
+    
+    let archivoIMG = imagen.target.files
+
+    let reader = new FileReader()
+    reader.readAsDataURL( archivoIMG[0] );
+    
+    reader.onloadend = () => {
+        //console.log(reader.result);
+        this.guardarImagen.push(reader.result);
+    }
+    
+     console.log(this.guardarImagen);
+  
+
+
+    
+    
+    
+
+
+     /*-------subir imagen-------*/
+        this.conectarServicios.guardarFotoPerfil( this.guardarImagen, localStorage.getItem('correo') )
+          .subscribe( resp => {
+           console.log( resp )
+  
+        })
+
+ 
+    
+    
+   }
 
 }

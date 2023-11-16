@@ -39,8 +39,8 @@
     </div>      
     <div class="contenedor_perfil" *ngIf="contenedorPerfil">
         <h2 class="nombre_person_perfil">{{ nombrePerfil  }}</h2>
-        <img src="./assets/img/foto_perfil.jpg"   class="foto_perfil" (click)="ventanaPerfil()"/>
-        <img src="./assets/img/flecha_abajo.png"  class="foto_abajo" (click)="ventanaPerfil()"/>
+        <img src="{{ guardarImagenPerfil[0].fotoF[0] }}"   class="foto_perfil" (click)="ventanaPerfil()"/>
+        <img src="./assets/img/flecha_abajo.png"  class="foto_abajo"  (click)="ventanaPerfil()"/>
     </div>
 
     <div class="cajon_perfil_rest" *ngIf="mostrarVentanaPerfil">
