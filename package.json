@@ -1,12 +1,14 @@
 {
   "name": "restaurante",
   "version": "0.0.0",
+  "homepage": "https://carlosbustosc.github.io/FRONT-restaurante",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy": "npm run build && gh-pages -d dist/restaurante"
   },
   "private": true,
   "dependencies": {
@@ -18,6 +20,7 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
+    "gh-pages": "^6.1.1",
     "jquery": "^3.7.1",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.12.2",

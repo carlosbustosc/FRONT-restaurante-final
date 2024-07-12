@@ -251,7 +251,7 @@ export class RestauranteComponent implements OnInit {
         
             setTimeout(function(){
 
-              window.location.href = `/perfil/${ localStorage.getItem('email') }`;
+              window.location.href = `#/perfil/${ localStorage.getItem('email') }`;
             
           }, 4000) 
   
