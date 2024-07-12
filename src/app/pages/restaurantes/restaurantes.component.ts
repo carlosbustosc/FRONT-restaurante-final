@@ -17,7 +17,7 @@ import { CargaJSService } from 'src/app/services/carga-js.service';
 /*----formGroup----*/
 import { FormGroup, FormBuilder } from "@angular/forms"
 
-
+import Swal from 'sweetalert2';
 
 
 /*---importar jquery---*/
@@ -33,6 +33,11 @@ import * as jQuery from 'jquery';
 })
 
 export class RestaurantesComponent implements OnInit {
+  
+
+  modalIniciarSession = false;
+  texto = "agregar su Favorito";
+ 
 
   /*--select por defecto----*/
   selectForm:any = FormGroup;
@@ -59,12 +64,13 @@ export class RestaurantesComponent implements OnInit {
 
 
     /*---conetendores visuales----*/
-    contenedorRestaurantes = true;
-    contenedorVacio = false;
+    contenedorRestaurantes = false;
     contenedorCategoriaRestaurante = false;
-    noHayCategoria = false;
 
-    quitarSelectTodasCiudades = false;
+
+    contenedorVacio = false;
+    noHayCategoria = false;
+    quitarSelectTodasCiudades = true;
 
 
 
@@ -94,7 +100,8 @@ export class RestaurantesComponent implements OnInit {
 
     corazonNormal = true;
     corazonRojo = false;
-
+  
+   
 
     constructor( private usarRuta:Router, private conectarServicio:RestauranteService, private cargarJs:CargaJSService, private recibirParametro:ActivatedRoute, private fb:FormBuilder ){
 
@@ -122,41 +129,35 @@ export class RestaurantesComponent implements OnInit {
       }
 
 
-      
+  
+      //------MODAL DE INICIO DE SESSION-----
+     
+
+
+
       /*--------recibir parametro de inicio----------*/
-       this.recibirParametro.params.subscribe( resp => {
-        console.log( resp['id'] );
+       this.recibirParametro.params.subscribe( (resp:any) => {
+     
+        this.guardarCategoria = resp['categoria'];
 
-        this.guardarCategoria = resp['id'];
-        
+        this.parametroRecibido = resp['categoria'];
 
-        this.seleccionarCategoria( 'Carnes' );
-      
-      
+
+        console.log(resp['categoria'])
+       
       })
 
-      /*----ejecutar automaticamente la funcion de categoria----*/
       
-      
-
-
-      /*---recibir parametro del inicio----*/
-      this.recibirParametro.params
-          .subscribe( resp => {
-
-            //console.log('parametroRecibido: ' +  resp['categoria'] )
-            this.parametroRecibido = resp['categoria'];
-          
-          })
-      
-      /*-----select por defecto------*/
+    
+      /*-----selects por defecto------*/
       this.selectForm = this.fb.group({
-        departamentoss: 'todos',
+        departamentoss: '28', // tolima
         categoriass: this.parametroRecibido,
         ciudadess:""
       })
         
         
+
 
 
       /*--saludo--*/
@@ -184,7 +185,7 @@ export class RestaurantesComponent implements OnInit {
             this.departamentos = resp;
             console.log( this.departamentos )
 
-
+            
 
           /*------------datos que vienen por defecto de Storage ó por defecto---------*/
           if( localStorage.getItem('departamento') ){
@@ -202,11 +203,12 @@ export class RestaurantesComponent implements OnInit {
 
           }else{
             
-            this.parametroCiudad( this.departamentos, 'todos' );
+            this.parametroCiudad( this.departamentos, '28' ); //---Tolima--
+           
 
             /*---combos por defecto---*/
             this.selectForm = this.fb.group({
-              departamentoss: 'todos',
+              departamentoss: '28',
               categoriass: this.parametroRecibido,
               ciudadess:""
             })
@@ -217,8 +219,9 @@ export class RestaurantesComponent implements OnInit {
 
 
 
+          
 
-          /*--------------ciudad por defecto local Storage ó por defecto---------------*/
+          /*--------------CIUDAD POR DEFECTO LOCAL STORAGE O SIN LOCALSTORAGE---------------*/
           if( localStorage.getItem('ciudad') ){
             
             this.elegirCiudad( localStorage.getItem('ciudad') );
@@ -234,15 +237,18 @@ export class RestaurantesComponent implements OnInit {
 
           }else{
             
-            this.elegirCiudad( 'todos' );
+            this.elegirCiudad( 'Ibagué' );
+            
+
+
             this.CiudadCliente = 'todos'
 
 
-             /*---combos por defecto---*/
+             /*---combos por defecto SE LLENA CON LOS VALUE---*/
              this.selectForm = this.fb.group({
-              departamentoss : 'todos',
+              departamentoss : '28',
               categoriass    : this.parametroRecibido,
-              ciudadess      : 'todos'
+              ciudadess      : 'Ibagué'
             
             })
 
@@ -250,49 +256,72 @@ export class RestaurantesComponent implements OnInit {
           
            
       })
-      
-
+    
       
     }
 
 
 
-    /*----select change---*/
+    cerrarModalSession(){
+      
+      this.modalIniciarSession = false;
+      
+    }
+
+
+
+
+
+    /*-------SELECCIONAR DEPARTAMENTO Y TRAER CIUDADES-----*/
     parametroCiudad( array:any, Posicion:any ){
+      
+      console.log(array)
+      console.log(Posicion)
+
+
+      this.contenedorCategoriaRestaurante = false // esconder resultado tarjetas
+      this.elegir_comida = false;
+
+      this.contenedorCategoriaRestaurante = false;
+      this.contenedorRestaurantes = false;
+
+
 
       if(Posicion == "todos"){
   
-        this.quitarSelectTodasCiudades = false;
+        this.quitarSelectTodasCiudades = false; // esconder combo de ciudades
+
         /*----traer todos los departementos---*/
         this.conectarServicio.ciudades()
             .subscribe( resp => {
-              //console.log(resp)
-
+              console.log(resp)
               this.departamentos = resp;
             
             })
+
+
 
         /*-----------traer todos los restaurantes-------*/
         this.ciudades = []/*--reset select ciudades--*/
 
         this.conectarServicio.filtrarRestaurantes( Posicion )
         .subscribe( resp => {
-            console.log(resp);
-            this.guardarArrRestaurante = resp;
-
+            console.log(resp.restaurantesDB);
+            this.guardarArrRestaurante = resp.restaurantesDB;
 
             /*-----seleccion Categoria Automatico------*/
-            this.seleccionarCategoria( this.parametroRecibido );
-        })
+            //this.seleccionarCategoria( this.parametroRecibido );
 
+        })
 
 
         /*---motrar contenedores---*/
         //this.contenedorRestaurantes = true;
-        this.contenedorRestaurantes = false;
+        this.contenedorRestaurantes = true;
         this.elegir_comida = true;
         this.contenedorVacio = false;
         this.noHayCategoria = false;
+        
 
       
       }else{
@@ -306,52 +335,65 @@ export class RestaurantesComponent implements OnInit {
     
 
 
+  
 
 
-    /*----select change---*/
+
+
+    /*-------SELECCIONAR CIUDAD-------*/
     elegirCiudad( ciudad:any ){
 
+  
 
-      this.contenedorRestaurantes = true;
       this.contenedorCategoriaRestaurante = false;
 
-      
+
       //console.log( ciudad );
       this.CiudadCliente = ciudad;
 
         this.conectarServicio.filtrarRestaurantes( ciudad )
           .subscribe( resp => {
-
+             
             if( resp.length > 0 ){  
 
               this.guardarArrRestaurante = resp;
               console.log(resp);
 
-              /*---motrar contenedores---*/
+              //---motrar contenedores---
+              this.contenedorRestaurantes = true;
+
               this.elegir_comida = true;
               this.contenedorVacio = false;
               this.noHayCategoria = false;
 
 
-               /*-----seleccion Categoria Automatico------*/
-              this.seleccionarCategoria( this.parametroRecibido );
+               //-----seleccion Categoria Automatico------
+              //this.seleccionarCategoria( "Carnes" );
 
+              this.seleccionarCategoria(this.guardarCategoria) //--------------  SELECCIONAR CATEGORIA (SOPA, PESCADO ETC.  )
             
             }else{
 
               console.log("no se encontraron registros");
 
-               /*---motrar contenedores---*/
+               //---motrar contenedores---
                this.contenedorRestaurantes = false;
+
+               this.noHayCategoria = false;
                this.elegir_comida = false;
                this.contenedorVacio = true;
                this.contenedorCategoriaRestaurante = false;
 
             }
+               
 
           })
     
     }
+
+
+
+
 
 
 
@@ -367,7 +409,7 @@ export class RestaurantesComponent implements OnInit {
         
         let todosLosRestaurante = resp;
         let todasLasCategorias  = resp.categoria;
-        console.log("categorias: " + todasLasCategorias )
+        //console.log("categorias: " + todasLasCategorias )
 
         if( todasLasCategorias.indexOf( categoria ) >= 0 ){
 
@@ -376,8 +418,7 @@ export class RestaurantesComponent implements OnInit {
           this.contenedorRestaurantes = false;
           this.contenedorCategoriaRestaurante = true;
 
-          
-
+        
         }
 
       })
@@ -386,6 +427,7 @@ export class RestaurantesComponent implements OnInit {
 
    
       this.categoriaPorComida = RestaurantPorCategoria 
+      //console.log(this.categoriaPorComida)
 
       if(this.categoriaPorComida.length > 0){
 
@@ -410,6 +452,8 @@ export class RestaurantesComponent implements OnInit {
           this.contenedorCategoriaRestaurante = false;
           this.contenedorRestaurantes = false;
 
+          this.contenedorVacio = false;
+
         }
         
 
@@ -419,35 +463,84 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-    verRestaurante(id:any){
 
-      //console.log(id);
-      this.usarRuta.navigate([ 'restaurante', id ])
+
+
+
+
+
+
+    //----------------------VER EL RESTAURANTE---------------------  
+    verRestaurante(datosREST:any, id:any){
+
+    
+      this.usarRuta.navigate([ '/restaurante', id ])
 
       localStorage.setItem( 'id', id );
+      localStorage.setItem( 'emailREST', datosREST.email )
       
     }
 
 
+
+
+
+
+
+    
 
     /*---------------------FAVORITOS-------------------*/
     agregarFavoritos( data:any, i:number ){
 
       console.log(data)
       
-      this.conectarServicio.registrarFavorito( data )
-      .subscribe( resp => {
-          console.log( resp )
-
-          this.verificarFavorito = resp.id
+      if( localStorage.getItem('email') ){
+        
+            Swal.fire({
+              title: "¿Desea agregarlo como favorito?",
+              text: "El restaurante aparecera en tu perfil!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Si, agregar"
+            }).then((result) => {
           
-          $(`#favorito${i}`).css('display', 'none');
-          $(`#favoritoH${i}`).css('display', 'block');
+            if (result.isConfirmed) {
+  
+                this.conectarServicio.registrarFavorito( data )
+                .subscribe( resp => {
+                
+                    console.log( resp )
+                    Swal.fire({
+                      title: "Se agrego correctamente!",
+                      text: "Puedes buscarlo en tu perfil.",
+                      icon: "success"
+                    });
+                    //this.verificarFavorito = resp.id
+        
+                  }, (err) => {
+          
+                    Swal.fire({
+                      icon: "error",
+                      title: "Ups",
+                      text: "Este restaurante ya lo tienes en tu perfil como favorito!",
+                 
+                    });
+        
+                      console.log(err)
+                  })
+            }// termina el if del alert
 
+          });
 
-        })
+      }else{
 
-       
+        this.modalIniciarSession = true;
+  
+      }
+
+   
     }
 
     /*--

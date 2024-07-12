@@ -5,6 +5,7 @@
     background-color: #00aec3;
     position: relative;
     z-index: 3;
+    position: fixed;
 }
 
 .base_cajon_login {
@@ -179,6 +180,7 @@ li{
     border-left: 1px solid #00aec3;
     border-top: 1px solid #00aec3;
     border-right: 1px solid #00aec3;
+    margin-top: 52px;
 }
 
 .texto_notificacion {
@@ -207,12 +209,14 @@ button.btn.btn-danger {
 
 .base_mensajes{
     width: 500px;
-    display: table;
     background-color: white;
     position: absolute;
     z-index: 9;
-    margin-left: 609px;
+    margin-left: 572px;
     border: 1px solid #00aec3;
+    margin-top: 53px;
+    /* height: 500px; */
+    /* overflow-y: scroll;*/
 }
 
 .nombre_resturante {

@@ -15,7 +15,7 @@ export const clienteGuard: CanActivateFn = (route, state) => {
   const usarRuta = inject(Router);
   
 
-  if( conectarServicio.validarCorreo() ){
+  if( conectarServicio.validarTokenCliente() ){
     return true;
 
   }else{

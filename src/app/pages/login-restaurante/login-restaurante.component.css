@@ -12,6 +12,15 @@
     background-attachment: fixed;
 }
 
+.titulo_ingreso_resturante{
+
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 33px;
+    text-align: center;
+    margin-bottom: 18px;
+}
+
 .fondo_trasparentoso_lts {
     width: 100%;
     height: 100vh;

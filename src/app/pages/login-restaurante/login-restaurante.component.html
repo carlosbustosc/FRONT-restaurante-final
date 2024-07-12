@@ -11,6 +11,8 @@
             <img src="assets/img/logo_restaurante_blanco.svg" class="logo_formulario_ltsx"/>
         </div>
 
+        <h1 class="titulo_ingreso_resturante">Ingreso Restaurantes</h1>
+
         <form [formGroup]="loginRestaurante"  class="base_formulario">
             <div class="base_input">
                 <label class="textos_login">Usuario</label>
@@ -23,7 +25,7 @@
                 <input type="password" class="form-control control_input" formControlName="pass"/>
                 <small class="text-danger" *ngIf="errorPass()">Escriba su contraseña</small>
             </div>
-
+            <p class="text_registro">¿no ha registrado su restaurante? - <span class="registrarme" [routerLink]="['/RegistroRestaurante']">registrarme</span></p>
             <button class="boton_ingresar" (click)="ingresarUsuarioRest()">Ingresar</button>
         </form>
         

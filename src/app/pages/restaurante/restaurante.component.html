@@ -18,11 +18,12 @@
     <div class="contenedor_inicio_de_session" *ngIf="modalIniciarSession">
         <img src="./assets/img/cerrar_negro.png" class="icono_cerrar" (click)="cerrarModalSession()"/>
         <div class="base_informacion">
-            <h1 class="mensaje_inicio_sesion">Por favor inicie session para realizar el pedido</h1>
+            <h1 class="mensaje_inicio_sesion">Por favor inicie session para {{ texto }}</h1>
             <p class="iniciar_sesion" [routerLink]="['/loginCliente']">Iniciar session</p>
             <p class="iniciar_sesion oscuro" [routerLink]="['/registroCliente']">No estoy Registrado</p>
         </div>
     </div>
+
 
     <!---inicio MODAL---->
     <div class="base_modal_confirmacion" *ngIf="modalPedido">
@@ -64,6 +65,8 @@
     <!---fin MODAL---->
 
 
+
+    
     <div class="contenedor_seguro_tsx_2">
         <div class="base_imagen_ltsx">
             <img src="./assets/img/logo_restaurante_blanco.svg" class="logo_restaurante_blanco"/>

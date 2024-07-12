@@ -10,6 +10,9 @@
         <div class="base_logo_lts">
             <img src="assets/img/logo_restaurante_blanco.svg" class="logo_formulario_ltsx"/>
         </div>
+
+        <h1 class="titulo_ingreso_resturante">Ingreso Clientes</h1>
+
         <form [formGroup]="loginCliente" class="base_formulario">
             <div class="base_input">
                 <label class="textos_login">Usuario</label>
@@ -23,6 +26,7 @@
                 <small class="text-danger" *ngIf="passwordError()">Escriba su contraseña</small>
             </div>
 
+            <p class="text_registro">¿no esta registrado? - <span class="registrarme" [routerLink]="['/registroCliente']">registrarme</span></p>
             <button class="boton_ingresar" (click)="ingresarCliente()">Ingresar</button>
         </form>
     </div>

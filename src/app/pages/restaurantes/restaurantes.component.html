@@ -1,5 +1,22 @@
 <app-navbar></app-navbar>
 
+<!--fondo_modal inicie session-->
+<div class="fondo_trasnparenteModal" *ngIf="modalIniciarSession"></div>
+
+<div class="contenedor_principal_restaurante">
+    <!---modal informativo de inicio de sesion-->
+    <div class="contenedor_inicio_de_session" *ngIf="modalIniciarSession">
+        <img src="./assets/img/cerrar_negro.png" class="icono_cerrar" (click)="cerrarModalSession()"/>
+        <div class="base_informacion">
+            <h1 class="mensaje_inicio_sesion">Por favor inicie session para {{ texto }}</h1>
+            <p class="iniciar_sesion" [routerLink]="['/loginCliente']">Iniciar session</p>
+            <p class="iniciar_sesion oscuro" [routerLink]="['/registroCliente']">No estoy Registrado</p>
+        </div>
+    </div>
+</div>
+
+
+
 
 <div class="fondo_trasparentoso_lts"></div>
 <div class="contenedor_principal_restaurantes">
@@ -16,6 +33,9 @@
     <div class="contenedor_selectores_restaurantes">
 
         <form [formGroup]="selectForm" class="formulario_selectores">
+
+            
+              <!--------DEPARTAMENTOS-------->
             <div class="bases_seleccionar_comida">
                 <label class="texto_select">Elegir departamento</label>
                 
@@ -27,14 +47,18 @@
             </div>
 
 
+            <!--------CIUDADES-------->
             <div class="bases_seleccionar_comida input_left" *ngIf="quitarSelectTodasCiudades">
                 <label class="texto_select">Elegir Ciudad</label>
 
                 <select id="ciudadID" class="seleccionar_ciudad form-control" #valCity (change)="elegirCiudad(valCity.value)" formControlName="ciudadess">
+                    <option class="todas_los_departamentos" value="todos">Todas las ciudades</option>
                     <option  *ngFor="let city of ciudades; let i = index" class="ciudad" [value]="city" [id]="i" >{{ city }}</option>
                 </select>
             </div>
 
+
+            <!--------CATEORIA-------->
             <div class="bases_seleccionar_comida input_left" *ngIf="elegir_comida">
                 <label class="texto_select">Elegir Comida</label>
                 <select class="form-control" id="categorias"  #valCat (change)="seleccionarCategoria( valCat.value )" formControlName="categoriass">
@@ -74,8 +98,11 @@
                 <p class="barrio">{{ restaurante.direccion }}}</p>
                 <p class="barrio">{{ restaurante.ciudad }}</p>
                 <!--<p class="direccion">{{ restaurante.email }}</p>-->
-                <img src="./assets/img/favorito.png" class="icono_favoritos"/>
-                <button class="boton_ver_resturante" (click)="verRestaurante( restaurante.id )">Ver resturante</button>
+                <!--<img src="./assets/img/favorito.png" class="icono_favoritos"/>-->
+                
+                <button class="agregar_favorito" (click)="agregarFavoritos(restaurante, i)" id="favorito{{i}} ">Agregar favorito</button>
+
+                <button class="boton_ver_resturante" (click)="verRestaurante( restaurante, restaurante._id )">Ver resturante</button>
             </div>
         </div>       
     </div>
@@ -85,8 +112,10 @@
     <div class="contenedor_cards" *ngIf="contenedorCategoriaRestaurante">
 
         <div class="card_1_restaurante" *ngFor="let restaurante of categoriaPorComida; let i = index" >
-            <img src="./assets/img/favorito.png" id="favorito{{i}}" *ngIf="corazonNormal" class="icono_favoritos original"  (click)="agregarFavoritos(restaurante, i)"/>
-            <img src="./assets/img/favorito_seleccionado.png" id="favoritoH{{i}}"  class="icono_favoritos corazon_hovers" />
+            
+            
+          
+            <!--<img src="./assets/img/favorito_seleccionado.png" id="favoritoH{{i}}"  class="icono_favoritos corazon_hovers" />-->
 
             <img [src]="restaurante.foto" class="imagen_card"/>
             <div class="informacion_restaurante">
@@ -95,7 +124,11 @@
                 <p class="barrio">{{ restaurante.ciudad }}</p>
 
                 <!--<p class="direccion">{{ restaurante.email }}</p>-->
-                <button class="boton_ver_resturante" (click)="verRestaurante( restaurante.id )">Ver resturante</button>
+                <button class="agregar_favorito" (click)="agregarFavoritos(restaurante, i)" id="favorito{{i}} ">Agregar favorito</button>
+
+               
+
+                <button class="boton_ver_resturante" (click)="verRestaurante( restaurante, restaurante._id)">Ver resturante</button>
             </div>
         </div>
     </div>

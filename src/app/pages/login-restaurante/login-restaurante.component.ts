@@ -9,7 +9,7 @@ import { RestauranteService } from 'src/app/services/restaurante.service';
 /*-----------usar ruta------------*/
 import { Router } from '@angular/router';
 
-
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -63,16 +63,27 @@ export class LoginRestauranteComponent {
       console.log(pass)
 
       this.conectarServicio.loginRestaurante( correo, pass )
-          .subscribe( resp => {
+          .subscribe( (resp:any) => {
             console.log(resp);
+
+
+            localStorage.setItem('idRestaurante', resp.DatosPerfil._id );
+            localStorage.setItem('nombreRestaurante', resp.DatosPerfil.nombreRestaurante );
+            localStorage.setItem('foto', resp.DatosPerfil.foto );
+            localStorage.setItem('email', resp.DatosPerfil.email );
             
             this.usarRuta.navigate(['/internaRestaurante'])
+            
+          
+          }, ( error ) => {
+              
+            console.log(error);
 
-            localStorage.setItem('idRestaurante', resp[0].idRestaurante );
-            localStorage.setItem('nombreRestaurante', resp[0].nombreRestaurante );
-            localStorage.setItem('foto', resp[0].foto[0] );
-            localStorage.setItem('email', resp[0].email);
-        
+              Swal.fire({
+                icon: "error",
+                title: "Ups",
+                text: error.error.mensaje,                
+              });
           })
 
           /*--retornar informacion --*/

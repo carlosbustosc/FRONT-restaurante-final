@@ -9,11 +9,15 @@
 
 .conteendor_mensajes {
     width: 25%;
-    height: 110vh;
+    height: 100vh;
     float: left;
     background-color: #0095a9;
     max-width: 369px;
+    position: fixed;
+    top: 0;
+    padding-top: 76px;
 }
+
 
 
 .base_mensaje{
@@ -21,6 +25,19 @@
     width: 100%;
     display: table;
     border-bottom: 1px solid #afa9a9;
+}
+
+.contenedor_gestionado{
+
+    width: 100%;
+    display: table;
+}
+
+.linea_divisora {
+    border: none;
+    height: 1px;
+    background-color: #0095a9;
+    margin: 20px 0px 21px 0px;
 }
 
 .mensaje_nuevo {
@@ -64,10 +81,10 @@
 
 .contenedor_detalle {
     width: 70%;
-    /* float: left; */
     display: table;
     padding: 30px 50px;
-    margin: auto;
+    margin: 16px auto 0px auto;
+    float: right;
   
 }
 

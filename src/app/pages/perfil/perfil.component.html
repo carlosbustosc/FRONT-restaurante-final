@@ -3,10 +3,14 @@
 <div class="contenedor_principal_perfil">
     <div class="seccion_foto_y_menu">
         <div class="base_detalle_lts">
-            <img src="{{ guardarImagenPerfil[0].fotoF[0] }}" class="circulo_imagen"/>
+
+            
+            <img src="{{ guardarImagenPerfil }}" class="circulo_imagen"/>
+
+
             <div class="base_informacion">
                 <p class="nombres">{{ nombrePersonaPerfil }}</p>
-                <p class="ciudad">bogota</p>
+                <p class="ciudad">{{ ciudadPerfil }}</p>
                 <br>
                 <form class="formulario">
       
@@ -40,7 +44,7 @@
 
                 <div class="base_input">
                     <label class="texto_label">Correo Electronico</label>
-                    <input type="text" class="form-control" formControlName="email"/>
+                    <input type="text" class="form-control" formControlName="email" [disabled]="true"/>
                 </div>
 
                 <div class="base_input">
@@ -63,7 +67,7 @@
                 <div class="base_input">
                     <label class="texto_label">Ciudad</label>
                     <select type="text" class="form-control" formControlName="ciudad">
-                        <option *ngFor="let ciudad of  guardarCiudades" [selected]="ciudad == ciudadPorDefecto">{{ ciudad }}</option>
+                        <option *ngFor="let ciudad of  guardarCiudades" [selected]="ciudad == ciudadPorDefecto" value="{{ciudad}}">{{ ciudad }}</option>
                     </select>
                 </div>
 
@@ -86,8 +90,15 @@
 
 
         <!---SECCION DOMICILIOS--->
+        
+
         <div class="contenedor_domicilios" *ngIf="pantallaDomicilios">  
             <h1 class="titulo2">Estos son tus pedidos</h1>
+
+            <div class="contenedor_no_resgitros" *ngIf="noPedidos">
+                <h1 class="txt_vacio">No tienes pedidos en este momento</h1>
+            </div>
+            
             <div class="row bajar_cajon">
 
                 <div class="card paddigns col-md-6" *ngFor="let domicilio of guardarDomiciliosAgendados">
@@ -116,11 +127,39 @@
 
 
 
+        <!----- UN FAVORITO ---->
+        <div class="base_favoritos" *ngIf="UnFavorito">
+            <h1 class="titulo2">Estos son tus restaurantes favoritos</h1>
+
+            <div class="row bajar_cajon">
+                <div class="col-md-4">
+                    <img src="{{ unFavoritoObjeto.foto }}" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ unFavoritoObjeto.nombre }}</h5>
+                      <p class="card-text">{{ unFavoritoObjeto.descripcion }}</p>
+                      <p class="card-text"><small class="text-body-secondary">{{ unFavoritoObjeto.cuidad }}</small></p>
+                      <button class="btn btn-primary" (click)="irAlRestauranteFavorito( unFavoritoObjeto.visitarRestaurante )">Ir al restaurante</button>
+                      <button class="btn btn-danger borrar_favorito" (click)="borrarFavorito( unFavoritoObjeto._id )">Borrar favorito</button>
+
+                    </div>
+                  </div>
+            </div>
+         </div>
+        
+        
+
+
          <!---SECCION FAVORITOS--->
          <div class="base_favoritos" *ngIf="pantallaFavoritos">
             <h1 class="titulo2">Estos son tus restaurantes favoritos</h1>
 
-            <div class="row bajar_cajon" *ngFor="let favoritos of guardarRestaurantesFavoritos; let i = index">
+            <div class="contenedor_no_resgitros" *ngIf="noRestaurantes">
+                <h1 class="txt_vacio">No tienes restaurantes favoritos</h1>
+            </div>
+
+            <div class="row bajar_cajon" *ngFor="let favoritos of unFavoritoObjeto; let i = index">
                 <div class="col-md-4">
                     <img src="{{ favoritos.foto }}" class="img-fluid rounded-start" alt="...">
                   </div>
@@ -130,12 +169,11 @@
                       <p class="card-text">{{ favoritos.descripcion }}</p>
                       <p class="card-text"><small class="text-body-secondary">{{ favoritos.cuidad }}</small></p>
                       <button class="btn btn-primary" (click)="irAlRestauranteFavorito( favoritos.visitarRestaurante )">Ir al restaurante</button>
-                      <button class="btn btn-danger borrar_favorito" (click)="borrarFavorito( favoritos.id )">Borrar favorito</button>
+                      <button class="btn btn-danger borrar_favorito" (click)="borrarFavorito( favoritos._id )">Borrar favorito</button>
 
                     </div>
                   </div>
             </div>
          </div>
-         <
     </div>
 </div>

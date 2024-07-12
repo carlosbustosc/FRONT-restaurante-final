@@ -15,6 +15,8 @@ import { Router } from "@angular/router";
 
 
 export class NavbarComponent implements OnInit {
+  
+  verLetraPerfil=true;
 
   mostrarMenuLogin = false;
   contenedorPerfil  = false;
@@ -24,11 +26,10 @@ export class NavbarComponent implements OnInit {
 
   mostrarVentanaPerfil = false;
 
-
   num:number  = 1
   num2:number = 1;
 
-  numeroNotificaciones:number = 8;
+  numeroNotificaciones = 0;
 
   nombreRestaurante:any;
 
@@ -50,9 +51,9 @@ export class NavbarComponent implements OnInit {
 
   num4 = 0;
 
-  numNotificaciones = false;
+  numNotificaciones = true;
 
-  numeroMensajes = 8
+  numeroMensajes = 0;
 
   numNotificacionesMensajes = true;
 
@@ -84,26 +85,51 @@ export class NavbarComponent implements OnInit {
 
   guardarImagenPerfil:any
 
+  noHayNotificaciones = true;
+  noHayMensajes = true;
+
+
   constructor( private usarRuta:Router,  private conectarServicio: RestauranteService ){
 
   }
 
   ngOnInit(): void {
+
+    //comprobar si ya se reviso los mensajes
+    if( localStorage.getItem('mensajeVisto') ){
+        
+      this.numNotificacionesMensajes = false;
+      
+      
+    }
+
+    if( localStorage.getItem('notificionVista') ){
+      
+      this.numNotificaciones = false
+    }
+
+
     
     /*--------------cargar foto perfil---------------*/
-    this.conectarServicio.cargarImagenPerfil( localStorage.getItem('correo') )
-    .subscribe( (resp:any) => {
-      console.log( resp )
+    if( localStorage.getItem('email') ){
+        
+      this.conectarServicio.cargarImagenPerfil( localStorage.getItem('email') )
+      .subscribe( (resp:any) => {
+        console.log( resp )
+  
+        this.guardarImagenPerfil = resp.datosFoto.fotoF 
+  
+      })
 
-      this.guardarImagenPerfil = resp 
-
-    })
-
-
-
+    }
+   
+      
+  
+  
     /*---cliente---*/
     if( localStorage.getItem('nombre') || localStorage.getItem('correoREST')){
-
+  
+      this.verLetraPerfil = true;
       this.contenedorPerfil  = true;
       this.botonLogin = false;
 
@@ -118,70 +144,61 @@ export class NavbarComponent implements OnInit {
 
 
 
+
+
+
           /*------cargar mensajes en la bandeja de entreda---------*/
           this.conectarServicio.cargarMensajes(  localStorage.getItem('email')  )
-              .subscribe( resp => {
+              .subscribe( (resp:any) => {
                 console.log(resp);
+                
+                this.noHayMensajes = false;
 
-                this.guardarMensajes = resp;
+                this.guardarMensajes = resp.mensajesDB;
                 this.numeroMensajes = this.guardarMensajes.length;
+                
 
-              
-              
+              }, (error) => {
+
+                console.log(error.error.mensaje)
+                this.noHayMensajes = true;
+       
               })
+                
 
 
 
 
 
           /*-------cargar notificaciones------*/
-          this.conectarServicio.cargarNotificaciones( localStorage.getItem('correo') )
-              .subscribe( resp => {
-                console.log(resp)
-                
-                if( resp.length > 0 ){
-                  this.numNotificaciones = true;
+          this.conectarServicio.cargarNotificaciones( localStorage.getItem('email') )
+              .subscribe( (resp:any) => {
+               
+    
+                if(resp.length == 0){
+                  
+                  this.noHayNotificaciones = true;
+                  console.log("no hay notificaciones")
                 }else{
-                  this.numNotificaciones = false;
+                  
+                  console.log(resp)
+                  this.guardarNotificacion = resp
+                  this.numeroNotificaciones = this.guardarNotificacion.length;
+                  this.noHayNotificaciones = false;
+                 
+
                 }
+              
+               
 
-
-                this.guardarNotificacion = resp
-                this.numeroNotificaciones = this.guardarNotificacion.length;
-
+              }, (err) => {
+                console.log(err)
               })
 
 
-        }else{
-
-          /*------------nav Restaurante-------------*/
-
-          this.notificacionMensajes = true;
-
-          this.nombreCliente1 = true;
-          this.nombreResturante1 = false
-
-          this.nombrePerfil = localStorage.getItem('nombreRestaurante');
-
-          
-          
-          /*-----cargar mensajes restaurante--------*/
-          this.conectarServicio.cargarMensajesRestaurante()
-              .subscribe( resp => {
-                console.log(resp)
-                this.guardarMensajes = resp;
-
-                this.numeroMensajes = this.guardarMensajes.length;
-              })
-
-
-
-
-          this.botonInicio = false;
-          this.botonRestaurante = false;
-          this.botonPedidos = true;
         }
-
+        
+        
 
     }else{
 
@@ -190,14 +207,79 @@ export class NavbarComponent implements OnInit {
       this.botonLogin = true;
     
     }
-
   
 
-   
+    
 
- 
+    //---------------verificar INGRESO RESTAURANTE----------------------
+    if( localStorage.getItem('nombreRestaurante') ){
+
+      this.verLetraPerfil = false;
+
+      /*--------cargar resturante------*/
+      this.conectarServicio.traerUnRestaurante( localStorage.getItem('idRestaurante') )
+      .subscribe( (resp:any) => {
+        //console.log(resp.restaurante.foto[0])
+        this.guardarImagenPerfil = resp.restaurante.foto[0]
+      })
+
+
+
+
+      /*------------nav Restaurante-------------*/
+      this.contenedorPerfil  = true;
+      this.botonLogin = false;
+
+      this.notificacionMensajes = true;
+
+      this.nombreCliente1 = true;
+      this.nombreResturante1 = false
+
+      this.nombrePerfil = localStorage.getItem('nombreRestaurante');
+
+      
+      
+
+      
+      /*-----cargar mensajes restaurante--------*/
+      this.conectarServicio.cargarMensajesRestaurante( localStorage.getItem('email') )
+          .subscribe( (resp:any) => {
+            console.log(resp)
+            
+            if(resp.length == 0){
+              this.noHayMensajes = true
+            }
+            else{
+              
+              this.noHayMensajes = false
+              this.guardarMensajes = resp;
+              this.numeroMensajes = this.guardarMensajes.length;
+
+              console.log(this.numeroMensajes)
+
+            }
+            
+          })
+
+
+
+
+      this.botonInicio = false;
+      this.botonRestaurante = false;
+      this.botonPedidos = true;
     }
+
+
+
+  }
   
+
+
+
+
+
+
+
 
   mostrarMenu(){
      
@@ -240,15 +322,18 @@ export class NavbarComponent implements OnInit {
     this.conectarServicio.cerrarSession()
     this.usarRuta.navigate( ['/loginCliente'] );
     this.botonLogin = false;
+  
+    
+  
   }
 
 
 
   verPerfil(){
 
-    if( localStorage.getItem('idPersona') ){
+    if( localStorage.getItem('email') ){
         
-      this.usarRuta.navigate([ '/perfil', localStorage.getItem('idPersona') ]);
+      this.usarRuta.navigate([ '/perfil', localStorage.getItem('email') ]);
 
     }
 
@@ -265,6 +350,8 @@ export class NavbarComponent implements OnInit {
   abrirNotificaciones(){
       
     this.numNotificaciones = false;
+
+    localStorage.setItem('notificionVista', 'vista');
     
     if( this.num3 == 0 ){
       
@@ -284,20 +371,22 @@ export class NavbarComponent implements OnInit {
 
   borrarNotificacion( data:any, posicion:number ){
     
-    console.log( data.idNotificacion )
+    //console.log( data._id )
     
-
+    
     if (confirm('¿Desea eliminar esta notificacion?')) {
     
-      this.conectarServicio.borrarNotificaciones( data.idNotificacion )
+      this.conectarServicio.borrarNotificaciones( data._id )
             .subscribe( resp => {
               console.log(resp)
               
-        
+              alert("se ha borado el registro")
+          
             
             })
     
     }
+            
     
   }
 
@@ -306,6 +395,7 @@ export class NavbarComponent implements OnInit {
 
   abrirMensajes(){
     
+    localStorage.setItem('mensajeVisto', 'visto');
 
     this.numNotificacionesMensajes = false;
 
@@ -326,14 +416,34 @@ export class NavbarComponent implements OnInit {
 
 
   borrarMensajes( objeto:any ){
+      
+    console.log( objeto._id )
     
-
+    
     if ( confirm('¿Seguro desea eliminar este mensaje?') ) {
-        this.conectarServicio.borrarMensajes( objeto.id )
+        this.conectarServicio.borrarMensajes( objeto._id )
             .subscribe( resp => {
               console.log(resp);
             } )
     }
+            
+  }
+
+
+  borrarMensajesClientes( objeto:any ){
+      
+    console.log( objeto._id );
+
+    if ( confirm('¿Seguro desea eliminar este mensaje?') ) {
+      this.conectarServicio.borrarMensajesClientes( objeto._id )
+          .subscribe( resp => {
+
+            console.log(resp);
+          }, (err) => {
+
+            console.log(err)
+          })
+  }
 
   }
 
@@ -370,10 +480,11 @@ export class NavbarComponent implements OnInit {
 
       emailResturante : this.emailRestauranteMensaje,
       emailCliente : this.emailClienteMensaje,
-      mensaje : this.mensajeRespuesta,
+      mensajeDecliente: this.mensajeRespuesta,
       nombreRestaurante :  this.nombreRestaurant
 
     }
+
 
     
     this.conectarServicio.mensajesParaRestaurante( mensajeRespuesta )
@@ -396,14 +507,18 @@ export class NavbarComponent implements OnInit {
       
       emailCliente : this.emailClienteMensaje,
       emailResturante : this.emailRestauranteMensaje,
-      mensaje : this.mensajeRespuesta,
+      mensajeDeResturante: this.mensajeRespuesta,
+      mensajeDecliente : "default",
       nombreRestaurante :  this.nombreRestaurant
 
     }
+  
 
-    console.log(mensajeRespuesta)
+  
 
     this.conectarServicio.guardarMensajes( mensajeRespuesta )
+
+
         .subscribe( resp => {
           console.log( resp );
          

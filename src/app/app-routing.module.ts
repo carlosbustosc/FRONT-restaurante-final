@@ -30,7 +30,7 @@ const routes: Routes = [
 
   { path: "inicio", component: InicioComponent },
   { path: "loginCliente", component: LoginClienteComponent },
-  { path: "perfil/:id", component:PerfilComponent },
+  { path: "perfil/:email", component:PerfilComponent }, //canActivate: [ clienteGuard ]
   { path: "LoginRestauranteComponent", component: LoginRestauranteComponent },
   { path: "registroCliente", component: RegistroClienteComponent },
   { path: "restaurantes/:categoria", component: RestaurantesComponent }, //
@@ -38,7 +38,7 @@ const routes: Routes = [
   { path: "restaurante/:id", component: RestauranteComponent },
   { path: "internaRestaurante", component:InternaRestauranteComponent, canActivate:[ restauranteGuard ] },
   { path: 'perfilRestaurante', component: PerfilRestauranteComponent },
-  { path: "**", pathMatch:"full", redirectTo: "perfilRestaurante" }
+  { path: "**", pathMatch:"full", redirectTo: "inicio" }
 
 ];
 

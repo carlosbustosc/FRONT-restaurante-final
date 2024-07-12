@@ -6,7 +6,7 @@
     <div class="contenedor_logo_y_buscador">
         <img src="./assets/img/logo_restaurante_blanco.svg" class="marca_resturante"/>
         <h1 class="titulo_bienvenido_z3">BIENVENIDO</h1>
-        <h3 class="nombre_persona">{{ nombrePersonaLogueada }}</h3>
+        <h3 class="nombre_persona" *ngIf="personaLogueada">{{ nombrePersonaLogueada }}</h3>
 
         <h3 class="subtitulo_inicio">¿Que quieres comer Hoy?</h3>
         <form class="formulario">

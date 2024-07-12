@@ -17,14 +17,14 @@ export class RestauranteService {
   correoStorage:any = "";
   passStorage:string = ""
 
-  guardarCorreo:any = ""
+  guardarToken:any = ""
 
 
   
   constructor(private usarHttp:HttpClient ) { 
 
   /*----validar que este el correo --*/
-    this.leerCorreo();
+    this.leerTokenCliente();
     this.leerCorreoAlCargar()
 
    
@@ -57,15 +57,8 @@ export class RestauranteService {
     }
 
 
-    return this.usarHttp.post('https://restaurante-15f7b-default-rtdb.firebaseio.com/registroCliente.json', formCliente )
-            .pipe(
-              map( (resp:any) => {
-
-                return resp.id;
-              
-              })
-            )
-
+    return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/registrarCliente', formCliente )
+            
   }
 
 
@@ -75,85 +68,37 @@ export class RestauranteService {
   /*-----------ingreso de clientes------------*/
   loginClientes( formLoginCliente:any ){
 
-    const infoLoginClientes = {
+        const infoLoginClientes = {
+    
+          usuario: formLoginCliente.controls['usuario'].value,
+          password: formLoginCliente.controls['password'].value
+    
+        }
+    
+        return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/loginClientes', infoLoginClientes)
+              .pipe(
+                map( ( respuestaDB:any  ) => {
+                    
+                this.guardarToken = respuestaDB.Token;
+                localStorage.setItem('tokenCliente', this.guardarToken);
+                return respuestaDB;
 
-      usuario: formLoginCliente.controls['usuario'].value,
-      password: formLoginCliente.controls['password'].value
-
-    }
-
-    return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/registroCliente.json')
-                        .pipe(
-                          map( (resp:any) => {
-  
-                            /*----creamos el arreglo nuevo----*/
-                            const clienteArr:any = [];
-
-                            Object.keys( resp ).forEach( llaves => {
-
-                              let accederObjSinLLaves = resp[llaves];
-                              accederObjSinLLaves.idPersona = llaves
-
-                            })
-  
-                            Object.values( resp ).forEach( (respDatos:any) => {
-  
-                              let todosLosDatos   = respDatos;//traemos todos los datos de la base
-                              let todosLosCorreos = todosLosDatos.email;// traemos solo los email
-  
-                              if( todosLosCorreos.indexOf( formLoginCliente.controls['usuario'].value ) >= 0){//comprobamos si esta el email
-                                
-                                clienteArr.push( todosLosDatos );
-  
-                              }
-                      
-                            })
-  
-                            
-                            //Validacion de correo y contraseña
-                            var pass   = formLoginCliente.controls['password'].value;
-  
-                            if(clienteArr.length > 0){//validamos que exista el correo
-  
-                                console.log("el correo existe");
-                              
-                                /*----validar contraseña---*/
-                                if(pass == clienteArr[0].pass){
-  
-                                  console.log("se ha validado correctamente");
-  
-                                  this.correoStorage = clienteArr[0].email;
-                                  localStorage.setItem('correo', this.correoStorage);
-                                  
-                                  return clienteArr
-  
-                                }else{
-  
-                                  alert('la contraseña no es correcta');
-  
-                                }
-                                /*----validar contraseña---*/
-                            
-                            }else{
-  
-                              alert("no existe el correo")
-                              
-                            }
-  
-                          
-                          })
-  
-                        )
+                })
+              )
+                        
     
     }
     
+
+
+
 
     /*---Leer que exista el correo e local storage---*/
-    leerCorreo(){
+    leerTokenCliente(){
 
-      if( localStorage.getItem('correo') ){
+      if( localStorage.getItem('tokenCliente') ){
         
-        this.correoStorage = localStorage.getItem('correo');
+        this.correoStorage = localStorage.getItem('tokenCliente');
         //alert(this.correoStorage);
 
       }else{
@@ -165,9 +110,8 @@ export class RestauranteService {
     }
 
 
-      
     /*-----validar que el correo sea mayor a 2 en el guard ---true---*/
-    validarCorreo(){
+    validarTokenCliente(){
       
       return this.correoStorage.length > 2;
 
@@ -204,11 +148,9 @@ export class RestauranteService {
 
       }
 
-      return this.usarHttp.post('https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante.json', registroRestaurante);
-
+      return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/registroResturante', registroRestaurante);
+                                 
     }
-
-
 
      /*--------------------------fin Registro de resturantes------------------------*/
 
@@ -219,57 +161,39 @@ export class RestauranteService {
 
     /*-----------------------------Filtrar Restaurantes-------------------------*/
     filtrarRestaurantes(city:any){
+    
+      let city1 = city
+    console.log( city1 )
 
       if(city == "todos"){
 
-        return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante.json')
-               .pipe(
-                map( (resp:any) => {
-
-                  let arrNuevo:any = [];
-
-                  Object.keys( resp ).forEach( llaves => {
-
-                    let todos = resp[llaves]
-                    todos.id = llaves;
-                    //console.log(todos);
-                    
-                    arrNuevo.push(todos); 
-                  })
-                  
-                  return arrNuevo; 
-                
-                })
+        return this.usarHttp.get('https://back-restaurante-zsei.onrender.com/listarRestaurantes')
                
-                )
-
+               
       }else{
 
-        return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante.json')
+        return this.usarHttp.get('https://back-restaurante-zsei.onrender.com/listarRestaurantes')
              .pipe(
               map( (resp:any) => {
-
+                    
+             
+                  
                   /*---creamos un arreglo---*/
                   const arrRestaurante:any = [];
 
-         
-                  /*-------obtener LLaves y poner ID-----*/
-                  Object.keys( resp ).forEach( llaves => {
-
-                    let userKey = resp[llaves]/*---ingresar al objeto.llaves---*/
-                    userKey.id = llaves;
-
-                  })
-          
+                  
                   /*----filtrar ciudad---*/
-                  Object.values( resp ).forEach( (respRest:any) => {
+                  Object.values( resp.restaurantesDB ).forEach( (respRest:any) => {
+                    
 
-                    //console.log( respRest.ciudad );
                     let todosLosRestaurantes = respRest;
                     let ciudadesRestaurantes = todosLosRestaurantes.ciudad;
+              
+                
 
-                    if( ciudadesRestaurantes.indexOf( city ) >= 0 ){
-
+                    if( ciudadesRestaurantes.indexOf( city1 ) >= 0 ){
+                      
+                      console.log(todosLosRestaurantes)
                       arrRestaurante.push( todosLosRestaurantes );
                       
                     }
@@ -301,9 +225,10 @@ export class RestauranteService {
 
 
     /*---------------------------traer Un Restaurante---------------------------*/
-    traerUnRestaurante( parametroID:any ){
-
-      return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante/${ parametroID }.json`);
+    traerUnRestaurante( id:any ){
+      
+      console.log(id)
+      return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/traerUnRestaurante/${ id }`);
 
     }
 
@@ -328,21 +253,34 @@ export class RestauranteService {
       localStorage.removeItem('direccion');
       localStorage.removeItem('id');
 
-      localStorage.removeItem('idPersona');
+      localStorage.removeItem('tokenCliente');
       localStorage.removeItem('celular');
       localStorage.removeItem('email');
 
       localStorage.removeItem('pass');
       localStorage.removeItem('pass2');
 
-      localStorage.removeItem('ValorAgendado')
+      localStorage.removeItem('ValorAgendado');
+
+      localStorage.removeItem('idPersona');
     
 
       /*---resturante---*/
       localStorage.removeItem('nombreRestaurante')
-      localStorage.removeItem('correoREST')
+      localStorage.removeItem('token')
       localStorage.removeItem('foto')
       localStorage.removeItem('ValorAgendado')
+
+      localStorage.removeItem('mensajeVisto')
+      localStorage.removeItem('notificionVista')
+
+      localStorage.removeItem('notificionVista')
+      localStorage.removeItem('emailREST')
+      localStorage.removeItem('agendado')
+
+
+
+
 
 
 
@@ -369,8 +307,10 @@ export class RestauranteService {
         direccionCliente:DatosClienteTS.direccion,
 
       }
+      
+     console.log(formAgendamientoDomicilio)
 
-      return this.usarHttp.post('https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios.json', formAgendamientoDomicilio )
+      return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/registrarDomicilio', formAgendamientoDomicilio )
                   
 
     }
@@ -381,88 +321,24 @@ export class RestauranteService {
 
     /*-------------------------Trear agendados al perfil del cliente--------------*/
     traerDomiciliosAgendados( correo:any ){
+      
+      const datoCorreo = {
 
-      return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios.json')
-              .pipe(
-                map( (resp:any) => {
+        correo: correo
+      }
 
-                    let NuevoArreglo2:any = []
-                    
-                    /*---retornar llaves--*/
-                    Object.keys( resp ).forEach( llaves => {
-
-                      let todosLosResgitrosSinLLaves = resp[llaves]
-                      todosLosResgitrosSinLLaves.idDomicilio = llaves;
-
-                    })
-                  
-
-                    Object.values( resp ).forEach( (valores:any) => {
-
-                    
-                      let todosLosCorreos = valores.correoCliente;
-                
-                      
-                      /*---me retorna perfil cliente----*/
-                      if( todosLosCorreos.indexOf( 'david@gmail.com' ) >= 0 ){
-
-                        NuevoArreglo2.push( valores );
-                    
-                      }
-                      
-                    })
-                    
-                    
-                    return NuevoArreglo2;
-                    
-                
-                  })
-              )
-
+      return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/domiciliosPerfil', datoCorreo);
+        
     }
 
 
 
     /*------traer pedidos a perfil resturante-------------*/
     traerPedidosDeRestaurante( correoRestaurante:any ){
+      
 
-      return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios.json`)
-                  .pipe(
-                    map( (resp:any) => {
-                      
-                    
-                      const arregloRecibidos:any[] = []
-                      
-                      Object.keys( resp ).forEach( keys => {
-              
-                        
-                        let TODOSdatos = resp[keys];
-                        TODOSdatos.idCliente = keys;
-                
-                       
-
-                      })
-
-                      Object.values(  resp ).forEach( (sinllaves:any) => {
-                        
-                        let todos = sinllaves;
-                        let correosRestaurantes = sinllaves.emailRestaurante;
-
-                        console.log( correosRestaurantes )
-
-                        if( correosRestaurantes.indexOf( correoRestaurante ) >= 0){
-
-                          arregloRecibidos.push( todos )
-
-                        }
-           
-                      })
-
-
-                      return arregloRecibidos
-
-                    })
-                  )
+      return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarDomicilios/${ correoRestaurante }`)
+                 
           
 
     }
@@ -486,65 +362,44 @@ export class RestauranteService {
         comentario:comentarioTS,
         correoRestaurante : correoRestauranteTS,
       }
+  
+      console.log(comentario)
 
-    return this.usarHttp.post( 'https://restaurante-15f7b-default-rtdb.firebaseio.com/comentarios.json', comentario )
-               .pipe(
-                map( (resp:any) => {
-
-                  let comentario = {
-
-                    nombre:nombreTS,
-                    correo:correoTS,
-                    comentario:comentarioTS,
-                    correoRestaurante : correoRestauranteTS,
-                    id: resp.name
-                  
-                  }
-
-                  return comentario;
-                
-                })
-              )
+    return this.usarHttp.post( 'https://back-restaurante-zsei.onrender.com/registrarComentario', comentario )
+    
+    
     }
 
 
 
 
     /*-------------------------Traer Comentarios-------------------------*/
-    cargarComentarios(){
+    cargarComentarios( email:any ){
 
-      return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/comentarios.json')
-                  .pipe(
-                    map( (resp:any) => {
-
-                      let nuevoArreglo:any = []
+      return this.usarHttp.get('https://back-restaurante-zsei.onrender.com/cargarComentario')
+                .pipe(
+                  map( (resp:any) => {
                       
-                      Object.keys( resp ).forEach( llaves => {
+                    const arrayNew:any = []
+
+
+                    const todosLosComentarios = resp.todosLosComentarios;
+
+                    Object.values( todosLosComentarios ).forEach( ( datos:any ) => {
+                      
+                       let todoLosCorreos = datos.correoRestaurante 
+
+                       if(  todoLosCorreos.indexOf( email ) >= 0 )
                           
-                      let todos = resp[llaves];
-                      todos.id = llaves;
-                      })
+                          arrayNew.push(datos) 
+                    
+                    }) 
+                    
+                    return arrayNew;
 
-
-                      /*----filtramos por correo---*/
-                      Object.values( resp ).forEach( (todosRESP:any) => {
-
-                        let todosLosDatos   = todosRESP;
-                        let todosLosCorreos = todosLosDatos.correoRestaurante;
-                       
-              
-                        if( todosLosCorreos.indexOf( 'marino@gmail.com' ) >= 0  ){
-
-                          nuevoArreglo.push( todosLosDatos )
-
-                        }
-              
-                      })
-                      
-                      return nuevoArreglo
-
-                    })
-                  )
+                  })
+                )
+                  
 
     }
 
@@ -553,87 +408,51 @@ export class RestauranteService {
 
 
     /*-------------------------------------LOGIN RESTAURANTES---------------------------------*/
-    loginRestaurante( correo:string, passTS:any ){
+    loginRestaurante( correo:string, passLG:any ){
+      
+      const loginRestaurante = {
+        correo: correo,
+        pass  : passLG
+      }
 
-      return this.usarHttp.get( 'https://restaurante-15f7b-default-rtdb.firebaseio.com/registroRestaurante.json' )
+      return this.usarHttp.post( 'https://back-restaurante-zsei.onrender.com/loginRestaurante', loginRestaurante )
                 .pipe(
-                  map( (data:any) => {
-
-                    let NuevoArregloRestaurante:any = []
+                  map( ( respuesta:any ) => {
                     
-                    Object.keys( data ).forEach( llaves => {
-
-                      let todasLasLLaves = data[llaves];
-                      todasLasLLaves.idRestaurante = llaves;
-
-                    })
-
-
-
-                    Object.values( data ).forEach( (dataRESP:any) => {
-
-                      let todosLosDatos   = dataRESP;
-                      let todosLosCorreos = dataRESP.email;
-                      
-                      if( todosLosCorreos.indexOf( correo ) >=0 ){
-                        
-                        NuevoArregloRestaurante.push( todosLosDatos )
-                        console.log( todosLosDatos )
-                     
-                      
-                      }else{
-
-                   
-                      
-                      }
-
-                   
-                    })
-
-
-                    if( NuevoArregloRestaurante.length > 0 ){
-
-                      if( passTS ==  NuevoArregloRestaurante[0].pass ){
-
-                        /*--guardar en local storage el correo--*/
-                        localStorage.setItem('correoREST', NuevoArregloRestaurante[0].email );
-                        return NuevoArregloRestaurante;
-                      
-                      }else{
-
-                        alert("NO es igual la contraseña")
-                      }
-                    
-                    }else{
-
-                      alert("El correo no existe");
-                    
-                    }
+                    this.guardarToken = respuesta.TokenResturante 
+                    localStorage.setItem('token', this.guardarToken);
+                    return respuesta
 
                   })
-                
                 )
-
+                
     }
 
+  
+      
 
+    //-----leer token-------
     leerCorreoAlCargar(){
 
-      if( localStorage.getItem('correoREST') ){
-
-        this.guardarCorreo = localStorage.getItem('correoREST')
+      if( localStorage.getItem('token') ){
+        
+        this.guardarToken = localStorage.getItem('token')
       
       }else{
 
-        this.guardarCorreo = ""
+        this.guardarToken = ""
       
       }
 
     }
 
-    validarIngresoResturante(){
 
-      return this.guardarCorreo.length > 1;
+
+
+    //---validar que exista el token
+    validarIngresoResturante(){
+     
+      return this.guardarToken.length > 1;
 
     }
 
@@ -658,10 +477,11 @@ export class RestauranteService {
             direccion:          DatosForm.direccion,
 
           }
+            
+          console.log(datosActualizar)
 
-          let idPersona = localStorage.getItem('idPersona');
 
-          return this.usarHttp.put(`https://restaurante-15f7b-default-rtdb.firebaseio.com/registroCliente/${ idPersona }.json`, datosActualizar)
+          return this.usarHttp.put(`https://back-restaurante-zsei.onrender.com/actualizarInformacionPerfil`, datosActualizar)
         
         }
 
@@ -673,9 +493,16 @@ export class RestauranteService {
 
 
         /*---------------------------TRAER UN USUARIO---------------------------*/
-        traerUnUsuario( idPersona:any ){
+        traerUnUsuario( correoCliente:any ){
+          
+           const datocorreo = {
+            
+            correo:correoCliente
+           
+          } 
 
-          return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/registroCliente/${ idPersona }.json`)
+          return this.usarHttp.post(`https://back-restaurante-zsei.onrender.com/traerUnCliente`, datocorreo)
+            
 
 
         }
@@ -695,77 +522,49 @@ export class RestauranteService {
           foto:    dataRESP.foto[0],
           nombre:  dataRESP.nombreRestaurante,
           ciudad:  dataRESP.ciudad,
-          visitarRestaurante: dataRESP.id,
-          descripcion: dataRESP.descripcion
-
-
-     
+          visitarRestaurante: dataRESP._id,
+          descripcion: dataRESP.descripcion,
+          email: dataRESP.email,
+          emailPersona : localStorage.getItem('email')
+       
+          
         }
 
-        console.log(dataRESP)
+        //console.log(dataRESP)
+        console.log(registrarFavorito)
   
-        return this.usarHttp.post(`https://restaurante-15f7b-default-rtdb.firebaseio.com/favoritos.json`, registrarFavorito )
-                .pipe(
-                  map( (resp:any) => {
-                    
-
-                    const registrarFavorito = {
-
-                      foto:    dataRESP.foto[0],
-                      nombre:  dataRESP.nombreRestaurante,
-                      ciudad:  dataRESP.ciudad,
-                      id: resp.name
-                    
-                    }
-
-
-                    return registrarFavorito
-
-                  })
-                )
+        return this.usarHttp.post(`https://back-restaurante-zsei.onrender.com/registroFavorito`, registrarFavorito )
+                
 
       }
 
 
 
       /*-----------------------------------------------Cargar restaurantes favoritos------------------------------------*/
-      cargarRestaurantesFavoritos(){
-
-        return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/favoritos.json`)
-                .pipe(
-                  map( (resp:any) => {
-
-                    let nuevoArr:any = []
-
-                    Object.keys( resp ).forEach( llaves => {
-                      
-
-                      let todosLosDatos = resp[llaves];
-                      todosLosDatos.id = llaves;
-                      nuevoArr.push(todosLosDatos)
-                    
-                    })
-
-                    return nuevoArr;
-
-                  })
-                )
+      cargarRestaurantesFavoritos( emailPersona:any ){
+    
+        console.log(emailPersona)
+          
+        return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/traerFavorito/${ emailPersona }`)
+                
       }
     
 
 
       /*-------------------------------borrar favorito--------------------------------------*/
       borrarFavoritos( id:any ){
-
-        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/favoritos/${ id }.json`)
+        
+        console.log(id)
+        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarFavorito/${ id }`)
                             
       }
 
 
       /*------------------------------borrar pedido-----------------------------*/
       borrarPedido( id:any ){
-
-        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/Domicilios/${ id }.json`)
+        
+        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarDomicilio/${ id }`)
+      
       }
 
      
@@ -777,14 +576,35 @@ export class RestauranteService {
         
         let nota = {
 
+          nombreCliente: notificar.nombreCliente,
+          ciudad: notificar.ciudad,
+          barrio: notificar.barrio,
+          direccionCliente: notificar.direccionCliente,
+          fechaDomicilio: notificar.fechaDomicilio,
+          pedido: notificar.pedido,
+
           correoCliente : notificar.correoCliente,
           notificacion  : notificar.notificacion,
           estado : notificar.estado
 
-
         }
 
-        return this.usarHttp.post(`https://restaurante-15f7b-default-rtdb.firebaseio.com/notificaciones.json`, nota);
+        return this.usarHttp.post(`https://back-restaurante-zsei.onrender.com/guardarNotificacion`, nota);
+
+      }
+
+      
+      /*----------------obtener GESTIONADOS---------*/
+      traerGestionados( estado:any ){
+          
+        //console.log(estado)
+        return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/traerGestinados/${ estado }`);
+      }
+
+      eliminarGestionado( id:any ){
+        
+        console.log(id)
+        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarGestionado/${ id }`)
 
       }
 
@@ -792,50 +612,60 @@ export class RestauranteService {
 
 
 
+
+
+
+
+
+      
+
       /*--------------------cargar Notificaciones--------------------*/
       cargarNotificaciones( correo:any ){
-      
-          return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/notificaciones.json`)
-                      .pipe(
-                        map( (resp:any) => {
-                          
-                          let nuevoArr:any = [];
-                          
-                          /*--llaves--*/
-                          Object.keys( resp ).forEach( keys => {
-                              
-                            let llaves = resp[keys]
-                            llaves.idNotificacion = keys
+          
+          console.log(correo); // pr si quisiera buscar directamente por correo - params
 
-                          })  
+          //return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarNotificaciones`)
 
-                          Object.values( resp ).forEach( (resp:any) => {
-                              
-                            let todosLosDatodFueraDeLasLLaves = resp;
-                            let todosLosCorreos = resp.correoCliente
-                            console.log(todosLosCorreos)
-                            
-                            if( todosLosCorreos.indexOf( correo ) >= 0 ){
-
-                              nuevoArr.push(todosLosDatodFueraDeLasLLaves);
-                           
-
-                            }
-
-                          })
-                          
-                          return nuevoArr
+          return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarNotificaciones`)
+                  .pipe(
+                    map( (resp:any) => {
                         
-                        })
-                      )
+                      const nuevoARR:any = []
+
+
+
+                      const arreglo = resp.todasLasNotificaciones;
+                      
+                      Object.values( arreglo ).forEach( (datosObjetos:any) => {
+                      
+                        const correoCliente = datosObjetos.correoCliente
+                        
+                          
+                        //comprobamos que el correo exista
+                        if( correoCliente.indexOf( correo ) >= 0 ){
+                          
+                            nuevoARR.push(datosObjetos) 
+                        
+                        }
+
+                      })
+                      
+                      return nuevoARR
+
+                    })
+                  )
+
+                      
 
       }
 
 
       /*----------------------------borrar Notificaciones-----------------------*/
       borrarNotificaciones( id:any ){
-          
-        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/notificaciones/${ id }.json`)
+        
+      
+
+        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarNotificacion/${ id }`);
 
       }
 
@@ -844,25 +674,25 @@ export class RestauranteService {
 
 
 
-      /*------------------------------------guardar mensajes--------------------------*/
+      /*--------------------------------guardar mensajes----------------------------*/
       guardarMensajes( formMensaje:any ){
+        
 
           let mensajes = {
-
             emailCliente : formMensaje.emailCliente,
             emailResturante: formMensaje.emailResturante,
-            mensaje : formMensaje.mensaje,
+            mensajeDeResturante : formMensaje.mensajeDeResturante,
             nombreRestaurante: formMensaje.nombreRestaurante
           }
 
          console.log( mensajes );
 
-            
-         
-        return this.usarHttp.post( `https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajes.json`, mensajes );
-          
+        return this.usarHttp.post( `https://back-restaurante-zsei.onrender.com/guardarMensajes`, mensajes );   
 
       }
+
+
+
 
 
 
@@ -870,42 +700,11 @@ export class RestauranteService {
       /*---------------------------cargar mensajes---------------------------------*/
       cargarMensajes( correo:any ){
 
-        return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajes.json`)
-                            .pipe(
-                              map( (resp:any) => {
+        //return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarMensajesRestaurantes/${ correo }`)
 
-                                let arregloNuevo:any[] = [];
-                                
+        return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarMensajesRestaurantes/${ correo }`)
 
-                                /*---llaves---*/
-                                Object.keys( resp ).forEach( (llaves:any) => {
-                                  
-                                  const objetos = resp[llaves]
-                                  objetos.id = llaves;
-                                  
-
-                                })
-
-                                Object.values( resp ).forEach( (resp:any) => {
-                                  //console.log(resp)
-                             
-                                  let todos = resp
-                                  let todosCorreos = resp.emailCliente 
-
-
-                                  if( todosCorreos.indexOf( correo ) >= 0 ){
-                                            
-                                      arregloNuevo.push( todos );
-                                  
-                                    }
-                                
-                                })
-
-                                return arregloNuevo
-
-                              })
-                            )
-
+        
       }
 
 
@@ -916,10 +715,21 @@ export class RestauranteService {
 
       /*----------------------------------Borrar Mensajes----------------------------*/
       borrarMensajes( id:any ){
-
-        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajes/${ id }.json`)
+        
+       
+        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarMensajes/${ id }`)
 
       }
+
+
+      borrarMensajesClientes( id:any ){
+        
+        console.log(id)
+        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarMensajesClientes/${ id }`)
+
+      }
+
+
 
 
 
@@ -931,7 +741,7 @@ export class RestauranteService {
 
           emailResturante :    datosRespuesta.emailResturante,
           emailCliente :       datosRespuesta.emailCliente,
-          mensaje :            datosRespuesta.mensaje,
+          mensajeDecliente :            datosRespuesta.mensajeDecliente,
           nombreRestaurante :  datosRespuesta.nombreRestaurante
        
 
@@ -939,7 +749,8 @@ export class RestauranteService {
 
         console.log(mensajeRestaurante)
 
-        return this.usarHttp.post('https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajesResturante.json', mensajeRestaurante) 
+        return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/guardarClientes', mensajeRestaurante) 
+                
 
       }
 
@@ -948,37 +759,35 @@ export class RestauranteService {
 
 
       /*-----------------------------cargar mensajes restaurante----------------------*/
-      cargarMensajesRestaurante(){
+      cargarMensajesRestaurante( email:any ){
 
-        return this.usarHttp.get(`https://restaurante-15f7b-default-rtdb.firebaseio.com/mensajesResturante.json`)
-                            .pipe(
-                              map( (resp:any) => {
-                                  
-                             
-                                let nuevoArr:any[] = [];
+        return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarClientes`)
+         .pipe(
+          map( (resp:any) => {
+              
+              let nuevoArreglo:any = [];
+              let todosLosMensajes = resp.mensajesDB
+           
 
-                                Object.keys( resp ).forEach( llaves => { 
-                                  let datos = resp[llaves];
-                                  datos.id = llaves;
-                                })
+              Object.values( todosLosMensajes ).forEach( ( datos:any ) => {
 
+                 let todoLosRestarantes = datos.emailResturante 
+                
+                if( todoLosRestarantes.indexOf( email ) >= 0 ){
+                    
+                     nuevoArreglo.push(datos)
+                   
+                }
 
-                                Object.values( resp ).forEach( (resp2:any) => {
-                                  let objetos = resp2
-                                  let todosCorreosRestaurante = objetos.emailResturante
+                
+              })
+              
 
+              return nuevoArreglo
+          })
+         
+        )
                                 
-                                  if( todosCorreosRestaurante.indexOf( 'marino@gmail.com' ) >= 0 ){
-                                    nuevoArr.push(objetos)
-                        
-                                  }
-      
-                                })
-
-                                return nuevoArr
-
-                              })
-                            )
 
       }
 
@@ -986,8 +795,10 @@ export class RestauranteService {
 
       /*-----------------------Borrar comentario del perfil--------------------------*/
       borrarComentarioPerfil( id:any ){
+        
+        console.log(id)
 
-        return this.usarHttp.delete(`https://restaurante-15f7b-default-rtdb.firebaseio.com/comentarios/${ id }.json`);
+        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarComentario/${ id }`);
 
       }
 
@@ -1009,7 +820,7 @@ export class RestauranteService {
 
         console.log(datos)
 
-        return this.usarHttp.post(`https://restaurante-15f7b-default-rtdb.firebaseio.com/fotos.json`, datos);
+        return this.usarHttp.post(`https://back-restaurante-zsei.onrender.com/guardarFotoPerfil`, datos);
         
       }  
 
@@ -1017,41 +828,15 @@ export class RestauranteService {
 
 
       /*--------------------------cargar Imagen de perfil------------------------*/
-      cargarImagenPerfil(correo:any){
+      cargarImagenPerfil( correoUsuarioFoto:any ){
+          
+        const usuario = {
+          correo: correoUsuarioFoto
+        }
+       
 
-        return this.usarHttp.get('https://restaurante-15f7b-default-rtdb.firebaseio.com/fotos.json')
-                            .pipe(
-                              map( (resp:any) => {
-                               
-                                
-                                let correoNuevo:any[] = [];
-
-                                Object.keys( resp ).forEach( resp2 => {
-                                  //console.log( resp[resp2].fotoF[0] )
-                                  let objeto = resp[resp2]
-                                  objeto.id = resp2;
-
-                                  //console.log(objeto)
-
-                                  if( correo === resp[resp2].correoF){
-                                    
-                                    correoNuevo.push(objeto)
-
-                                  }
-
-                                })
-
-                                return correoNuevo 
-                                
-                              })
-                            )
-      }
-
-
-
-    
-
-
-      
+        return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/listarFotoPerfil', usuario )
+                            
+      }    
 
 }

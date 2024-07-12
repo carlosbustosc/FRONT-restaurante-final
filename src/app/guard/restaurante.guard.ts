@@ -19,11 +19,13 @@ export const restauranteGuard: CanActivateFn = (route, state) => {
 
 
   if( conectarServicio.validarIngresoResturante() ){
+
     return true;
   
   }else{
-
-    usarRuta.navigate(['/LoginRestauranteComponent']);
+  
+    console.log("el token no existe")
+    usarRuta.navigate(['/inicio']);
     return false;
 
   }

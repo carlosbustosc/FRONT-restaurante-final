@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
+
+/*----usar route----*/
+import { Router } from "@angular/router";
+
 import { FormGroup, FormBuilder, FormArray, Validators} from '@angular/forms';
 
 /*-----conectar servicios-----*/
 import { RestauranteService } from 'src/app/services/restaurante.service';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-registro-restaurante',
@@ -24,7 +30,7 @@ export class RegistroRestauranteComponent implements OnInit {
   verFormDatos = true;
 
 
-  constructor( private fb:FormBuilder, private conectarServicios: RestauranteService ){
+  constructor(private usarRuta:Router,  private fb:FormBuilder, private conectarServicios: RestauranteService ){
 
       this.formRestaurante = this.fb.group({
         nombreRestaurante:   ["", Validators.required ],
@@ -248,11 +254,23 @@ export class RegistroRestauranteComponent implements OnInit {
                           .subscribe( (resp:any) => {
                             
                             console.log(resp);
-                            alert("se ha resgitrado correctamente");
+
+                            Swal.fire({
+                              title: "Se ha registrado correctamente!",
+                              text: "Inicie session para ver su perfil y ver los domicilios solicitados!",
+                              icon: "success"
+                            });
+
                             /*---reset formulario---*/
                             this.formRestaurante.reset();
-                            location.reload();
-                          
+                            this.usarRuta.navigate( ['/LoginRestauranteComponent'] ); 
+                           
+                            
+                            //location.reload();
+                            
+                          }, (error) => {
+                                  
+                            console.log(error);
                           })
 
 

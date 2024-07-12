@@ -7,6 +7,11 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms"
 /*----conectar servicios----*/
 import { RestauranteService } from 'src/app/services/restaurante.service';
 
+// usar ruta Route
+import { Router } from "@angular/router"
+
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-registro-cliente',
@@ -22,7 +27,7 @@ export class RegistroClienteComponent implements OnInit {
   ciudades:any = [];
   formularioCliente:FormGroup
   
-  constructor(private fb: FormBuilder, private conectarServicio:RestauranteService ){
+  constructor(private usarRuta: Router, private fb: FormBuilder, private conectarServicio:RestauranteService ){
   
     this.formularioCliente = this.fb.group({
 
@@ -157,9 +162,14 @@ export class RegistroClienteComponent implements OnInit {
           .subscribe( resp => {
             console.log( resp );
             
-            alert("se ha regsitrado correctamente");// confimacion registro
+            Swal.fire({
+              title: "Se ha registrado correctamente!",
+              text: "Inicie session para ver su perfil y agendar domicilios!",
+              icon: "success"
+            });
             this.formularioCliente.reset()
-
+            
+           
           })
 
     }

@@ -16,7 +16,7 @@
     max-width: 1200px;
     position: relative;
     z-index: 2;
-    margin:auto;
+    margin: 56px auto 0px auto;
  
 }
 
@@ -188,11 +188,12 @@
 }
 
 .nombre_persona {
+
     text-align: center;
     font-size: 30px;
-    color: #fff;
+    color: #8bf3ff;
     text-align: center;
-    margin-bottom: 17px;
+    margin-bottom: 9px;
     text-transform: uppercase;
 }
 
@@ -209,5 +210,25 @@
 .corazon_hovers{
 
     display: none;
+}
+
+.agregar_favorito {
+    
+    width: 150px;
+    height: 33px;
+    border: 1px solid #17b5c8;
+    padding: 2px 12px 4px 12px;
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    position: absolute;
+    color: #ffffff;
+    cursor: pointer;
+    margin: auto;
+    right: 0;
+    left: 0;
+    bottom: 41px;
+    background-color: #c10cb9;
+    border: none;
 }
 

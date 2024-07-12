@@ -5,12 +5,12 @@
 
         <h1 class="titulo_respuesta">{{ nombreRespuesta }}</h1>
 
-        
         <p>Enviar Mensaje</p>
         <textarea type="textarea" class="textarea2" [(ngModel)]="mensajeRespuesta"></textarea>
 
-        <button class="btn btn-primary" (click)="enviarRespuesta2()" *ngIf="nombreCliente1">Enviar Mensaje</button>
-        <button class="btn btn-primary" (click)="enviarRespuesta()"  *ngIf="nombreResturante1">Enviar Mensaje</button>
+        <button class="btn btn-primary" (click)="enviarRespuesta2()" *ngIf="nombreCliente1">Enviar Mensaje a cliente</button>
+
+        <button class="btn btn-primary" (click)="enviarRespuesta()"  *ngIf="nombreResturante1">Enviar Mensaje a restaurante</button>
 
     </div>
 </div>
@@ -39,12 +39,12 @@
     </div>      
     <div class="contenedor_perfil" *ngIf="contenedorPerfil">
         <h2 class="nombre_person_perfil">{{ nombrePerfil  }}</h2>
-        <img src="{{ guardarImagenPerfil[0].fotoF[0] }}"   class="foto_perfil" (click)="ventanaPerfil()"/>
+        <img src="{{ guardarImagenPerfil }}"   class="foto_perfil" (click)="ventanaPerfil()"/>
         <img src="./assets/img/flecha_abajo.png"  class="foto_abajo"  (click)="ventanaPerfil()"/>
     </div>
 
     <div class="cajon_perfil_rest" *ngIf="mostrarVentanaPerfil">
-        <p class="textos_perfil" (click)="verPerfil()">Perfil</p>
+        <p class="textos_perfil" (click)="verPerfil()" *ngIf="verLetraPerfil">Perfil</p>
         <p class="textos_perfil" (click)="cerrarSesion()">Cerrar Sesion</p>
     </div>
 </div>
@@ -56,23 +56,33 @@
     <p class="texto_notificacion border_notificacion" *ngFor="let nota of guardarNotificacion; let i = index">{{ nota.notificacion }} 
         <span><button class="btn btn-danger" (click)="borrarNotificacion( nota, i )">borrar</button></span>
     </p>
+
+    <p class="sin_notificaciones" *ngIf="noHayNotificaciones">No hay notificaciones</p>
     
 </div>
 
 
 <!----mensajes----->
 <div class="base_mensajes" *ngIf="mostrarMensajes">
+
+    <p class="sin_notificaciones" *ngIf="noHayMensajes">No hay Mensajes</p>
+
     <div class="base_principal_m" *ngFor="let mensajes of guardarMensajes">
         <div class="base_mensaje_internos">
 
             <h1 class="nombre_resturante" *ngIf="nombreCliente1">{{ mensajes.emailCliente }}</h1>
             <h1 class="nombre_resturante" *ngIf="nombreResturante1">{{ mensajes.emailResturante }}</h1>
 
-            <p class="texto_notificacion2">{{ mensajes.mensaje }}</p>
+            <p class="texto_notificacion2" *ngIf="nombreCliente1">{{ mensajes.mensajeDecliente }}</p>
+            <p class="texto_notificacion2" *ngIf="nombreResturante1">{{ mensajes.mensajeDeResturante }}</p>
+
         </div>
 
         <div class="base_botones">
-            <button class="btn btn-danger boton_rojo" (click)="borrarMensajes( mensajes )">borrar</button>
+            <button class="btn btn-danger boton_rojo" (click)="borrarMensajesClientes( mensajes )" *ngIf="nombreCliente1">borrar Clientes</button>
+            <button class="btn btn-danger boton_rojo" (click)="borrarMensajes( mensajes )" *ngIf="nombreResturante1">borrar restaurante</button>
+
+
             <button class="btn btn-success responder" (click)="abrirVentanaMensajes( mensajes )">Responder</button>
         </div>
     </div>

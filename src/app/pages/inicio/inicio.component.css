@@ -1,7 +1,7 @@
 .contenedor_principal_restaurante{
 
     width: 100%;
-    height: 93vh;;
+    height: 100vh;
     background-image: url('../../../assets/img/fondo.jpg');
     display: flex;
     align-items: center;
@@ -17,9 +17,9 @@
 }
 
 .marca_resturante {
-    width: 259px;
+    width: 231px;
     display: table;
-    margin: auto;
+    margin: 0px auto 0px auto;
     position: relative;
 }
 
@@ -42,28 +42,28 @@
 
 .titulo_bienvenido_z3 {
  
-    font-size: 105px;
+    font-size: 68px;
     color: #fff;
     text-align: center;
     margin-bottom: 0px;
 }
 
 .subtitulo_inicio {
-    font-size: 34px;
+    font-size: 31px;
     color: #fff;
     text-align: center;
-    margin-bottom: 0;
+    margin-bottom: 67px;
     position: relative;
-    top: -3px;
+    top: -1px;
 }
 .nombre_persona{
 
     font-size: 32px;
-    color: #fff;
+    color: #8bf3ff;
     text-align: center;
-    margin-bottom: 37px;
+    margin-bottom: -2px;
     position: relative;
-    top: -13px;
+    top: -5px;
     text-transform: capitalize;
 
 }

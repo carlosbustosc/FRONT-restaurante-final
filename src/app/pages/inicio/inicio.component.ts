@@ -15,6 +15,8 @@ import { CargaJSService } from 'src/app/services/carga-js.service';
 
 
 export class InicioComponent implements OnInit {
+  
+  personaLogueada:boolean = false;
 
   DepartamentoPorDefecto:any;
   CiudadPorDefecto:any;
@@ -39,7 +41,10 @@ export class InicioComponent implements OnInit {
 
     if( localStorage.getItem('nombre') ){
 
-      this.nombrePersonaLogueada = localStorage.getItem('nombre')
+      this.nombrePersonaLogueada = localStorage.getItem('nombre');
+      this.personaLogueada = true;
+    }else{
+      this.personaLogueada = false;
     }
   
   }
@@ -49,16 +54,16 @@ export class InicioComponent implements OnInit {
     
     this.categoriaSeleccionada = categoria;
 
-  
   }
   
 
-  
+  /*
   valorSelect( parametro:any ){
 
     this.valueSelect = parametro;
 
   }
+  */
   
   
   buscarComida(){

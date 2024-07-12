@@ -2,15 +2,33 @@
 <app-navbar></app-navbar>
 
 <div class="contenido_principal">
+    
     <div class="conteendor_mensajes">
 
+        <!--pedidos-->
         <div class="base_pedidos_perfil_rest">
-            <h1 class="titulo_mensajes">PEDIDOS</h1>
+            <h1 class="titulo_mensajes">PEDIDOS NUEVOS</h1>
 
             <div class="base_mensaje" *ngFor="let pedido of dataPedidos; let i = index"  (click)="verMensaje(i + 1, i, pedido )">
                 <p class="mensaje_nuevo">{{ pedido.nombreCliente }} <span class="circulo_rojo" id="{{ i + 1 }}"></span></p>
             </div>
         </div>
+
+
+        <!--pedidos-->
+        <div class="base_pedidos_perfil_rest">
+            <h1 class="titulo_mensajes">GESTIONADOS</h1>
+
+            <div class="base_mensaje" (click)="gestionados('rechazado')">
+                <p class="mensaje_nuevo" >Rechazados</p>
+            </div>
+            <div class="base_mensaje" (click)="gestionados('aceptado')">
+                <p class="mensaje_nuevo" >Aceptados</p>
+            </div>
+           
+        </div>
+
+        
 
         <div class="base_pedidos_perfil_rest">
             <h1 class="titulo_mensajes">ADMIN COMENTARIOS</h1>
@@ -20,6 +38,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     <!-----seccion detalle---->
     <div class="contenedor_detalle">
@@ -39,13 +60,14 @@
             <p class="comida_pedida" *ngFor="let comida of informacionDetalle.pedido">{{ comida }}</p>
         </div>
 
-        
+
+        <!---BOTONES CONFIRMACION-->
         <div class="base_botones_ltsx" *ngIf="mostrarPantallaDetalle">
             <button class="botones_pedidos btn btn-danger quitar_left" (click)="rechazarPedido( informacionDetalle )">Rechazar pedido</button>
             <button class="botones_pedidos btn btn-success" (click)="aceptarPedido(informacionDetalle)" >Aceptar Pedido</button>
-            <button class="botones_pedidos btn btn-info"    (click)="pedidoEntregado( informacionDetalle )">Pedido Entregado</button>
+           
         </div>
-
+        
 
 
         <!---mensajes----->
@@ -58,9 +80,10 @@
             </form>
         </div>
         
+        
         <!---texto informativo---->
         <div class="base_informacion" *ngIf="mostrarPantallaInformacion">
-            <h1 class="texto_titulo">Seleccione un mensaje</h1>
+            <h1 class="texto_titulo">{{ mensajes }}</h1>
         </div>
 
 
@@ -74,7 +97,42 @@
             </div>
         </div>
     </div>
+
+
+
+    <div class="contenedor_detalle">
+        <h1 class="titulo_pedidos" *ngIf="mostrarGestionado">Pedidos {{ tipoPedido }}</h1>
+
+        <div class="contenedor_gestionado" *ngFor="let gestionado of ArrGestionados; let i = index" >
+            <div class="pedidos"  *ngIf="mostrarGestionado">
+                <img src="./assets/img/foto_perfil.jpg" class="foto_perfil"/>
+                <h1 class="nombre_persona">{{ gestionado.nombreCliente  }}</h1>
+                <p class="detalle_pedido">Correo Cliente: {{ gestionado.correoCliente }}</p>
+                <p class="detalle_pedido">ciudad: {{ gestionado.ciudad }}</p>
+                <p class="detalle_pedido">barrio: {{ gestionado.barrio }}</p>
+                <p class="detalle_pedido">direccionCliente: {{ gestionado.direccionCliente }}</p>
+                <p class="detalle_pedido">Fecha de solictud: {{ gestionado.fecha  }}</p>
+            </div>
+            
+
+            <div class="pedidos" *ngIf="mostrarGestionado">
+                <h1 class="nombre_persona">PEDIDO</h1>
+                <p class="comida_pedida" *ngFor="let comida of gestionado.pedido">{{ comida }}</p>
+            </div>
+
+            <div class="base_botones_ltsx" *ngIf="mostrarGestionado">
+
+                <button class="botones_pedidos btn btn-danger"    (click)="eliminarGestionado( ArrGestionados, i )" *ngIf="pEliminar">{{ mensajeBoton }}</button>
+
+               
+            </div>
+
+            <hr class="linea_divisora" *ngIf="mostrarGestionado">
+        </div>
+ 
+    </div>
 </div>
+
 
 
 

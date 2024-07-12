@@ -332,12 +332,13 @@ span.nombre_tl {
 .base_seleccionados{
 
     width: 80%;
-    background-color: #007a88;
+    background-color: #05b0c4;
     margin: auto;
     padding: 20px 40px 7px 40px;
     display: table;
     margin: 0px auto 40px auto;
     max-height: 215px;
+    border-radius: 10px;
 }
 
 .otra_direccion {
@@ -362,6 +363,7 @@ textarea{
     height: 112px;
     margin-top: 11px;
     padding: 11px 14px;
+    border-radius: 7px;
 }
 
 .comida_seleccionada {
@@ -406,13 +408,14 @@ textarea{
 
 .boton_solicitar_domicilio{
 
-    background-color: #0050ff;
+    background-color: #05b0c4;
     color: #fff;
     border: 0;
     padding: 8px 20px;
     margin: 30px 0px;
     float: right;
-    cursor:pointer;
+    cursor: pointer;
+    border-radius: 23px;
 }
 
 .icono_cerrar{
@@ -441,7 +444,7 @@ textarea{
     font-weight: 500;
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
-    margin-bottom: 48px;
+    margin-bottom: 0px;
     font-size: 29px;
 
 }
@@ -520,6 +523,7 @@ textarea{
 
 .logo_restaurante_blanco {
     margin-bottom: 4px;
+    margin-top: 50px;
 }
 
 
@@ -536,8 +540,8 @@ textarea{
     border: 0px;
     margin-top: 9px;
     margin-bottom: 90px;
-    background-color: #008eff;
     color: #fff;
+    background-color: #05b0c4;
 }
 
 
