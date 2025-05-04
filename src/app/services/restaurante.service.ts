@@ -57,7 +57,7 @@ export class RestauranteService {
     }
 
 
-    return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/registrarCliente', formCliente )
+    return this.usarHttp.post('http://localhost:5000/registrarCliente', formCliente )
             
   }
 
@@ -75,7 +75,7 @@ export class RestauranteService {
     
         }
     
-        return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/loginClientes', infoLoginClientes)
+        return this.usarHttp.post('http://localhost:5000/loginClientes', infoLoginClientes)
               .pipe(
                 map( ( respuestaDB:any  ) => {
                     
@@ -148,7 +148,7 @@ export class RestauranteService {
 
       }
 
-      return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/registroResturante', registroRestaurante);
+      return this.usarHttp.post('http://localhost:5000/registroResturante', registroRestaurante);
                                  
     }
 
@@ -160,55 +160,12 @@ export class RestauranteService {
 
 
     /*-----------------------------Filtrar Restaurantes-------------------------*/
-    filtrarRestaurantes(city:any){
+    filtrarRestaurantes( categoriaComida:any ){
     
-      let city1 = city
-    console.log( city1 )
-
-      if(city == "todos"){
-
-        return this.usarHttp.get('https://back-restaurante-zsei.onrender.com/listarRestaurantes')
-               
-               
-      }else{
-
-        return this.usarHttp.get('https://back-restaurante-zsei.onrender.com/listarRestaurantes')
-             .pipe(
-              map( (resp:any) => {
-                    
-             
-                  
-                  /*---creamos un arreglo---*/
-                  const arrRestaurante:any = [];
-
-                  
-                  /*----filtrar ciudad---*/
-                  Object.values( resp.restaurantesDB ).forEach( (respRest:any) => {
-                    
-
-                    let todosLosRestaurantes = respRest;
-                    let ciudadesRestaurantes = todosLosRestaurantes.ciudad;
-              
-                
-
-                    if( ciudadesRestaurantes.indexOf( city1 ) >= 0 ){
-                      
-                      console.log(todosLosRestaurantes)
-                      arrRestaurante.push( todosLosRestaurantes );
-                      
-                    }
-                    
-                  })
-
-                  
-                  return arrRestaurante
-
-              })
-             
-              )
-
-
-      }
+      console.log(categoriaComida)
+      
+      return this.usarHttp.get(`http://localhost:5000/traerUnRestaurante/${categoriaComida}`)
+      
       
     }
 
@@ -228,7 +185,7 @@ export class RestauranteService {
     traerUnRestaurante( id:any ){
       
       console.log(id)
-      return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/traerUnRestaurante/${ id }`);
+      return this.usarHttp.get(`http://localhost:5000/traerUnRestaurante/${ id }`);
 
     }
 
@@ -310,7 +267,7 @@ export class RestauranteService {
       
      console.log(formAgendamientoDomicilio)
 
-      return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/registrarDomicilio', formAgendamientoDomicilio )
+      return this.usarHttp.post('http://localhost:5000/registrarDomicilio', formAgendamientoDomicilio )
                   
 
     }
@@ -327,7 +284,7 @@ export class RestauranteService {
         correo: correo
       }
 
-      return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/domiciliosPerfil', datoCorreo);
+      return this.usarHttp.post('http://localhost:5000/domiciliosPerfil', datoCorreo);
         
     }
 
@@ -337,7 +294,7 @@ export class RestauranteService {
     traerPedidosDeRestaurante( correoRestaurante:any ){
       
 
-      return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarDomicilios/${ correoRestaurante }`)
+      return this.usarHttp.get(`http://localhost:5000/listarDomicilios/${ correoRestaurante }`)
                  
           
 
@@ -365,7 +322,7 @@ export class RestauranteService {
   
       console.log(comentario)
 
-    return this.usarHttp.post( 'https://back-restaurante-zsei.onrender.com/registrarComentario', comentario )
+    return this.usarHttp.post( 'http://localhost:5000/registrarComentario', comentario )
     
     
     }
@@ -376,7 +333,7 @@ export class RestauranteService {
     /*-------------------------Traer Comentarios-------------------------*/
     cargarComentarios( email:any ){
 
-      return this.usarHttp.get('https://back-restaurante-zsei.onrender.com/cargarComentario')
+      return this.usarHttp.get('http://localhost:5000/cargarComentario')
                 .pipe(
                   map( (resp:any) => {
                       
@@ -415,7 +372,7 @@ export class RestauranteService {
         pass  : passLG
       }
 
-      return this.usarHttp.post( 'https://back-restaurante-zsei.onrender.com/loginRestaurante', loginRestaurante )
+      return this.usarHttp.post( 'http://localhost:5000/loginRestaurante', loginRestaurante )
                 .pipe(
                   map( ( respuesta:any ) => {
                     
@@ -481,7 +438,7 @@ export class RestauranteService {
           console.log(datosActualizar)
 
 
-          return this.usarHttp.put(`https://back-restaurante-zsei.onrender.com/actualizarInformacionPerfil`, datosActualizar)
+          return this.usarHttp.put(`http://localhost:5000/actualizarInformacionPerfil`, datosActualizar)
         
         }
 
@@ -501,7 +458,7 @@ export class RestauranteService {
            
           } 
 
-          return this.usarHttp.post(`https://back-restaurante-zsei.onrender.com/traerUnCliente`, datocorreo)
+          return this.usarHttp.post(`http://localhost:5000/traerUnCliente`, datocorreo)
             
 
 
@@ -533,7 +490,7 @@ export class RestauranteService {
         //console.log(dataRESP)
         console.log(registrarFavorito)
   
-        return this.usarHttp.post(`https://back-restaurante-zsei.onrender.com/registroFavorito`, registrarFavorito )
+        return this.usarHttp.post(`http://localhost:5000/registroFavorito`, registrarFavorito )
                 
 
       }
@@ -545,7 +502,7 @@ export class RestauranteService {
     
         console.log(emailPersona)
           
-        return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/traerFavorito/${ emailPersona }`)
+        return this.usarHttp.get(`http://localhost:5000/traerFavorito/${ emailPersona }`)
                 
       }
     
@@ -555,7 +512,7 @@ export class RestauranteService {
       borrarFavoritos( id:any ){
         
         console.log(id)
-        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarFavorito/${ id }`)
+        return this.usarHttp.delete(`http://localhost:5000/borrarFavorito/${ id }`)
                             
       }
 
@@ -563,7 +520,7 @@ export class RestauranteService {
       /*------------------------------borrar pedido-----------------------------*/
       borrarPedido( id:any ){
         
-        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarDomicilio/${ id }`)
+        return this.usarHttp.delete(`http://localhost:5000/borrarDomicilio/${ id }`)
       
       }
 
@@ -589,7 +546,7 @@ export class RestauranteService {
 
         }
 
-        return this.usarHttp.post(`https://back-restaurante-zsei.onrender.com/guardarNotificacion`, nota);
+        return this.usarHttp.post(`http://localhost:5000/guardarNotificacion`, nota);
 
       }
 
@@ -598,13 +555,13 @@ export class RestauranteService {
       traerGestionados( estado:any ){
           
         //console.log(estado)
-        return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/traerGestinados/${ estado }`);
+        return this.usarHttp.get(`http://localhost:5000/traerGestinados/${ estado }`);
       }
 
       eliminarGestionado( id:any ){
         
         console.log(id)
-        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarGestionado/${ id }`)
+        return this.usarHttp.delete(`http://localhost:5000/borrarGestionado/${ id }`)
 
       }
 
@@ -624,9 +581,9 @@ export class RestauranteService {
           
           console.log(correo); // pr si quisiera buscar directamente por correo - params
 
-          //return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarNotificaciones`)
+          //return this.usarHttp.get(`http://localhost:5000/listarNotificaciones`)
 
-          return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarNotificaciones`)
+          return this.usarHttp.get(`http://localhost:5000/listarNotificaciones`)
                   .pipe(
                     map( (resp:any) => {
                         
@@ -665,7 +622,7 @@ export class RestauranteService {
         
       
 
-        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarNotificacion/${ id }`);
+        return this.usarHttp.delete(`http://localhost:5000/borrarNotificacion/${ id }`);
 
       }
 
@@ -687,7 +644,7 @@ export class RestauranteService {
 
          console.log( mensajes );
 
-        return this.usarHttp.post( `https://back-restaurante-zsei.onrender.com/guardarMensajes`, mensajes );   
+        return this.usarHttp.post( `http://localhost:5000/guardarMensajes`, mensajes );   
 
       }
 
@@ -700,9 +657,9 @@ export class RestauranteService {
       /*---------------------------cargar mensajes---------------------------------*/
       cargarMensajes( correo:any ){
 
-        //return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarMensajesRestaurantes/${ correo }`)
+        //return this.usarHttp.get(`http://localhost:5000/listarMensajesRestaurantes/${ correo }`)
 
-        return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarMensajesRestaurantes/${ correo }`)
+        return this.usarHttp.get(`http://localhost:5000/listarMensajesRestaurantes/${ correo }`)
 
         
       }
@@ -717,7 +674,7 @@ export class RestauranteService {
       borrarMensajes( id:any ){
         
        
-        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarMensajes/${ id }`)
+        return this.usarHttp.delete(`http://localhost:5000/borrarMensajes/${ id }`)
 
       }
 
@@ -725,7 +682,7 @@ export class RestauranteService {
       borrarMensajesClientes( id:any ){
         
         console.log(id)
-        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarMensajesClientes/${ id }`)
+        return this.usarHttp.delete(`http://localhost:5000/borrarMensajesClientes/${ id }`)
 
       }
 
@@ -749,7 +706,7 @@ export class RestauranteService {
 
         console.log(mensajeRestaurante)
 
-        return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/guardarClientes', mensajeRestaurante) 
+        return this.usarHttp.post('http://localhost:5000/guardarClientes', mensajeRestaurante) 
                 
 
       }
@@ -761,7 +718,7 @@ export class RestauranteService {
       /*-----------------------------cargar mensajes restaurante----------------------*/
       cargarMensajesRestaurante( email:any ){
 
-        return this.usarHttp.get(`https://back-restaurante-zsei.onrender.com/listarClientes`)
+        return this.usarHttp.get(`http://localhost:5000/listarClientes`)
          .pipe(
           map( (resp:any) => {
               
@@ -798,7 +755,7 @@ export class RestauranteService {
         
         console.log(id)
 
-        return this.usarHttp.delete(`https://back-restaurante-zsei.onrender.com/borrarComentario/${ id }`);
+        return this.usarHttp.delete(`http://localhost:5000/borrarComentario/${ id }`);
 
       }
 
@@ -820,7 +777,7 @@ export class RestauranteService {
 
         console.log(datos)
 
-        return this.usarHttp.post(`https://back-restaurante-zsei.onrender.com/guardarFotoPerfil`, datos);
+        return this.usarHttp.post(`http://localhost:5000/guardarFotoPerfil`, datos);
         
       }  
 
@@ -835,7 +792,7 @@ export class RestauranteService {
         }
        
 
-        return this.usarHttp.post('https://back-restaurante-zsei.onrender.com/listarFotoPerfil', usuario )
+        return this.usarHttp.post('http://localhost:5000/listarFotoPerfil', usuario )
                             
       }    
 

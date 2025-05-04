@@ -53,6 +53,7 @@ export class InicioComponent implements OnInit {
   categoriaInicio( categoria:any ){
     
     this.categoriaSeleccionada = categoria;
+    console.log( this.categoriaSeleccionada );
 
   }
   

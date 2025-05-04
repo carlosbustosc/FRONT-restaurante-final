@@ -34,34 +34,10 @@
 
         <form [formGroup]="selectForm" class="formulario_selectores">
 
-            
-              <!--------DEPARTAMENTOS-------->
-            <div class="bases_seleccionar_comida">
-                <label class="texto_select">Elegir departamento</label>
-                
-                <select id="departID" class="seleccionar_ciudad form-control" #val (change)="parametroCiudad( departamentos, val.value )" formControlName="departamentoss">
-                    <option class="todas_los_departamentos" value="todos">Todas los departamentos</option>
-                    <option *ngFor="let depart of departamentos; let i = index" class="ciudad" [value]="i" [id]="i">{{ depart.departamento }}</option>
-                </select>
-
-            </div>
-
-
-            <!--------CIUDADES-------->
-            <div class="bases_seleccionar_comida input_left" *ngIf="quitarSelectTodasCiudades">
-                <label class="texto_select">Elegir Ciudad</label>
-
-                <select id="ciudadID" class="seleccionar_ciudad form-control" #valCity (change)="elegirCiudad(valCity.value)" formControlName="ciudadess">
-                    <option class="todas_los_departamentos" value="todos">Todas las ciudades</option>
-                    <option  *ngFor="let city of ciudades; let i = index" class="ciudad" [value]="city" [id]="i" >{{ city }}</option>
-                </select>
-            </div>
-
-
-            <!--------CATEORIA-------->
-            <div class="bases_seleccionar_comida input_left" *ngIf="elegir_comida">
+             <!--------CATEORIA-------->
+             <div class="bases_seleccionar_comida input_left">
                 <label class="texto_select">Elegir Comida</label>
-                <select class="form-control" id="categorias"  #valCat (change)="seleccionarCategoria( valCat.value )" formControlName="categoriass">
+                <select class="form-control" id="categorias"  #valCat (change)="seleccionarComida( valCat.value )" formControlName="categoriass">
                     <option value="Todos">Todas las categorias</option>
                     <option value="Comida rapida">Comida rapida</option>
                     <option value="Carnes">Carnes</option>
@@ -78,6 +54,29 @@
                     <option value="Comida Oriental">Comida Oriental</option>
                 </select>
             </div>
+
+            <!--------DEPARTAMENTOS-------->
+            <div class="bases_seleccionar_comida">
+                <label class="texto_select">Elegir departamento</label>
+                
+                <select id="departID" class="seleccionar_ciudad form-control" #val (change)="seleccionarDepartamento( departamentos, val.value )" formControlName="departamentoss">
+                    <option class="todas_los_departamentos" value="todos">Todas los departamentos</option>
+                    <option *ngFor="let depart of departamentos; let i = index" class="ciudad" [value]="i" [id]="i">{{ depart.departamento }}</option>
+                </select>
+
+            </div>
+
+
+            <!--------CIUDADES-------->
+            <div class="bases_seleccionar_comida input_left" *ngIf="quitarSelectTodasCiudades">
+                <label class="texto_select">Elegir Ciudad</label>
+
+                <select id="ciudadID" class="seleccionar_ciudad form-control" #valCity (change)="seleccionarCiudad(valCity.value)" formControlName="ciudadess">
+                    <option class="todas_los_departamentos" value="todos">Todas las ciudades</option>
+                    <option  *ngFor="let city of ciudades; let i = index" class="ciudad" [value]="city" [id]="i" >{{ city }}</option>
+                </select>
+            </div>
+
         </form>
     </div>
 
@@ -89,13 +88,13 @@
 
 
     <!--contenedor cards restaurantes--->
-    <div class="contenedor_cards" *ngIf="contenedorRestaurantes">
+    <div class="contenedor_cards" *ngIf="contenedorCardsRestaurantes">
 
-        <div class="card_1_restaurante" *ngFor="let restaurante of guardarArrRestaurante; let i = index">
+        <div class="card_1_restaurante" *ngFor="let restaurante of guardarResturantesDB; let i = index">
             <img [src]="restaurante.foto" class="imagen_card"/>
             <div class="informacion_restaurante">
                 <h2 class="titulo_restaurante">{{ restaurante.nombreRestaurante }}</h2>
-                <p class="barrio">{{ restaurante.direccion }}}</p>
+                <p class="barrio">{{ restaurante.direccion }}</p>
                 <p class="barrio">{{ restaurante.ciudad }}</p>
                 <!--<p class="direccion">{{ restaurante.email }}</p>-->
                 <!--<img src="./assets/img/favorito.png" class="icono_favoritos"/>-->
@@ -112,9 +111,7 @@
     <div class="contenedor_cards" *ngIf="contenedorCategoriaRestaurante">
 
         <div class="card_1_restaurante" *ngFor="let restaurante of categoriaPorComida; let i = index" >
-            
-            
-          
+
             <!--<img src="./assets/img/favorito_seleccionado.png" id="favoritoH{{i}}"  class="icono_favoritos corazon_hovers" />-->
 
             <img [src]="restaurante.foto" class="imagen_card"/>

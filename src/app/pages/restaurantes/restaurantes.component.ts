@@ -9,8 +9,7 @@ import { Router, ActivatedRoute } from "@angular/router"
 
 
 
-/*-------conectar servivio JS-------------*/
-import { CargaJSService } from 'src/app/services/carga-js.service';
+
 
 
 
@@ -20,9 +19,7 @@ import { FormGroup, FormBuilder } from "@angular/forms"
 import Swal from 'sweetalert2';
 
 
-/*---importar jquery---*/
-import * as $ from 'jquery';
-import * as jQuery from 'jquery';
+
 
 
 
@@ -51,7 +48,7 @@ export class RestaurantesComponent implements OnInit {
 
     ciudades:any = []
 
-    elegir_comida = false;
+ 
     nombreCategoria = ""
 
 
@@ -64,7 +61,7 @@ export class RestaurantesComponent implements OnInit {
 
 
     /*---conetendores visuales----*/
-    contenedorRestaurantes = false;
+    contenedorCardsRestaurantes = true;
     contenedorCategoriaRestaurante = false;
 
 
@@ -75,8 +72,8 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-    /*---resultado de restaurantes en la ciudad---*/
-    guardarArrRestaurante:any = []
+    //--- Variable donde se guarda los restaurantes encontrados ---//
+    guardarResturantesDB:any = []
 
 
 
@@ -103,12 +100,9 @@ export class RestaurantesComponent implements OnInit {
   
    
 
-    constructor( private usarRuta:Router, private conectarServicio:RestauranteService, private cargarJs:CargaJSService, private recibirParametro:ActivatedRoute, private fb:FormBuilder ){
+    constructor( private usarRuta:Router, private conectarServicio:RestauranteService, private recibirParametro:ActivatedRoute, private fb:FormBuilder ){
 
       
-      /*---cargar archivo js---*/
-      this.cargarJs.carga(['funcion']);
-      /*---cargar archivo js---*/
 
     }
 
@@ -117,24 +111,6 @@ export class RestaurantesComponent implements OnInit {
 
     ngOnInit(): void {
 
-      /*-------------¿esta logueado?--------------*/
-      if( localStorage.getItem('correo') ){
-
-          this.corazonNormal = true;
-
-        }else{
-
-          this.corazonNormal = false;
-        
-      }
-
-
-  
-      //------MODAL DE INICIO DE SESSION-----
-     
-
-
-
       /*--------recibir parametro de inicio----------*/
        this.recibirParametro.params.subscribe( (resp:any) => {
      
@@ -142,196 +118,49 @@ export class RestaurantesComponent implements OnInit {
 
         this.parametroRecibido = resp['categoria'];
 
-
-        console.log(resp['categoria'])
-       
       })
 
       
+
     
-      /*-----selects por defecto------*/
+      /*-----DEPÁRTAMENTO CUIDAD, Y COMIDA POR DEFECTO------*/
       this.selectForm = this.fb.group({
-        departamentoss: '28', // tolima
-        categoriass: this.parametroRecibido,
-        ciudadess:""
+        departamentoss: 'todos', // tolima
+        categoriass: "Carnes",
+        ciudadess: 'todos'
       })
         
         
 
 
-
-      /*--saludo--*/
-      this.nombrePersona = localStorage.getItem('nombre');
-
-      if( this.nombrePersona ){
-        
-        this.ocultarSaludo = true;
-      
-      }else{
-       
-        this.ocultarSaludo = false;
-      
-      }
-       /*--fin saludo--*/
-
-
-
-
-
-      /*----cargar departamentos  por defecto----*/
-      this.departamentos = this.conectarServicio.ciudades()
+      /*---------CARGAR DEPARTAMENTOS EN EL COMBO------------*/
+      this.conectarServicio.ciudades()
           .subscribe( (resp:any) => {
 
-            this.departamentos = resp;
-            console.log( this.departamentos )
+            //--CARGAR DEPARTAMENTOS--//
+            this.cargarDepartamentos(resp)
 
-            
-
-          /*------------datos que vienen por defecto de Storage ó por defecto---------*/
-          if( localStorage.getItem('departamento') ){
-
-            this.parametroCiudad( this.departamentos, localStorage.getItem('departamento') );
-
-            /*---combos por defecto---*/
-            this.selectForm = this.fb.group({
-              departamentoss: localStorage.getItem('departamento'),
-              categoriass: this.parametroRecibido,
-              ciudadess:""
-            })
-
-        
-
-          }else{
-            
-            this.parametroCiudad( this.departamentos, '28' ); //---Tolima--
-           
-
-            /*---combos por defecto---*/
-            this.selectForm = this.fb.group({
-              departamentoss: '28',
-              categoriass: this.parametroRecibido,
-              ciudadess:""
-            })
-
-          } 
-
-
-
-
-
-          
-
-          /*--------------CIUDAD POR DEFECTO LOCAL STORAGE O SIN LOCALSTORAGE---------------*/
-          if( localStorage.getItem('ciudad') ){
-            
-            this.elegirCiudad( localStorage.getItem('ciudad') );
-            this.CiudadCliente = localStorage.getItem('ciudad');
-
-            /*---combos por defecto---*/
-             this.selectForm = this.fb.group({
-              departamentoss : localStorage.getItem('departamento'),
-              categoriass    : this.parametroRecibido,
-              ciudadess      : localStorage.getItem('ciudad')
-            })
-      
-
-          }else{
-            
-            this.elegirCiudad( 'Ibagué' );
-            
-
-
-            this.CiudadCliente = 'todos'
-
-
-             /*---combos por defecto SE LLENA CON LOS VALUE---*/
-             this.selectForm = this.fb.group({
-              departamentoss : '28',
-              categoriass    : this.parametroRecibido,
-              ciudadess      : 'Ibagué'
-            
-            })
-
-          }
-          
-           
+            //--CARGAR CUIDADES---//
+            this.cargarCiudad( resp, '28' );     
       })
     
-      
     }
 
 
+    cargarDepartamentos( departamentos:any ){
+      
+      this.departamentos = departamentos;
 
-    cerrarModalSession(){
-      
-      this.modalIniciarSession = false;
-      
     }
-
-
-
-
-
-    /*-------SELECCIONAR DEPARTAMENTO Y TRAER CIUDADES-----*/
-    parametroCiudad( array:any, Posicion:any ){
-      
-      console.log(array)
-      console.log(Posicion)
-
-
-      this.contenedorCategoriaRestaurante = false // esconder resultado tarjetas
-      this.elegir_comida = false;
-
-      this.contenedorCategoriaRestaurante = false;
-      this.contenedorRestaurantes = false;
-
-
-
-      if(Posicion == "todos"){
   
-        this.quitarSelectTodasCiudades = false; // esconder combo de ciudades
+    
+    cargarCiudad( array:any, Posicion:any ){
+  
+      this.ciudades = array[ Posicion ].ciudades;
 
-        /*----traer todos los departementos---*/
-        this.conectarServicio.ciudades()
-            .subscribe( resp => {
-              console.log(resp)
-              this.departamentos = resp;
-            
-            })
-
-
-
-        /*-----------traer todos los restaurantes-------*/
-        this.ciudades = []/*--reset select ciudades--*/
-
-        this.conectarServicio.filtrarRestaurantes( Posicion )
-        .subscribe( resp => {
-            console.log(resp.restaurantesDB);
-            this.guardarArrRestaurante = resp.restaurantesDB;
-
-            /*-----seleccion Categoria Automatico------*/
-            //this.seleccionarCategoria( this.parametroRecibido );
-
-        })
-
-
-        /*---motrar contenedores---*/
-        //this.contenedorRestaurantes = true;
-        this.contenedorRestaurantes = true;
-        this.elegir_comida = true;
-        this.contenedorVacio = false;
-        this.noHayCategoria = false;
-        
-
-      
-      }else{
-
-        this.quitarSelectTodasCiudades = true;
-        this.ciudades = array[ Posicion ].ciudades
-      
-      }
-       
     }
+
+    
     
 
 
@@ -341,16 +170,12 @@ export class RestaurantesComponent implements OnInit {
 
 
     /*-------SELECCIONAR CIUDAD-------*/
-    elegirCiudad( ciudad:any ){
 
   
-
-      this.contenedorCategoriaRestaurante = false;
-
-
-      //console.log( ciudad );
-      this.CiudadCliente = ciudad;
-
+    elegirCiudad( ciudad:any ){
+        
+      console.log("elegir cuidad")
+/*
         this.conectarServicio.filtrarRestaurantes( ciudad )
           .subscribe( resp => {
              
@@ -362,7 +187,7 @@ export class RestaurantesComponent implements OnInit {
               //---motrar contenedores---
               this.contenedorRestaurantes = true;
 
-              this.elegir_comida = true;
+         
               this.contenedorVacio = false;
               this.noHayCategoria = false;
 
@@ -380,7 +205,7 @@ export class RestaurantesComponent implements OnInit {
                this.contenedorRestaurantes = false;
 
                this.noHayCategoria = false;
-               this.elegir_comida = false;
+       
                this.contenedorVacio = true;
                this.contenedorCategoriaRestaurante = false;
 
@@ -388,80 +213,55 @@ export class RestaurantesComponent implements OnInit {
                
 
           })
+      */
+    }
+  
+
+
+
+
+
+  /*
+      this.conectarServicio.filtrarRestaurantes(categoriaComida)
+          .subscribe( (resp:any) => {
+            
+            this.guardarResturantesDB = resp.respDB;
+            console.log(resp);
+
+          }, (err => {
+            console.log(err.error.mensaje)
+          }))
+      */
+
+
+    seleccionarComida( categoriaComida:any){
+
+        console.log(categoriaComida);
+  
+    }
+
     
+    seleccionarDepartamento( seleccionarDepartamento:any, posicion:any ){
+      
+      console.log(seleccionarDepartamento)
+      console.log(posicion)
+
+    }
+  
+    
+    seleccionarCiudad( ciudad:string ){
+        
+      console.log( ciudad );
+
     }
 
 
-
-
-
-
-
-    seleccionarCategoria( categoria:any){
-
-
-      this.nombreCategoria = categoria
-      console.log( this.guardarArrRestaurante )
-
-      let RestaurantPorCategoria:any = []
-
-      Object.values( this.guardarArrRestaurante ).forEach( (resp:any) => {
-        
-        let todosLosRestaurante = resp;
-        let todasLasCategorias  = resp.categoria;
-        //console.log("categorias: " + todasLasCategorias )
-
-        if( todasLasCategorias.indexOf( categoria ) >= 0 ){
-
-          RestaurantPorCategoria.push(todosLosRestaurante);
-
-          this.contenedorRestaurantes = false;
-          this.contenedorCategoriaRestaurante = true;
-
-        
-        }
-
-      })
-
-
-
-   
-      this.categoriaPorComida = RestaurantPorCategoria 
-      //console.log(this.categoriaPorComida)
-
-      if(this.categoriaPorComida.length > 0){
-
-        
-        console.log("hay restaurante");
-        this.noHayCategoria = false;
       
-      }else{
-
-        if(categoria == "Todos"){
-
-          /*--reset--*/
-          this.categoriaPorComida = this.guardarArrRestaurante;
-          this.contenedorCategoriaRestaurante = true;
-          this.noHayCategoria = false;
-          
-
-        }else{
-
-          console.log("no hay restaurante");
-          this.noHayCategoria = true;
-          this.contenedorCategoriaRestaurante = false;
-          this.contenedorRestaurantes = false;
-
-          this.contenedorVacio = false;
-
-        }
-        
-
-      }
+    cerrarModalSession(){
+      
+      this.modalIniciarSession = false;
       
     }
-
-
 
 
 

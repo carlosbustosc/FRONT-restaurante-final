@@ -58,7 +58,8 @@
     width: 100%;
     max-width: 250px;
     display: table;
-    float:left;
+    float: left;
+    margin-left: 18px;
 
 }
 
