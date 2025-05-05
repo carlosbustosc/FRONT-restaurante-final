@@ -18,7 +18,24 @@
     padding-top: 76px;
 }
 
+.numeroMensajes1 {
+    background-color: #b1eefa;
+    padding: 0px 9px;
+    float: right;
+    position: relative;
+    right: 15px;
+    border-radius: 5px;
+    color: #015761;
+}
 
+.numeroMensajes {
+    background-color: red;
+    padding: 0px 9px;
+    float: right;
+    position: relative;
+    right: 59px;
+    border-radius: 5px;
+}
 
 .base_mensaje{
 

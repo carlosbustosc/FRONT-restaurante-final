@@ -169,6 +169,11 @@
     color:#000;
 }
 
+.text_transform{
+
+    text-transform: lowercase;
+}
+
 .contenedor_no_resgitros{
     max-width: 800px;
     width: 100%;

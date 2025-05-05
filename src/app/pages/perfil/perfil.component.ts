@@ -50,7 +50,7 @@ export class PerfilComponent implements OnInit {
   guardarRestaurantesFavoritos:any = []
 
   /*---pantallas----*/
-  pantallaInformacion = false;
+  pantallaInformacion = true;
   pantallaDomicilios  = false;
   pantallaFavoritos = false;
 
@@ -62,7 +62,8 @@ export class PerfilComponent implements OnInit {
 
   guardarImagen:any;
 
-  guardarImagenPerfil:any[] = []
+  guardarImagenPerfil:any; 
+
 
   num1 = 0
 
@@ -99,19 +100,32 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
 
-       
+
         this.conectarServicios.cargarImagenPerfil( localStorage.getItem('email') )
             .subscribe( (resp:any) => {
           
               console.log(resp)
         
               this.guardarImagenPerfil = resp.datosFoto.fotoF 
-              console.log(this.guardarImagenPerfil)
+              //console.log(this.guardarImagenPerfil)
 
-            })
+            }, (err => {
+              
+              // si no hay un registro de foto toca una predeterminada
+              if(err.error.mensaje){
+
+                this.guardarImagenPerfil =  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+              
+              }
+
+            }))
              
+      //-------verificar si se carga por defecto la pantalla favoritos-----//
+      
 
-      /*---ciudad d ela persona--*/
+
+
+      /*---ciudad de la persona--*/
       this.ciudadPerfil = localStorage.getItem('ciudad')
              
       
@@ -124,12 +138,34 @@ export class PerfilComponent implements OnInit {
       //console.log( this.agendado );
 
       if( this.agendado ){
-   
-        this.pantallaInformacion = false;
-        this.pantallaDomicilios  = true;
-       
-
         
+
+        // cuando se registra un restaurante favorito
+        if( localStorage.getItem('favorito') ){
+          
+          this.pantallaInformacion = false;
+          this.pantallaDomicilios  = false;
+          this.pantallaFavoritos = true;
+          this.verFavoritos();
+
+          setTimeout( function() {
+            localStorage.removeItem('favorito');
+          }, 2000)
+        
+        // cuando se registra un domicilio
+        }else if( localStorage.getItem('docimilio') ){
+          
+          this.pantallaInformacion = false;
+          this.pantallaDomicilios  = true;
+
+          setTimeout( function() {
+            localStorage.removeItem('docimilio');
+          }, 2000)
+
+        }
+
+       
+       
       }else{
     
         this.pantallaInformacion = true;
@@ -392,24 +428,31 @@ export class PerfilComponent implements OnInit {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, cancelar!"
+    
     }).then((result) => {
       if (result.isConfirmed) {
         
         this.conectarServicios.borrarPedido( id._id )
         .subscribe( resp => {
 
-          setInterval(() => {
-            window.location.reload();
-          }, 3000); // 30000 ms = 30 segundos
-
-          console.log(resp);
+            console.log(resp);
         })
 
         Swal.fire({
           title: "Muy bien!",
           text: "Ya no se le notificara al restaurante sobre tu pedido.",
           icon: "success"
-        });
+        
+        }).then( () => {
+            
+
+          setTimeout(() => {
+            window.location.reload();
+          
+
+          }, 1000); // 30000 ms = 30 segundos
+
+        })
 
       }
 
@@ -447,23 +490,24 @@ export class PerfilComponent implements OnInit {
 
       if (result.isConfirmed) {
         
-        
-
+      //Borrar favorito d ela DB
       this.conectarServicios.borrarFavoritos( id )
       .subscribe( resp => {
+
         console.log(resp);
-
-        setInterval(() => {
-          window.location.reload();
-        }, 2000); // 30000 ms = 30 segundos
-
       })
 
         Swal.fire({
           title: "Muy bien!",
           text: "Se ha borrado este restaurante de tu perfil",
           icon: "success"
-        });
+        }).then( () => {
+
+          setInterval(() => {
+            window.location.reload();
+          }, 1000); // 30000 ms = 30 segundos
+
+        })
 
       }
 

@@ -7,7 +7,7 @@
 
         <!--pedidos-->
         <div class="base_pedidos_perfil_rest">
-            <h1 class="titulo_mensajes">PEDIDOS NUEVOS</h1>
+            <h1 class="titulo_mensajes"> <span class="numeroMensajes1">{{ contarPedidos }} </span>PEDIDOS NUEVOS</h1>
 
             <div class="base_mensaje" *ngFor="let pedido of dataPedidos; let i = index"  (click)="verMensaje(i + 1, i, pedido )">
                 <p class="mensaje_nuevo">{{ pedido.nombreCliente }} <span class="circulo_rojo" id="{{ i + 1 }}"></span></p>
@@ -17,13 +17,13 @@
 
         <!--pedidos-->
         <div class="base_pedidos_perfil_rest">
-            <h1 class="titulo_mensajes">GESTIONADOS</h1>
+            <h1 class="titulo_mensajes">HISTORIAL GESTIONADOS</h1>
 
             <div class="base_mensaje" (click)="gestionados('rechazado')">
-                <p class="mensaje_nuevo" >Rechazados</p>
+                <p class="mensaje_nuevo" >Rechazados <span class="numeroMensajes">{{ contarRechazados }}</span></p>
             </div>
             <div class="base_mensaje" (click)="gestionados('aceptado')">
-                <p class="mensaje_nuevo" >Aceptados</p>
+                <p class="mensaje_nuevo" >Aceptados <span class="numeroMensajes">{{ contarAceptados }}</span></p>
             </div>
            
         </div>
@@ -34,7 +34,7 @@
             <h1 class="titulo_mensajes">ADMIN COMENTARIOS</h1>
 
             <div class="base_mensaje" (click)="traerComentarios()">
-                <p class="mensaje_nuevo">Ver comentarios</p>
+                <p class="mensaje_nuevo">Ver comentarios <span class="numeroMensajes">{{ contarComentarios }}</span></p>
             </div>
         </div>
     </div>
@@ -100,6 +100,7 @@
 
 
 
+    <!---Seccionn de Gestionados-->
     <div class="contenedor_detalle">
         <h1 class="titulo_pedidos" *ngIf="mostrarGestionado">Pedidos {{ tipoPedido }}</h1>
 
@@ -124,7 +125,6 @@
 
                 <button class="botones_pedidos btn btn-danger"    (click)="eliminarGestionado( ArrGestionados, i )" *ngIf="pEliminar">{{ mensajeBoton }}</button>
 
-               
             </div>
 
             <hr class="linea_divisora" *ngIf="mostrarGestionado">

@@ -239,8 +239,10 @@ export class RestauranteComponent implements OnInit {
     
       .subscribe( resp => {
             console.log( resp );
-
+        
             this.modalPedido = false;
+            
+            localStorage.setItem('docimilio', "true")
 
             setTimeout( () => {
 
@@ -250,15 +252,15 @@ export class RestauranteComponent implements OnInit {
                 
                 <p class="texto_nota">El pago se realiza contraentrega, cualquier anomalia por favor escribenos a : carnesTolima@gmail.com</p>`,
                 icon: "success"
-              });
+              }).then( () => {
+                  
+                window.location.href = `#/perfil/${ localStorage.getItem('email') }`;
+                
+              })
 
             }, 500)
         
-            setTimeout(function(){
-
-              window.location.href = `#/perfil/${ localStorage.getItem('email') }`;
-            
-          }, 4000) 
+        
   
           localStorage.setItem("agendado", "si");
           

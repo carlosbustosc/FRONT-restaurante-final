@@ -167,10 +167,18 @@ export class RegistroClienteComponent implements OnInit {
               title: "Se ha registrado correctamente!",
               text: "Inicie session para ver su perfil y agendar domicilios!",
               icon: "success"
-            });
-            this.formularioCliente.reset()
+            }).then( () => {
+              
+              this.formularioCliente.reset();
+
+              setTimeout( () => {
+                this.usarRuta.navigate(['/loginCliente']);
+              }, 1000)
+
+            })
+            
              
-            this.usarRuta.navigate(['/loginCliente']);
+            
            
           })
 

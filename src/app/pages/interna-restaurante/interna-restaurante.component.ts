@@ -40,7 +40,23 @@ export class InternaRestauranteComponent implements OnInit{
 
   base_comentarios = false;
 
+
   ArrGestionados:any;
+  ArrAceptados:any;
+  ArrRechazados:any;
+
+  //contador en ACEPTADOS /RECHAZADOS
+  contarRechazados:number = 0;
+  contarAceptados :number = 0;
+
+  //contador comentarios
+  contarComentarios:number = 0;
+
+  //contador de pedidos
+  contarPedidos:number = 0;
+
+
+
 
   mostrarGestionado = false;
   
@@ -65,13 +81,31 @@ export class InternaRestauranteComponent implements OnInit{
      let emailRestaurante = localStorage.getItem('email');
 
      
-     this.conectarServicio.traerPedidosDeRestaurante( emailRestaurante )
-         .subscribe( (resp:any) => {
-          
-          this.dataPedidos = resp.datosDomicilios;
-          console.log(resp);
-      
-        })
+       // cargar pedidos nuevos 
+       this.pedidosNuevos( emailRestaurante )
+    
+    
+      //cargar mensajes gestionado
+      this.mensajesGestionados()
+
+
+      //cargar comentarios
+      this.cargarComentarios()
+
+
+  }
+
+  pedidosNuevos( emailRestaurante:any ){
+
+    this.conectarServicio.traerPedidosDeRestaurante( emailRestaurante )
+    .subscribe( (resp:any) => {
+     
+     this.dataPedidos = resp.datosDomicilios;
+
+     this.contarPedidos = resp.datosDomicilios.length;
+     console.log(resp);
+ 
+   })
 
   }
 
@@ -152,9 +186,7 @@ export class InternaRestauranteComponent implements OnInit{
         this.conectarServicio.borrarPedido( detalleCliente._id )
           .subscribe( resp => {
             console.log(resp)
-            setInterval(() => {
-              window.location.reload();
-            }, 3000); // 30000 ms = 30 segundos
+            
           })
             
    
@@ -169,7 +201,13 @@ export class InternaRestauranteComponent implements OnInit{
           title: "muy Bien!",
           text: "El pedido aparecera en la bandeja de rechazados.",
           icon: "success"
-        });
+        }).then( () => {
+
+          setInterval(() => {
+            window.location.reload();
+          }, 1000); // 30000 ms = 30 segundos
+          
+        })
       }
     });
 
@@ -215,7 +253,8 @@ export class InternaRestauranteComponent implements OnInit{
         this.conectarServicio.ResgitrarNotificacion( infoNotificacion )
                 .subscribe( resp => {
                   console.log(resp)
-                  alert('ha sido aceptado correctamente')
+                  //alert('ha sido aceptado correctamente');
+
                 })
 
     
@@ -223,7 +262,7 @@ export class InternaRestauranteComponent implements OnInit{
           .subscribe( resp => {
               console.log( resp );
 
-                alert(" El pedido fue entregado y sera eliminado de la base de datos");
+                //alert(" El pedido fue entregado y sera eliminado de la base de datos");
           })
 
 
@@ -231,7 +270,13 @@ export class InternaRestauranteComponent implements OnInit{
           title: "Bien!",
           text: "El pedido se ha guardado en la bandeja de aceptados.",
           icon: "success"
-        });
+        }).then( () => {
+
+          setInterval(() => {
+            window.location.reload();
+          }, 1000); // 30000 ms = 30 segundos
+
+        })
       }
     });
 
@@ -291,43 +336,47 @@ export class InternaRestauranteComponent implements OnInit{
    }
 
 
-  
-   gestionados( estado:string ){
-    
-    this.base_comentarios = false;
 
-    if(estado == "rechazado"){
-       this.tipoPedido = "rechazados"
+  //Mensajes gestionados
+   mensajesGestionados(){
 
-     
-       this.pEliminar = true;
-
-       this.mensajeBoton = "Eliminar rechazado"
-       
-    }
-
-    if(estado == "aceptado"){
-
-      this.tipoPedido = "aceptados"
-      this.mensajeBoton = "Eliminar aceptado"
-      this.pEliminar = true;
-
-   }
-
- 
-
-    this.mostrarPantallaDetalle = false;
-    this.mostrarPantallaInformacion = false;
-      
-
-
-      this.conectarServicio.traerGestionados( estado )
+    this.conectarServicio.traerGestionados()
         .subscribe(  (resp:any) => {
           
-          console.log(resp.registros )
+
+          //-----filtrar Datos----//
+          let ArregloAceptados:any = []
+          let ArregloRechazados:any = []
+
+          Object.values( resp.registros ).forEach( (resp:any) => {
+               
             
-          this.ArrGestionados = resp.registros
-          this.mostrarGestionado = true;
+            let estado = resp.estado;
+            if( estado.indexOf("aceptado") >=0 ){
+        
+                ArregloAceptados.push( resp ) 
+            }
+
+            if( estado.indexOf("rechazado") >=0 ){
+        
+                ArregloRechazados.push( resp ) 
+            }
+
+          })
+            
+          //contador mensajes
+          this.contarRechazados = ArregloRechazados.length
+          this.contarAceptados  = ArregloAceptados.length
+
+          
+
+          //guardamos el arreglo filtrado 
+          this.ArrAceptados  = ArregloAceptados;
+          this.ArrRechazados = ArregloRechazados;
+
+          console.log(this.ArrAceptados)
+          console.log(this.ArrRechazados)
+
         
         }, (error) => {
 
@@ -339,6 +388,38 @@ export class InternaRestauranteComponent implements OnInit{
 
 
         })
+        
+   }
+
+
+   gestionados( estado:string ){
+    
+    this.mostrarGestionado = true;
+    this.base_comentarios = false;
+    this.pEliminar = true;
+
+    if(estado == "rechazado"){
+        
+       this.ArrGestionados = this.ArrRechazados;
+       this.tipoPedido = "rechazados"
+       this.mensajeBoton = "Eliminar rechazado"
+       
+    }
+
+    if(estado == "aceptado"){
+      
+      this.ArrGestionados = this.ArrAceptados;
+      this.tipoPedido = "aceptados"
+      this.mensajeBoton = "Eliminar aceptado"
+      
+
+   }
+
+ 
+
+    this.mostrarPantallaDetalle = false;
+    this.mostrarPantallaInformacion = false;
+      
 
    }
  
@@ -375,24 +456,34 @@ export class InternaRestauranteComponent implements OnInit{
 
 
 
+
+
+
+
+
+
+   //cargar comentarios
+  cargarComentarios(){
+
+    this.conectarServicio.cargarComentarios( localStorage.getItem('email') )
+    .subscribe( (resp:any) => {
+      //console.log( resp )
+  
+      this.contarComentarios = resp.length;
+      this.guardarComentarios = resp;
+
+    })
+
+   }
+
   traerComentarios(){
     
     this.mostrarGestionado = false;
-
     this.mostrarPantallaDetalle = false;
     this.mostrarPantallaDetalle = false;
-    
     this.mostrarPantallaInformacion = false;
 
     this.base_comentarios = true;
-
-    this.conectarServicio.cargarComentarios( localStorage.getItem('email') )
-        .subscribe( (resp:any) => {
-          console.log( resp )
-
-          this.guardarComentarios = resp;
-
-        })
 
    }
 
@@ -417,17 +508,19 @@ export class InternaRestauranteComponent implements OnInit{
         this.conectarServicio.borrarComentarioPerfil( datos._id )
         .subscribe( resp => {
           console.log( resp )
-
-          setInterval(() => {
-            window.location.reload();
-          }, 3000); // 30000 ms = 30 segundos
         })
 
         Swal.fire({
           title: "muy Bien!",
           text: "El comentario ya no aparecera en el perfil del restaurante.",
           icon: "success"
-        });
+        }).then( () => {
+            
+          setInterval(() => {
+            window.location.reload();
+          }, 1000); // 30000 ms = 30 segundos
+
+        })
       }
     });
 
@@ -443,7 +536,7 @@ export class InternaRestauranteComponent implements OnInit{
 
 
 
-     eliminarGestionado( datosGestionado:any, indice:any ){
+  eliminarGestionado( datosGestionado:any, indice:any ){
         
       const idGestionado = datosGestionado[indice]._id
       
@@ -463,16 +556,19 @@ export class InternaRestauranteComponent implements OnInit{
           .subscribe( resp => {
             console.log(resp)
 
-            setInterval(() => {
-              window.location.reload();
-            }, 3000); // 30000 ms = 30 segundos
           })
 
           Swal.fire({
             title: "Borrado!",
             text: "Se ha borrado de la bandeja de entrada.",
             icon: "success"
-          });
+          }).then( () => {
+
+            setInterval(() => {
+              window.location.reload();
+            }, 1000); // 30000 ms = 30 segundos
+
+          })
         }
       });
 

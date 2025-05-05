@@ -110,8 +110,8 @@ export class NavbarComponent implements OnInit {
 
 
     
-    /*--------------cargar foto perfil---------------*/
-    if( localStorage.getItem('email') ){
+    /*--------------cargar foto perfil Si es un cliente---------------*/
+    if( localStorage.getItem('email') && ( localStorage.getItem('idPersona') )){
         
       this.conectarServicio.cargarImagenPerfil( localStorage.getItem('email') )
       .subscribe( (resp:any) => {
@@ -119,7 +119,16 @@ export class NavbarComponent implements OnInit {
   
         this.guardarImagenPerfil = resp.datosFoto.fotoF 
   
-      })
+      }, (err => {
+          
+        // si no hay un registro de foto toca una predeterminada
+        if(err.error.mensaje){
+
+          this.guardarImagenPerfil =  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+        
+        }
+
+      }))
 
     }
    
@@ -211,7 +220,9 @@ export class NavbarComponent implements OnInit {
 
     
 
-    //---------------verificar INGRESO RESTAURANTE----------------------
+    //---------------verificar INGRESO RESTAURANTE----------------------//
+
+    //cargar foto perfil si es restaurante
     if( localStorage.getItem('nombreRestaurante') ){
 
       this.verLetraPerfil = false;
@@ -219,8 +230,8 @@ export class NavbarComponent implements OnInit {
       /*--------cargar resturante------*/
       this.conectarServicio.traerUnRestaurante( localStorage.getItem('idRestaurante') )
       .subscribe( (resp:any) => {
-        //console.log(resp.restaurante.foto[0])
-        this.guardarImagenPerfil = resp.restaurante.foto[0]
+        console.log(resp.respDB[0].foto[0])
+        this.guardarImagenPerfil = resp.respDB[0].foto[0];
       })
 
 
@@ -514,10 +525,7 @@ export class NavbarComponent implements OnInit {
     }
   
 
-  
-
     this.conectarServicio.guardarMensajes( mensajeRespuesta )
-
 
         .subscribe( resp => {
           console.log( resp );

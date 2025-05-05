@@ -8,11 +8,6 @@ import { RestauranteService } from 'src/app/services/restaurante.service';
 import { Router, ActivatedRoute } from "@angular/router"
 
 
-
-
-
-
-
 /*----formGroup----*/
 import { FormGroup, FormBuilder } from "@angular/forms"
 
@@ -50,8 +45,7 @@ export class RestaurantesComponent implements OnInit {
     //Array que contiene todas las ciudades//
     ciudades:any = []
 
- 
-  
+
 
     /*-------filtro por categoria de comida-----*/
     categoriaPorComida:any = []
@@ -162,69 +156,9 @@ export class RestaurantesComponent implements OnInit {
     
 
 
-  
 
 
 
-
-
-
-
-
-    /*-------SELECCIONAR CIUDAD-------*/
-
-  
-    elegirCiudad( ciudad:any ){
-        
-      console.log("elegir cuidad")
-/*
-        this.conectarServicio.filtrarRestaurantes( ciudad )
-          .subscribe( resp => {
-             
-            if( resp.length > 0 ){  
-
-              this.guardarArrRestaurante = resp;
-              console.log(resp);
-
-              //---motrar contenedores---
-              this.contenedorRestaurantes = true;
-
-         
-              this.contenedorVacio = false;
-              this.noHayCategoria = false;
-
-
-               //-----seleccion Categoria Automatico------
-              //this.seleccionarCategoria( "Carnes" );
-
-              this.seleccionarCategoria(this.guardarCategoria) //--------------  SELECCIONAR CATEGORIA (SOPA, PESCADO ETC.  )
-            
-            }else{
-
-              console.log("no se encontraron registros");
-
-               //---motrar contenedores---
-               this.contenedorRestaurantes = false;
-
-               this.noHayCategoria = false;
-       
-               this.contenedorVacio = true;
-               this.contenedorCategoriaRestaurante = false;
-
-            }
-               
-
-          })
-      */
-    }
-  
-
-
-
-
-  
-   
-  
       
 
     //-----FILTRAR POR COMIDA----//
@@ -242,6 +176,9 @@ export class RestaurantesComponent implements OnInit {
     }
 
     
+
+
+
 
 
 
@@ -290,6 +227,8 @@ export class RestaurantesComponent implements OnInit {
 
 
 
+
+
     //------FILTRAR POR CIUDAD----//
     seleccionarCiudad( ciudad:string ){
        
@@ -307,6 +246,8 @@ export class RestaurantesComponent implements OnInit {
       this.peticionDaseDatos(this.comida, this.departamento, this.ciudad);
 
     }
+
+
 
 
 
@@ -358,40 +299,6 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-
-
-
-    //----------------------VER EL RESTAURANTE---------------------  
-    verRestaurante(datosREST:any, id:any){
-
-    
-      this.usarRuta.navigate([ '/restaurante', id ])
-
-      localStorage.setItem( 'id', id );
-      localStorage.setItem( 'emailREST', datosREST.email )
-      
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-    
-
     /*---------------------FAVORITOS-------------------*/
     agregarFavoritos( data:any, i:number ){
 
@@ -419,9 +326,12 @@ export class RestaurantesComponent implements OnInit {
                       title: "Se agrego correctamente!",
                       text: "Puedes buscarlo en tu perfil.",
                       icon: "success"
-                    });
-            
-        
+                    }).then( () => {
+                      localStorage.setItem('favorito','true');
+                      this.usarRuta.navigate(["/perfil", localStorage.getItem('email')] )
+                    })
+              
+                    
                   }, (err) => {
           
                     Swal.fire({
@@ -445,6 +355,32 @@ export class RestaurantesComponent implements OnInit {
 
    
     }
+
+
+
+
+    //----------------------VER EL RESTAURANTE---------------------  
+    verRestaurante(datosREST:any, id:any){
+
+    
+      this.usarRuta.navigate([ '/restaurante', id ])
+
+      localStorage.setItem( 'id', id );
+      localStorage.setItem( 'emailREST', datosREST.email )
+      
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
 
     /*--
     borrarCategoria( i:any ){

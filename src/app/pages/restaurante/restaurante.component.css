@@ -446,11 +446,23 @@ textarea{
     text-align: center;
     font-weight: 500;
     font-family: 'Open Sans', sans-serif;
-    text-transform: uppercase;
+    text-transform: none;
     margin-bottom: 0px;
     font-size: 29px;
 
 }
+
+.categoria_restaurante2{
+
+    color: #89dee8;
+    text-align: center;
+    font-weight: 500;
+    font-family: 'Open Sans', sans-serif;
+    text-transform: capitalize;
+    margin-bottom: 0px;
+    font-size: 29px;
+}
+    
 
 .base_comida_scs{
 

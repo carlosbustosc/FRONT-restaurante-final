@@ -149,7 +149,7 @@ div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
 }
 
 button.swal2-cancel.swal2-styled.swal2-default-outline {
-    background-color: #c10cb9 !important;
+    background-color: #01343a !important;
 }
 
 

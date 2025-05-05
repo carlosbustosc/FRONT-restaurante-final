@@ -561,11 +561,14 @@ export class RestauranteService {
 
       
       /*----------------obtener GESTIONADOS---------*/
-      traerGestionados( estado:any ){
+      traerGestionados( ){
           
         //console.log(estado)
-        return this.usarHttp.get(`http://localhost:5000/traerGestinados/${ estado }`);
+        return this.usarHttp.get(`http://localhost:5000/traerGestinados`);
       }
+
+
+
 
       eliminarGestionado( id:any ){
         
