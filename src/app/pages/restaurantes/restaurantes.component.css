@@ -169,15 +169,16 @@
     color:#000;
 }
 
-.contenedor_no_resgitros {
-    max-width: 1200px;
+.contenedor_no_resgitros{
+    max-width: 800px;
     width: 100%;
     background-color: #00aec38a;
     margin: auto;
     position: relative;
     display: table;
-    padding: 20px 40px;
+    padding: 3px 40px;
     margin-top: 40px;
+    border-radius: 14px;
 }
 
 

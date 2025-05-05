@@ -77,33 +77,35 @@ export class RestauranteComponent implements OnInit {
   
   ngOnInit(): void {
 
-     /*--------cargar Comentarios del resturante-----------*/
+     /*-------Cargar Comentarios-----------*/
      this.conectarServicio.cargarComentarios( localStorage.getItem('emailREST') )
      .subscribe( resp => {
+
        console.log(resp);
 
        this.guardarComentarios = resp;
        
      })
 
-
-    
-    /*--traer nombre usuario---*/
-    this.nombreUsuario = localStorage.getItem('nombre');
+      // Traer usuario si existe //
+      this.nombreUsuario = localStorage.getItem('nombre');
 
 
+
+    // Recibir parametro de la pantalla restaurantes //
     this.recibirParametro.params
         .subscribe( resp => {
 
-          console.log("recibido: "+ resp['id'] ); // ID KKHFSUERIYWD3
           this.idRestaurante = resp['id']
 
           /*-----traer un restaurante------*/
-          this.conectarServicio.traerUnRestaurante( resp['id'] )
+          this.conectarServicio.traerUnRestaurante( this.idRestaurante )
               .subscribe( (resp:any) => {
-                console.log(resp.restaurante);
-                this.informacionRestaurante = resp.restaurante; //TODA LA INFORMACION DEL RESTURANTE
-              })
+
+                console.log(resp.respDB[0]);
+                this.informacionRestaurante = resp.respDB[0]; //TODA LA INFORMACION DEL RESTURANTE
+
+              }, (error) => { console.log(error.message) })
 
         })
   }
@@ -111,7 +113,7 @@ export class RestauranteComponent implements OnInit {
 
 
   
-  
+  // solictar pedido
   solicitarDomicilio(){
 
     if( this.arregloPedido <= 0){
@@ -173,7 +175,7 @@ export class RestauranteComponent implements OnInit {
     
   
     let posicion2 = this.arregloPedido.indexOf( valueEspecial );
-    console.log(posicion2);
+    //console.log(posicion2);
 
     if(posicion2 === -1){
   
@@ -214,16 +216,17 @@ export class RestauranteComponent implements OnInit {
 
 
 
-  pedirDomicilio( ){
-
-    let idRestaurante = this.idRestaurante;
-    let nombresResturante = this.informacionRestaurante.nombreRestaurante;
-    let fotoRestaurante = this.informacionRestaurante.foto[0];
-    let emailRestaurante =  this.informacionRestaurante.email;
+  pedirDomicilio(){
+    
+    // informacion restaurante
+    let idRestaurante      = this.idRestaurante;
+    let nombresResturante  = this.informacionRestaurante.nombreRestaurante;
+    let fotoRestaurante    = this.informacionRestaurante.foto[0];
+    let emailRestaurante   =  this.informacionRestaurante.email;
     let fecha = new Date();
     let mes = fecha.toDateString();
 
-
+    //informacion cliente
     let nombre = localStorage.getItem('nombre');
     let correo = localStorage.getItem('email');
     let pedido = this.arregloPedido;
@@ -239,11 +242,13 @@ export class RestauranteComponent implements OnInit {
 
             this.modalPedido = false;
 
-            setTimeout(function(){
+            setTimeout( () => {
 
               Swal.fire({
                 title: "Su pedido fue agendado correctamente!",
-                text: "Estara llegando de 30 a 40 minutos!",
+                html: `<p class="texto_mensaje">Estara llegando de 30 a 40 minutos!, a la ciudad de ${ this.datosCliente.controls['ciudad'].value }, barrio ${ this.datosCliente.controls['barrio'].value } a la siguiente direccion: ${ this.datosCliente.controls["direccion"].value  }</p>
+                
+                <p class="texto_nota">El pago se realiza contraentrega, cualquier anomalia por favor escribenos a : carnesTolima@gmail.com</p>`,
                 icon: "success"
               });
 

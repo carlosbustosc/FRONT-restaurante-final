@@ -92,7 +92,7 @@ export class LoginClienteComponent implements OnInit {
               /*----guardar local storage---*/           
               if( localStorage.getItem('id') ){
                 
-                this.usarRuta.navigate(['/restaurante', localStorage.getItem('id')]); //direccionar a la pagina de ingreso
+                this.usarRuta.navigate(['/restaurante', localStorage.getItem('id')] ); //direccionar a la pagina de ingreso
 
               }else{
 

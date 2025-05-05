@@ -10,6 +10,29 @@ font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
 }
 
+
+.texto_mensaje {
+    background-color: #005965;
+    color: #fff;
+    width: 90%;
+    margin: 18px auto;
+    padding: 18px 20px;
+    font-size: 16px;
+    line-height: 24px;
+    border-radius: 15px;
+}
+
+.texto_nota {
+    background-color: #17b5c8;
+    color: #ffffff;
+    width: 90%;
+    margin: 2px auto;
+    padding: 11px 20px;
+    font-size: 15px;
+    line-height: 22px;
+    border-radius: 15px;
+}
+
 .text_registro {
     color: #fff;
     padding-bottom: 1px;

@@ -7,10 +7,11 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms"
 /*----conectar servicios----*/
 import { RestauranteService } from 'src/app/services/restaurante.service';
 
-// usar ruta Route
-import { Router } from "@angular/router"
 
 import Swal from 'sweetalert2';
+
+//usar router
+import { Router } from "@angular/router"
 
 
 @Component({
@@ -27,7 +28,7 @@ export class RegistroClienteComponent implements OnInit {
   ciudades:any = [];
   formularioCliente:FormGroup
   
-  constructor(private usarRuta: Router, private fb: FormBuilder, private conectarServicio:RestauranteService ){
+  constructor(private usarRuta:Router, private fb: FormBuilder, private conectarServicio:RestauranteService ){
   
     this.formularioCliente = this.fb.group({
 
@@ -53,7 +54,7 @@ export class RegistroClienteComponent implements OnInit {
         .subscribe( (resp:any) => {
           
           this.departamentos = resp;
-          console.log( resp[1].ciudades );
+          //console.log( resp[1].ciudades );
         
         })
     
@@ -168,7 +169,8 @@ export class RegistroClienteComponent implements OnInit {
               icon: "success"
             });
             this.formularioCliente.reset()
-            
+             
+            this.usarRuta.navigate(['/loginCliente']);
            
           })
 

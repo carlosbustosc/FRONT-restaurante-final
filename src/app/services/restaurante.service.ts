@@ -171,7 +171,7 @@ export class RestauranteService {
         .set('ciudad', categoriaCiudad);
      
 
-      return this.usarHttp.get(`http://localhost:5000/traerUnRestaurante`, { params })
+      return this.usarHttp.get(`http://localhost:5000/traerRestaurantes`, { params })
       
   
     }
@@ -192,7 +192,7 @@ export class RestauranteService {
     traerUnRestaurante( id:any ){
       
       console.log(id)
-      return this.usarHttp.get(`http://localhost:5000/traerUnRestaurante/${ id }`);
+      return this.usarHttp.get(`http://localhost:5000/unSoloRestaurante/${ id }`);
 
     }
 
@@ -343,22 +343,24 @@ export class RestauranteService {
       return this.usarHttp.get('http://localhost:5000/cargarComentario')
                 .pipe(
                   map( (resp:any) => {
-                      
+                    
+                
                     const arrayNew:any = []
-
 
                     const todosLosComentarios = resp.todosLosComentarios;
 
                     Object.values( todosLosComentarios ).forEach( ( datos:any ) => {
                       
                        let todoLosCorreos = datos.correoRestaurante 
-
+              
                        if(  todoLosCorreos.indexOf( email ) >= 0 )
                           
                           arrayNew.push(datos) 
+                          
                     
                     }) 
                     
+                    //console.log(arrayNew)
                     return arrayNew;
 
                   })

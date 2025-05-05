@@ -20,9 +20,6 @@ import Swal from 'sweetalert2';
 
 
 
-
-
-
 @Component({
   selector: 'app-restaurantes',
   templateUrl: './restaurantes.component.html',
@@ -36,39 +33,43 @@ export class RestaurantesComponent implements OnInit {
   texto = "agregar su Favorito";
  
 
-  /*--select por defecto----*/
+  /*--Formulario select por defecto----*/
   selectForm:any = FormGroup;
 
+  
 
-
-  /*---saludo inicial---*/
+    /*---saludo inicial---*/
     nombrePersona:any;
+  
 
-    departamentos:any = []/*---todos los departamentos--*/
+    nombreCiudad:any = "colombia"
 
+    //Array que conteniede todos los departamentos//
+    departamentos:any = []
+
+    //Array que contiene todas las ciudades//
     ciudades:any = []
 
  
-    nombreCategoria = ""
-
-
-    ocultarSaludo = false;
-
+  
 
     /*-------filtro por categoria de comida-----*/
     categoriaPorComida:any = []
 
 
 
-    /*---conetendores visuales----*/
-    contenedorCardsRestaurantes = false;
-    contenedorCategoriaRestaurante = false;
+    /*---contenedores visuales----*/
+    noHayCategoria = true;
+
+    
+
+    // ocultar contenedor de las cards restaurantres //
+    contenedorCardsRestaurantes = true;
+  
 
 
-    contenedorVacio = false;
-    noHayCategoria = false;
-    quitarSelectTodasCiudades = false;
-
+    // ocultar combo de ciudades //
+    SelectTodasCiudades = false;
 
 
 
@@ -77,25 +78,16 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-    /*-----datos que vienen del cliente-----*/
-    DepartamentoCliente:any;
-    CiudadCliente:any;
-    /*-----datos que vienen del cliente-----*/
-
-
-
-    /*---------guardar categoria que viene del inicio-----------*/
+    /*----guardar categoria que viene de la pantalla inicio--------*/
     guardarCategoria:any;
 
 
 
-    /*----parametro Recibido del inicio----*/
-    parametroRecibido:any;
 
-
-    verificarFavorito:any
+    ocultarSaludo = false;
 
     corazonNormal = true;
+
     corazonRojo = false;
   
     
@@ -103,7 +95,7 @@ export class RestaurantesComponent implements OnInit {
 
 
 
-    //----------campos para filtrar----------//
+    //-------campos para filtrar-------//
     comida = "";
     departamento = "";
     ciudad = "";
@@ -121,22 +113,21 @@ export class RestaurantesComponent implements OnInit {
 
       /*--------recibir parametro de inicio----------*/
        this.recibirParametro.params.subscribe( (resp:any) => {
-     
         this.guardarCategoria = resp['categoria'];
-
-        this.parametroRecibido = resp['categoria'];
 
       })
 
       
 
     
-      /*-----DEPÁRTAMENTO CUIDAD, Y COMIDA POR DEFECTO------*/
+      /*-----DEPÁRTAMENTO  Y COMIDA POR DEFECTO------*/
       this.selectForm = this.fb.group({
+        categoriass: this.guardarCategoria,
         departamentoss: 'todos', // tolima
-        categoriass: "Todos",
-        ciudadess: 'todos'
       })
+
+      // Buscar comida
+      this.seleccionarComida( this.guardarCategoria );
         
      
 
@@ -148,8 +139,7 @@ export class RestaurantesComponent implements OnInit {
             //--CARGAR DEPARTAMENTOS--//
             this.cargarDepartamentos(resp)
 
-            //--CARGAR CUIDADES---//
-            //this.cargarCiudad( resp, '28' );     
+         
       })
     
     }
@@ -262,13 +252,24 @@ export class RestaurantesComponent implements OnInit {
      if(posicion == "todos"){
      
       this.departamento = "" // departamento va vacio por defecto
-      this.quitarSelectTodasCiudades = false; //esconder_filtro ciudades
+      this.SelectTodasCiudades = false; //esconder_filtro ciudades
 
      
     }else{
-        
+    
+
       this.departamento = this.departamentos[posicion].id // 28 - tolima
-      this.quitarSelectTodasCiudades = true; //mostrar_filtro ciudades
+      this.SelectTodasCiudades = true; //mostrar_filtro ciudades
+
+
+      //enviar la seleccion todo al combo ciudad
+      this.seleccionarCiudad( 'todos' );
+
+
+      // colocar el option 1 en el select ciudades
+      this.selectForm = this.fb.group({
+        ciudadess: 'todos'
+      })
      
     }
 
@@ -291,11 +292,15 @@ export class RestaurantesComponent implements OnInit {
 
     //------FILTRAR POR CIUDAD----//
     seleccionarCiudad( ciudad:string ){
-     
+       
+      this.nombreCiudad = ciudad;// nombre de la ciudad en la descripcion
+      
       this.ciudad = ciudad;
 
       if(ciudad == "todos"){
-        this.ciudad = ""
+
+        this.nombreCiudad = 'colombia';// nombre de la ciudad en la descripcion
+        this.ciudad = "";
       }
       
        // funcion que tiene la peticion a servicios http
@@ -322,12 +327,20 @@ export class RestaurantesComponent implements OnInit {
           //mostrar restaurantes
           this.contenedorCardsRestaurantes = true;
 
+          //ocultar alerta de no enonctrados
+          this.noHayCategoria = false;
+
 
         }, (err => {
           console.log(err.error.mensaje)
           
           //ocultar restaurantes
           this.contenedorCardsRestaurantes = false;
+
+
+          // mostrar alerta de no encontrados
+          this.noHayCategoria = true;
+
         }))
 
   }
@@ -367,10 +380,22 @@ export class RestaurantesComponent implements OnInit {
 
     
 
+
+
+
+
+
+
+
+
+
+
+    
+
     /*---------------------FAVORITOS-------------------*/
     agregarFavoritos( data:any, i:number ){
 
-      console.log(data)
+      //console.log(data)
       
       if( localStorage.getItem('email') ){
         
@@ -395,7 +420,7 @@ export class RestaurantesComponent implements OnInit {
                       text: "Puedes buscarlo en tu perfil.",
                       icon: "success"
                     });
-                    //this.verificarFavorito = resp.id
+            
         
                   }, (err) => {
           

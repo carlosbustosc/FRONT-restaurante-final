@@ -25,7 +25,7 @@
     </div>
 
 
-    <!---inicio MODAL---->
+    <!---MODAL PARA REGISTRAR EL DOMICILIO---->
     <div class="base_modal_confirmacion" *ngIf="modalPedido">
         <img src="./assets/img/cerrar_negro.png" class="icono_cerrar" (click)="cerrarModal()"/>
         <div class="base_imagen_lts">
@@ -35,7 +35,6 @@
         <h3 class="mensaje_modal">¿Hola {{ nombreUsuario }} esta bien tu pedido?</h3>
         <div class="base_seleccionados">
             <p class="comida_seleccionada" *ngFor="let pedidoListo of arregloPedido">{{ pedidoListo }}<span class="precio_almuerxo_l"> </span></p>
-
         </div>
 
         <h3 class="mensaje_modal bajar_bottom">Lo enviaremos a la siguiente dirección</h3>
@@ -66,7 +65,7 @@
 
 
 
-    
+    <!---FICHA TECNICA RESTAURANTE-->
     <div class="contenedor_seguro_tsx_2">
         <div class="base_imagen_ltsx">
             <img src="./assets/img/logo_restaurante_blanco.svg" class="logo_restaurante_blanco"/>
@@ -76,7 +75,7 @@
 
         <div class="contenedor_detalle_restaurante">
             <div class="base_detalle_resturante">
-                <img src="{{ informacionRestaurante.foto[0] }}" class="imagen_restaurante"/>
+                <img [src]=" informacionRestaurante.foto" class="imagen_restaurante"/>
                 <div class="base_descripcion_restaurante">
                     <p class="texto_restaurante">{{ informacionRestaurante.descripcion }}</p>
                 </div>
@@ -116,7 +115,6 @@
                     <form class="formulario_menu">
 
                         <div class="base_pedido" *ngFor="let pedido of arregloPedido; let i = index">
-                           
                             <input type="checkbox" hidden/><span class="nombre_tl">{{ pedido }}</span>
                             <hr class="linea_divisora_lts">
                         </div>
@@ -128,7 +126,10 @@
             </div>
         </div>
 
+
+
         <hr class="dividor_comentarios">
+
 
         <div class="contenedor_comentarios_restaurante">
             <h3 class="comentarios_restaurante">COMENTARIOS</h3>
@@ -139,6 +140,7 @@
                 <p class="comentario_lts"> {{ comentarios.comentario }}</p>
                 <p class="calificacion_txt">Excelente</p>
             </div>
+        </div>
 
 
         <div class="base_formulario_comentario">
