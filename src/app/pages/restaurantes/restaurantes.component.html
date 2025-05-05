@@ -59,7 +59,7 @@
             <div class="bases_seleccionar_comida">
                 <label class="texto_select">Elegir departamento</label>
                 
-                <select id="departID" class="seleccionar_ciudad form-control" #val (change)="seleccionarDepartamento( departamentos, val.value )" formControlName="departamentoss">
+                <select id="departID" class="seleccionar_ciudad form-control" #val (change)="seleccionarDepartamento( val.value )" formControlName="departamentoss">
                     <option class="todas_los_departamentos" value="todos">Todas los departamentos</option>
                     <option *ngFor="let depart of departamentos; let i = index" class="ciudad" [value]="i" [id]="i">{{ depart.departamento }}</option>
                 </select>

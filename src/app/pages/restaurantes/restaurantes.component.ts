@@ -61,13 +61,13 @@ export class RestaurantesComponent implements OnInit {
 
 
     /*---conetendores visuales----*/
-    contenedorCardsRestaurantes = true;
+    contenedorCardsRestaurantes = false;
     contenedorCategoriaRestaurante = false;
 
 
     contenedorVacio = false;
     noHayCategoria = false;
-    quitarSelectTodasCiudades = true;
+    quitarSelectTodasCiudades = false;
 
 
 
@@ -98,7 +98,15 @@ export class RestaurantesComponent implements OnInit {
     corazonNormal = true;
     corazonRojo = false;
   
-   
+    
+
+
+
+
+    //----------campos para filtrar----------//
+    comida = "";
+    departamento = "";
+    ciudad = "";
 
     constructor( private usarRuta:Router, private conectarServicio:RestauranteService, private recibirParametro:ActivatedRoute, private fb:FormBuilder ){
 
@@ -126,11 +134,11 @@ export class RestaurantesComponent implements OnInit {
       /*-----DEPÁRTAMENTO CUIDAD, Y COMIDA POR DEFECTO------*/
       this.selectForm = this.fb.group({
         departamentoss: 'todos', // tolima
-        categoriass: "Carnes",
+        categoriass: "Todos",
         ciudadess: 'todos'
       })
         
-        
+     
 
 
       /*---------CARGAR DEPARTAMENTOS EN EL COMBO------------*/
@@ -141,7 +149,7 @@ export class RestaurantesComponent implements OnInit {
             this.cargarDepartamentos(resp)
 
             //--CARGAR CUIDADES---//
-            this.cargarCiudad( resp, '28' );     
+            //this.cargarCiudad( resp, '28' );     
       })
     
     }
@@ -165,6 +173,10 @@ export class RestaurantesComponent implements OnInit {
 
 
   
+
+
+
+
 
 
 
@@ -220,40 +232,106 @@ export class RestaurantesComponent implements OnInit {
 
 
 
+  
+   
+  
+      
 
-  /*
-      this.conectarServicio.filtrarRestaurantes(categoriaComida)
-          .subscribe( (resp:any) => {
-            
-            this.guardarResturantesDB = resp.respDB;
-            console.log(resp);
-
-          }, (err => {
-            console.log(err.error.mensaje)
-          }))
-      */
-
-
+    //-----FILTRAR POR COMIDA----//
     seleccionarComida( categoriaComida:any){
 
-        console.log(categoriaComida);
+        this.comida = categoriaComida;
+
+        if(this.comida == "Todos"){
+          this.comida = "";
+        }
+
+        // funcion que tiene la peticion a servicios http
+        this.peticionDaseDatos(this.comida, this.departamento, this.ciudad);
   
     }
 
     
-    seleccionarDepartamento( seleccionarDepartamento:any, posicion:any ){
+
+
+
+     //-----FILTRAR POR DEPARTAMENTO----//
+    seleccionarDepartamento( posicion:any ){
       
-      console.log(seleccionarDepartamento)
-      console.log(posicion)
+  
+     if(posicion == "todos"){
+     
+      this.departamento = "" // departamento va vacio por defecto
+      this.quitarSelectTodasCiudades = false; //esconder_filtro ciudades
+
+     
+    }else{
+        
+      this.departamento = this.departamentos[posicion].id // 28 - tolima
+      this.quitarSelectTodasCiudades = true; //mostrar_filtro ciudades
+     
+    }
+
+      // funcion que tiene la peticion a servicios http
+      this.peticionDaseDatos(this.comida, this.departamento, this.ciudad); 
+
+      
+      //----cargar de una vez el combo las ciudades---//
+      this.ciudades = this.departamentos[posicion].ciudades;
+
 
     }
   
     
+
+
+
+
+
+
+    //------FILTRAR POR CIUDAD----//
     seleccionarCiudad( ciudad:string ){
-        
-      console.log( ciudad );
+     
+      this.ciudad = ciudad;
+
+      if(ciudad == "todos"){
+        this.ciudad = ""
+      }
+      
+       // funcion que tiene la peticion a servicios http
+      this.peticionDaseDatos(this.comida, this.departamento, this.ciudad);
 
     }
+
+
+
+
+
+
+    
+
+    //--------------ENVIAR AL SERVICIO PARA CONSULTA------------//
+    peticionDaseDatos(comida:any, departamento:any, ciudad:any ){
+        
+      this.conectarServicio.filtrarRestaurantes(comida, departamento, ciudad)
+        .subscribe( (resp:any) => {
+          
+          this.guardarResturantesDB = resp.respDB;
+          console.log(resp);
+
+          //mostrar restaurantes
+          this.contenedorCardsRestaurantes = true;
+
+
+        }, (err => {
+          console.log(err.error.mensaje)
+          
+          //ocultar restaurantes
+          this.contenedorCardsRestaurantes = false;
+        }))
+
+  }
+
 
 
       

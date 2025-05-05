@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 
 /*----importar HttpClient---*/
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 /*---importar map---*/
 import { map } from "rxjs/operators";
@@ -160,13 +160,20 @@ export class RestauranteService {
 
 
     /*-----------------------------Filtrar Restaurantes-------------------------*/
-    filtrarRestaurantes( categoriaComida:any ){
+    filtrarRestaurantes( categoriaComida:any,  categoriaDepartamento:any, categoriaCiudad:any){
     
-      console.log(categoriaComida)
+
+      let params = new HttpParams()
+        
       
-      return this.usarHttp.get(`http://localhost:5000/traerUnRestaurante/${categoriaComida}`)
+        .set('Comida', categoriaComida)
+        .set('Departamento', categoriaDepartamento)
+        .set('ciudad', categoriaCiudad);
+     
+
+      return this.usarHttp.get(`http://localhost:5000/traerUnRestaurante`, { params })
       
-      
+  
     }
 
 
