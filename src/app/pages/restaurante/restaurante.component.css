@@ -8,6 +8,19 @@
     background-attachment: fixed;
 }
 
+.boton_para_enviar_mensaje {
+    position: absolute;
+    right: 90px;
+    top: 135px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 4px 11px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: #00aec3;
+    color: #fff;
+    font-weight: 500;
+}
 
 
 

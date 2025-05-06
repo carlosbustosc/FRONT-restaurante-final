@@ -1,0 +1,16 @@
+<div class="contenedor_flotante_mensajes" *ngIf="ventanaMensajesRespuestaHijo">
+    <div class="caja_de_mensaje">
+
+        <img src="./assets/img/cerrar_negro.png" class="cerrar_icono" (click)="cerrar_ventana_mensajes_Hijo()">
+
+        <h1 class="titulo_respuesta">{{ nombreRespuestaHijo }}</h1>
+
+        <p>Enviar Mensaje</p>
+        <textarea class="textarea2" [(ngModel)]="mensaje" (ngModelChange)="mensajeTXT($event)"></textarea>
+
+        <button class="btn btn-primary" (click)="enviarRespuesta2_Hijo()" *ngIf="nombreCliente1_Hijo">Enviar Mensaje a cliente</button>
+
+        <button class="btn btn-primary" (click)="enviarRespuesta_Hijo()"  *ngIf="nombreResturante1Hijo">Enviar Mensaje a restaurante</button>
+
+    </div>
+</div>

@@ -27,7 +27,8 @@ import { LoginRestauranteComponent } from './pages/login-restaurante/login-resta
 import { CargaJSService } from './services/carga-js.service';
 import { InternaRestauranteComponent } from './pages/interna-restaurante/interna-restaurante.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
-import { PerfilRestauranteComponent } from './pages/perfil-restaurante/perfil-restaurante.component'; 
+import { PerfilRestauranteComponent } from './pages/perfil-restaurante/perfil-restaurante.component';
+import { EnviarMensajeComponent } from './components/enviar-mensaje/enviar-mensaje.component'; 
 
 
 
@@ -45,7 +46,8 @@ import { PerfilRestauranteComponent } from './pages/perfil-restaurante/perfil-re
     LoginRestauranteComponent,
     InternaRestauranteComponent,
     PerfilComponent,
-    PerfilRestauranteComponent
+    PerfilRestauranteComponent,
+    EnviarMensajeComponent
 
 
   ],

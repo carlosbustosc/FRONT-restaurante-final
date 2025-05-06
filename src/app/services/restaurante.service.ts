@@ -648,10 +648,10 @@ export class RestauranteService {
         
 
           let mensajes = {
-            emailCliente : formMensaje.emailCliente,
-            emailResturante: formMensaje.emailResturante,
+            emailCliente        : formMensaje.emailCliente,
+            emailResturante     : formMensaje.emailResturante,
             mensajeDeResturante : formMensaje.mensajeDeResturante,
-            nombreRestaurante: formMensaje.nombreRestaurante
+            nombreRestaurante    : formMensaje.nombreRestaurante
           }
 
          console.log( mensajes );
@@ -710,7 +710,7 @@ export class RestauranteService {
 
           emailResturante :    datosRespuesta.emailResturante,
           emailCliente :       datosRespuesta.emailCliente,
-          mensajeDecliente :            datosRespuesta.mensajeDecliente,
+          mensajeDecliente :   datosRespuesta.mensajeDecliente,
           nombreRestaurante :  datosRespuesta.nombreRestaurante
        
 

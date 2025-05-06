@@ -95,6 +95,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
 
+
     //comprobar si ya se reviso los mensajes
     if( localStorage.getItem('mensajeVisto') ){
         
@@ -110,6 +111,7 @@ export class NavbarComponent implements OnInit {
 
 
     
+
     /*--------------cargar foto perfil Si es un cliente---------------*/
     if( localStorage.getItem('email') && ( localStorage.getItem('idPersona') )){
         
@@ -133,6 +135,7 @@ export class NavbarComponent implements OnInit {
     }
    
       
+
   
   
     /*---cliente---*/
@@ -219,6 +222,7 @@ export class NavbarComponent implements OnInit {
   
 
     
+    
 
     //---------------verificar INGRESO RESTAURANTE----------------------//
 
@@ -286,7 +290,12 @@ export class NavbarComponent implements OnInit {
   
 
 
-
+  //recibir mensaje dle hijo
+  mensajeDesdeElHijo( mensajes:any ){
+      
+    console.log(mensajes);
+    this.mensajeRespuesta = mensajes;
+  }
 
 
 
@@ -485,7 +494,11 @@ export class NavbarComponent implements OnInit {
   }
   
 
+
+  //ENVIAR MENSAJE ARA EL RESTURANTE
   enviarRespuesta(){
+    
+    //console.log("hola" + this.mensajeRespuesta)
 
     const mensajeRespuesta = {
 
@@ -511,7 +524,7 @@ export class NavbarComponent implements OnInit {
   }
   
 
-
+  
   enviarRespuesta2(){
 
     const mensajeRespuesta = {
