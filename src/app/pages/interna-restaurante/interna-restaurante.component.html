@@ -61,15 +61,6 @@
         </div>
 
 
-        <!---BOTONES CONFIRMACION-->
-        <div class="base_botones_ltsx" *ngIf="mostrarPantallaDetalle">
-            <button class="botones_pedidos btn btn-danger quitar_left" (click)="rechazarPedido( informacionDetalle )">Rechazar pedido</button>
-            <button class="botones_pedidos btn btn-success" (click)="aceptarPedido(informacionDetalle)" >Aceptar Pedido</button>
-           
-        </div>
-        
-
-
         <!---mensajes----->
         <div class="enviar_mensajes" *ngIf="mostrarPantallaDetalle">
             <h2>Envie un mensaje a {{ informacionDetalle.nombreCliente }}</h2>
@@ -79,6 +70,18 @@
                 <button class="btn btn-primary btn_Enviar" (click)="enviarMensaje()">Enviar</button>
             </form>
         </div>
+        
+
+        <!---BOTONES CONFIRMACION-->
+        <div class="base_botones_ltsx" *ngIf="mostrarPantallaDetalle">
+            <button class="botones_pedidos btn btn-danger quitar_left" (click)="rechazarPedido( informacionDetalle )">Rechazar pedido</button>
+            <button class="botones_pedidos btn btn-success" (click)="aceptarPedido(informacionDetalle)" >Aceptar Pedido</button>
+           
+        </div>
+        
+
+
+    
         
         
         <!---texto informativo---->

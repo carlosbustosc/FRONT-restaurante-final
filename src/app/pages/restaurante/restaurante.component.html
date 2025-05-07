@@ -28,7 +28,7 @@
     <div class="contenedor_inicio_de_session" *ngIf="modalIniciarSession">
         <img src="./assets/img/cerrar_negro.png" class="icono_cerrar" (click)="cerrarModalSession()"/>
         <div class="base_informacion">
-            <h1 class="mensaje_inicio_sesion">Por favor inicie session para {{ texto }}</h1>
+            <h1 class="mensaje_inicio_sesion">Por favor inicie sesión para {{ texto }}</h1>
             <p class="iniciar_sesion" [routerLink]="['/loginCliente']">Iniciar session</p>
             <p class="iniciar_sesion oscuro" [routerLink]="['/registroCliente']">No estoy Registrado</p>
         </div>
@@ -45,25 +45,31 @@
         <h3 class="mensaje_modal">¿Hola {{ nombreUsuario }} esta bien tu pedido?</h3>
         <div class="base_seleccionados">
             <p class="comida_seleccionada" *ngFor="let pedidoListo of arregloPedido">{{ pedidoListo }}<span class="precio_almuerxo_l"> </span></p>
+            <div _ngcontent-ng-c229401041="" class="div_total"><p _ngcontent-ng-c229401041="" class="txt_total">Total: ${{ sumarTotal }} COP</p></div>
         </div>
 
         <h3 class="mensaje_modal bajar_bottom">Lo enviaremos a la siguiente dirección</h3>
         <p class="otra_direccion">Si estas en otro lugar puedes cambiarla</p>
+        
+        <div class="base_seleccionados2"><p class="txt_ciudad">Recuerde que solo se hacen domicilios para la ciudad {{ informacionRestaurante.ciudad }} de lo contrario se cancelara tu pedido</p></div>
 
         <form [formGroup]="datosCliente" class="formulario_data">
             <div class="base_data">
                 <label class="enunciado">Ciudad</label>
-                <input type="text"  class="form-control" formControlName="ciudad"/> 
+                <input type="text"  class="form-control" formControlName="ciudad" readonly/> 
+                <small class="text-danger" *ngIf="ciudad">el campo esta vacio</small>
             </div>
 
             <div class="base_data">
                 <label class="enunciado">Barrio</label>
-                <input type="text"  class="form-control" formControlName="barrio"/> 
+                <input type="text"  class="form-control" formControlName="barrio"/>
+                <small class="text-danger" *ngIf="barrio">el campo esta vacio</small> 
             </div>
 
             <div class="base_data">
                 <label class="enunciado">Dirección</label>
-                <input type="text"  class="form-control" formControlName="direccion"/> 
+                <input type="text"  class="form-control" formControlName="direccion"/>
+                <small class="text-danger" *ngIf="direccion">el campo esta vacio</small> 
             </div>
 
             <div class="base_data">
@@ -78,7 +84,8 @@
     <!---FICHA TECNICA RESTAURANTE-->
     <div class="contenedor_seguro_tsx_2">
         
-        <button type="button" class="boton_para_enviar_mensaje" (click)="abrirVentanaMensaje()">Enviar mensaje</button>
+        <button type="button" class="boton_para_enviar_mensaje2" (click)="volverArestaurante()">Volver</button>
+        <button type="button" class="boton_para_enviar_mensaje"  (click)="abrirVentanaMensaje()">Enviar mensaje</button>
 
         <div class="base_imagen_ltsx">
             <img src="./assets/img/logo_restaurante_blanco.svg" class="logo_restaurante_blanco"/>
@@ -103,21 +110,23 @@
                         <h3 class="subtitulo_menu">Entradas</h3>
                         <hr class="linea_divisora_lts">
                         <div class="base_comida_scs" *ngFor="let entradas of informacionRestaurante.entradas; let i = index">
-                            <input class="form-check-input" type="checkbox" [value]="entradas" id="{{ entradas }}" (click)="valueEntrada(entradas)"/><span class="nombre_tl">{{ entradas }}</span>
+                            <span class="nombre_tl">{{ entradas }}</span>
+                            <button type="button" class="pedirComida"  [value]="entradas" id="{{ entradas }}" (click)="valueEntrada(entradas)">Agregar</button>
                             <hr class="linea_divisora_lts">
                         </div>
 
                         <h3 class="subtitulo_menu">Platos Especiales</h3>
                         <hr class="linea_divisora_lts">
                         <div class="base_comida_scs" *ngFor="let especial of informacionRestaurante.platosEspeciales; let i = index">
-                            <input class="form-check-input" type="checkbox" [value]="especial" id="{{ especial }}" (click)="valueEspecial(especial)" /><span class="nombre_tl">{{ especial }}</span>
+                            <button type="button" class="pedirComida" [value]="especial" id="{{ especial }}" (click)="valueEspecial(especial)">Agregar</button>
+                            <span class="nombre_tl">{{ especial }}</span>
                             <hr class="linea_divisora_lts">
                         </div>
 
                         <h3 class="subtitulo_menu">Bebidas</h3>
                         <hr class="linea_divisora_lts">
                         <div class="base_comida_scs" *ngFor="let Bebidas of informacionRestaurante.bebidas; let i = index">
-                            <input class="form-check-input" type="checkbox" [value]="Bebidas" id="{{ Bebidas }}"  (click)="valueBebidas(Bebidas)"/><span class="nombre_tl">{{ Bebidas }}</span>
+                            <button type="button" class="pedirComida" [value]="Bebidas" id="{{ Bebidas }}"  (click)="valueBebidas(Bebidas)">Agregar</button><span class="nombre_tl">{{ Bebidas }}</span>
                             <hr class="linea_divisora_lts">
                         </div>
                     
@@ -129,12 +138,15 @@
                     <form class="formulario_menu">
 
                         <div class="base_pedido" *ngFor="let pedido of arregloPedido; let i = index">
-                            <input type="checkbox" hidden/><span class="nombre_tl">{{ pedido }}</span>
+                            <input type="checkbox" hidden/><span class="nombre_tl">{{ pedido }}</span><span class="quitarPedido" [id]="i" (click)="borrarComidaSolicitada(pedido, i)">X</span>
                             <hr class="linea_divisora_lts">
                         </div>
 
-                
                     </form>
+
+                    <div class="div_total">
+                        <p class="txt_total">Total: ${{ sumarTotal }} COP</p>
+                    </div>
                     <button class="pedido_domicilio" (click)="solicitarDomicilio()">Solicitar pedido a domicilio</button>
                 </div>
             </div>

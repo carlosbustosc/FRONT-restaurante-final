@@ -5,7 +5,7 @@
         <div class="base_detalle_lts">
 
             
-            <img src="{{ guardarImagenPerfil }}" class="circulo_imagen"/>
+            <div [style.background-image]=" 'url(' + guardarImagenPerfil + ')' "  class="circulo_imagen"></div>
 
 
             <div class="base_informacion">
@@ -101,7 +101,7 @@
             
             <div class="row bajar_cajon">
 
-                <div class="card paddigns col-md-6" *ngFor="let domicilio of guardarDomiciliosAgendados">
+                <div class="card paddigns col-md-6" *ngFor="let domicilio of guardarDomiciliosAgendados; let i = index">
                     <img src="{{ domicilio.imagen }}" class="card-img-top" alt="...">
                     <div class="card-body">
                       <h5 class="card-title">{{ domicilio.nombreRestaurante }}</h5>
@@ -111,7 +111,7 @@
 
 
                       <a class="btn btn-primary" (click)="irAlRestaurante( domicilio.idRestaurante )">Ir al Restaurante</a>
-                      <a class="btn btn-danger rojoMg" (click)="CancelarPedido( domicilio )">Cancelar Pedido</a>
+                      <a class="btn btn-danger rojoMg" (click)="CancelarPedido( domicilio, i )">Cancelar Pedido</a>
 
                     </div>
                   </div>
@@ -141,7 +141,7 @@
                       <p class="card-text">{{ unFavoritoObjeto.descripcion }}</p>
                       <p class="card-text"><small class="text-body-secondary">{{ unFavoritoObjeto.cuidad }}</small></p>
                       <button class="btn btn-primary" (click)="irAlRestauranteFavorito( unFavoritoObjeto.visitarRestaurante )">Ir al restaurante</button>
-                      <button class="btn btn-danger borrar_favorito" (click)="borrarFavorito( unFavoritoObjeto._id )">Borrar favorito</button>
+                      <button class="btn btn-danger borrar_favorito" (click)="borrarFavorito( unFavoritoObjeto._id, 2 )">Borrar favorito</button>
 
                     </div>
                   </div>
@@ -169,7 +169,7 @@
                       <p class="card-text">{{ favoritos.descripcion }}</p>
                       <p class="card-text"><small class="text-body-secondary">{{ favoritos.cuidad }}</small></p>
                       <button class="btn btn-primary" (click)="irAlRestauranteFavorito( favoritos.visitarRestaurante )">Ir al restaurante</button>
-                      <button class="btn btn-danger borrar_favorito" (click)="borrarFavorito( favoritos._id )">Borrar favorito</button>
+                      <button class="btn btn-danger borrar_favorito" (click)="borrarFavorito( favoritos._id, i )">Borrar favorito</button>
 
                     </div>
                   </div>

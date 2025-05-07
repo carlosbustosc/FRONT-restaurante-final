@@ -152,6 +152,17 @@ button.swal2-cancel.swal2-styled.swal2-default-outline {
     background-color: #01343a !important;
 }
 
+.texto_nota2 {
+    width: 90%;
+    margin: 2px auto;
+    padding: 11px 20px;
+    font-size: 15px;
+    line-height: 22px;
+    border-radius: 15px;
+    background-color: #f8d7da;
+    color: #842029;
+    margin-top: 20px;
+}
 
 .sin_notificaciones {
     font-size: 20px;

@@ -12,6 +12,8 @@ import { RestauranteComponent } from './pages/restaurante/restaurante.component'
 import { RegistroRestauranteComponent } from './pages/registro-restaurante/registro-restaurante.component'; 
 
 
+
+
 /*----importar formularios---*/
 import { FormsModule, ReactiveFormsModule } from '@angular/forms' 
 

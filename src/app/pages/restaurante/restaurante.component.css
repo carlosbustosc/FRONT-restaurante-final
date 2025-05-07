@@ -22,6 +22,69 @@
     font-weight: 500;
 }
 
+.boton_para_enviar_mensaje2 {
+    position: absolute;
+    left: 90px;
+    top: 135px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 4px 11px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: #00aec3;
+    color: #fff;
+    font-weight: 500;
+}
+
+.txt_ciudad{
+    font-size: 15px;
+    color:#842029;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    text-align: center;
+
+}
+
+.base_seleccionados2{
+    width: 80%;
+    background-color: #f8d7da;
+    margin: auto;
+    padding: 20px 40px 7px 40px;
+    display: table;
+    margin: 0px auto 40px auto;
+    max-height: 215px;
+    border-radius: 10px;
+}
+
+.pedirComida {
+    right: 90px;
+    top: 135px;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0px 11px 2px 11px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    background-color: #00aec3;
+    color: #fff;
+    font-weight: 500;
+    float: right;
+}
+
+.quitarPedido {
+    float: right;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+}
+
+.txt_total {
+    font-size: 18px;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
 
 
 .contenedor_seguro_tsx_2{
@@ -359,10 +422,12 @@ span.nombre_tl {
 
 .otra_direccion {
     text-align: center;
-    margin-bottom: 47px;
+    margin-bottom: 17px;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
 }
+
+
 
 .bajar_bottom{
 
@@ -502,12 +567,14 @@ textarea{
 
 .mensaje_inicio_sesion {
     
-    font-size: 25px;
+    font-size: 20px;
+    width: 70%;
+    margin: auto;
     color: #000;
     text-align: center;
     font-weight: 700;
     font-family: 'Open Sans', sans-serif;
-    text-transform: uppercase;
+    text-transform: inherit;
     padding-top: 8px;
     padding-bottom: 0px;
     margin-bottom: 25px;

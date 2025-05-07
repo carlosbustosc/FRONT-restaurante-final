@@ -15,6 +15,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import Swal from 'sweetalert2';
 
 
+//---volver---//
+import { Location } from "@angular/common"
+
+
 
 @Component({
   selector: 'app-restaurante',
@@ -32,9 +36,12 @@ export class RestauranteComponent implements OnInit {
   mensajeCliente:any=""
 
   //---------Informacion al componente hijo---------//
-
-
-
+  
+  //suma del pedido comprado
+  sumarTotal:any;
+  
+  // variable donde se van guardando los precios
+  totalComprado:any = 0;
 
 
   informacionRestaurante:any = []
@@ -66,7 +73,7 @@ export class RestauranteComponent implements OnInit {
 
   idRestaurante:any;
 
-  constructor(private usarRuta: Router, private recibirParametro:ActivatedRoute, private conectarServicio:RestauranteService, private fb:FormBuilder  ){
+  constructor(private usarVolver: Location , private usarRuta: Router, private recibirParametro:ActivatedRoute, private conectarServicio:RestauranteService, private fb:FormBuilder  ){
     
     /*----formComentario----*/
     this.formComentario = this.fb.group({
@@ -77,7 +84,7 @@ export class RestauranteComponent implements OnInit {
 
     /*----cargar formulario dle MODAL----*/
     this.datosCliente = this.fb.group({
-      ciudad:     [ localStorage.getItem('ciudad'),    Validators.required ],
+      ciudad:     [ this.informacionRestaurante.ciudad,    Validators.required ],
       barrio:     [ localStorage.getItem('barrio'),    Validators.required ],
       direccion:  [ localStorage.getItem('direccion'), Validators.required ]
     })
@@ -85,8 +92,8 @@ export class RestauranteComponent implements OnInit {
   }
   
   
+    
 
-  
   ngOnInit(): void {
 
      /*-------Cargar Comentarios-----------*/
@@ -126,17 +133,47 @@ export class RestauranteComponent implements OnInit {
 
   
 
+  get ciudad(){
+      
+    return this.datosCliente.controls['ciudad'].invalid && this.datosCliente.controls['ciudad'].touched;
+     
+   }
+
+   get barrio(){
+
+     return this.datosCliente.controls['barrio'].invalid && this.datosCliente.controls['barrio'].touched;
+   }
+
+   get direccion(){
+   
+     return this.datosCliente.controls['direccion'].invalid && this.datosCliente.controls['direccion'].touched;
+       
+   }
 
 
+  volverArestaurante(){
+    
+      this.usarVolver.back()
 
-
+  }
 
 
   abrirVentanaMensaje(){
+  
+    if( !localStorage.getItem('email') ){
+      
+      this.modalIniciarSession = true;
+      this.texto = "para enviar un mensaje"
 
-    this.verContenedor = true;
-    //titulo para ventana de mensaje
-    this.TituloNombreRestaurante = this.informacionRestaurante.nombreRestaurante;
+    }else{
+      
+      this.verContenedor = true;
+      //titulo para ventana de mensaje
+      this.TituloNombreRestaurante = this.informacionRestaurante.nombreRestaurante;
+
+    }
+
+    
   
   }
 
@@ -160,7 +197,7 @@ export class RestauranteComponent implements OnInit {
       
     //console.log("hola" + this.mensajeRespuesta)
   
-    
+  
     const mensajeRespuesta = {
   
       emailResturante :    localStorage.getItem('emailREST'),
@@ -203,6 +240,8 @@ export class RestauranteComponent implements OnInit {
   
   // solictar pedido
   solicitarDomicilio(){
+    
+
 
     if( this.arregloPedido <= 0){
 
@@ -224,8 +263,19 @@ export class RestauranteComponent implements OnInit {
         this.texto = "para solicitar su pedido"
 
       }
+        
+
+       /*----cargar formulario dle MODAL----*/
+    this.datosCliente = this.fb.group({
+      ciudad:     [ this.informacionRestaurante.ciudad,    Validators.required ],
+      barrio:     [ localStorage.getItem('barrio'),    Validators.required ],
+      direccion:  [ localStorage.getItem('direccion'), Validators.required ]
+    })
 
     }
+
+
+    
 
   }
 
@@ -234,26 +284,87 @@ export class RestauranteComponent implements OnInit {
 
 
   /*-------------------GUARDAR SELCCIONADOS EN LOCAL STORAGE----------------*/
+ 
+  sumarTotalPrecios( precio:number ){
+      
+     
+      this.totalComprado += precio;
+     // console.log("total: " + this.totalComprado );
+
+      //poner puntos
+      let precioConpuntos = this.totalComprado.toLocaleString('es-CO');
+
+      this.sumarTotal = precioConpuntos;
+   
+
+  }
+
+  restarTotalPrecios( precio:number){
+      
+    this.totalComprado -= precio;
+     // console.log("total: " + this.totalComprado );
+
+      //poner puntos
+      let precioConpuntos = this.totalComprado.toLocaleString('es-CO');
+
+      this.sumarTotal = precioConpuntos;
+
+  }
+  
+
+
 
   /*------------checkBox---------*/
   valueEntrada( valor:string ){
     
+    let numero = 0;
     console.log(valor)
 
-    let posicion = this.arregloPedido.indexOf( valor );
+    //obtener solo el valor pesos
+    const precio = valor;
+    const match = precio.match(/\$(\d+(\.\d+)?)/);
+    if(match){
+      ///console.log(match[1])
+      numero = parseFloat( match[1].replace('.', '') ) //convertir string a numero
+      //console.log(numero)
+    }
+    
+    
 
-    if( posicion === -1 ){/*----si no existe en el arreglo agreguelo---*/
+    
+
+
+
+
+
+    let posicion = this.arregloPedido.indexOf( valor ); // buscar comida dentro el array
+    
+    this.arregloPedido.push( valor )
+    //console.log(this.arregloPedido)
+    localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );/*---guardar como array---*/
+    this.sumarTotalPrecios(numero) // funcion que suma
+
+    /*
+    if( posicion === -1 ){//----si no existe en el arreglo agreguelo---//
      
       this.arregloPedido.push( valor )
-      localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );/*---guardar como array---*/
+      //console.log(this.arregloPedido)
+      localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );//---guardar como array---//
       //console.log("agrego: " + this.arregloPedido );
+
+     
 
     }else{
      
       this.arregloPedido.splice( posicion, 1 );
-      //console.log("elimino" + this.arregloPedido );
+      console.log("elimino" + this.arregloPedido );
+      console.log(this.arregloPedido)
+
+
+      this.restarTotalPrecios(numero) // restamos los precios
 
     }
+      */
 
   }
 
@@ -261,20 +372,49 @@ export class RestauranteComponent implements OnInit {
 
   valueEspecial( valueEspecial:string ){
     
-  
+
+
+
+    let numero = 0;
+    //obtener solo el valor pesos
+    const precio = valueEspecial;
+    const match = precio.match(/\$(\d+(\.\d+)?)/);
+    
+    if(match){
+      ///console.log(match[1])
+      numero = parseFloat( match[1].replace('.', '') ) //convertir string a numero
+      console.log(numero)
+    }
+
+
+
+
+
+
+
     let posicion2 = this.arregloPedido.indexOf( valueEspecial );
     //console.log(posicion2);
 
+
+    this.arregloPedido.push( valueEspecial );
+    localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );/*---guardar como array---*/
+    this.sumarTotalPrecios(numero) // funcion que suma
+
+
+    /*
     if(posicion2 === -1){
   
       this.arregloPedido.push( valueEspecial );
-      localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );/*---guardar como array---*/
+      localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );//---guardar como array---
+
+      this.sumarTotalPrecios(numero) // funcion que suma
 
     }else{
 
       this.arregloPedido.splice( posicion2, 1 );
-
+      this.restarTotalPrecios(numero) // restamos los precios
     }
+    */
    
   }
 
@@ -283,23 +423,68 @@ export class RestauranteComponent implements OnInit {
 
   valueBebidas( valueBebidas:string ){
     
-    let posicion3 = this.arregloPedido.indexOf( valueBebidas );
+    let numero = 0;
+    //obtener solo el valor pesos
+    const precio = valueBebidas;
+    const match = precio.match(/\$(\d+(\.\d+)?)/);
+    if(match){
+      ///console.log(match[1])
+      numero = parseFloat( match[1].replace('.', '') ) //convertir string a numero
+      console.log(numero)
+    }
 
+
+
+
+
+
+
+    let posicion3 = this.arregloPedido.indexOf( valueBebidas );
+    this.arregloPedido.push(valueBebidas );
+    this.sumarTotalPrecios(numero) // funcion que suma
+  
+    /*
     if( posicion3 === -1 ){
 
         this.arregloPedido.push(valueBebidas );
+        this.sumarTotalPrecios(numero) // funcion que suma
 
     }else{
 
       this.arregloPedido.splice( posicion3, 1 );
-      localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );/*---guardar como array---*/
-    
+      localStorage.setItem('comidaSeleccionada', JSON.stringify(this.arregloPedido) );//---guardar como array---/
+      
+      this.restarTotalPrecios(numero) // restamos los precios
     }
+      */
 
   }
 
 
 
+  borrarComidaSolicitada( pedidos:any, posicion:number ){
+
+
+    console.log( pedidos );
+    
+    //obtener solo el valor en pesos
+    let comidaYPrecio = pedidos; //bandeja $5.000
+    let soloPrecio    = comidaYPrecio.match(/\$(\d+(\.\d+)?)/); //5.000
+    console.log(soloPrecio)
+
+    if(soloPrecio){
+         let quitarPuntosConvertirAnumero = parseFloat( soloPrecio[1].replace('.', '') ) // convertir string a numero   5000 
+         console.log(quitarPuntosConvertirAnumero)
+        
+         this.restarTotalPrecios( quitarPuntosConvertirAnumero )
+    }
+
+
+    console.log( posicion );
+    
+    this.arregloPedido.splice(posicion, 1)
+
+  }
 
 
 
@@ -338,7 +523,9 @@ export class RestauranteComponent implements OnInit {
                 title: "Su pedido fue agendado correctamente!",
                 html: `<p class="texto_mensaje">Estara llegando de 30 a 40 minutos!, a la ciudad de ${ this.datosCliente.controls['ciudad'].value }, barrio ${ this.datosCliente.controls['barrio'].value } a la siguiente direccion: ${ this.datosCliente.controls["direccion"].value  }</p>
                 
-                <p class="texto_nota">El pago se realiza contraentrega, cualquier anomalia por favor escribenos a : carnesTolima@gmail.com</p>`,
+                <p class="texto_nota">El pago se realiza contraentrega, cualquier anomalia por favor escribenos a : ${ this.informacionRestaurante.email }</p>
+                
+                <p class="texto_nota2">Para cancelar tu pedido ingresa a tu perfil en la seccion "Domicilios solicitados > cancelar pedido" ó llamanos al 601  ${ this.informacionRestaurante.Telefono }</p>`,
                 icon: "success"
               }).then( () => {
                   
@@ -354,6 +541,10 @@ export class RestauranteComponent implements OnInit {
           
           /*---guardar valor en locaStorage----*/
           localStorage.setItem('ValorAgendado', 'SiAgendado');
+
+      }, (err) => {
+            
+        alert(err.error.mensaje)
 
       })
   

@@ -32,7 +32,6 @@ export class EnviarMensajeComponent {
   }
 
 
-  
 
   cerrar_ventana_mensajes_Hijo(){
       

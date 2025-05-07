@@ -417,7 +417,7 @@ export class PerfilComponent implements OnInit {
   }
 
 
-  CancelarPedido( id:any ){
+  CancelarPedido( id:any, posicion:number ){
     
     //console.log( id._id )
     Swal.fire({
@@ -432,6 +432,7 @@ export class PerfilComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         
+    
         this.conectarServicios.borrarPedido( id._id )
         .subscribe( resp => {
 
@@ -446,11 +447,7 @@ export class PerfilComponent implements OnInit {
         }).then( () => {
             
 
-          setTimeout(() => {
-            window.location.reload();
-          
-
-          }, 1000); // 30000 ms = 30 segundos
+          this.guardarDomiciliosAgendados.splice( posicion, 1)
 
         })
 
@@ -472,7 +469,7 @@ export class PerfilComponent implements OnInit {
   }
 
 
-  borrarFavorito( id:any ){
+  borrarFavorito( id:any, posicion:number ){
     
     console.log(id)
     
@@ -503,9 +500,7 @@ export class PerfilComponent implements OnInit {
           icon: "success"
         }).then( () => {
 
-          setInterval(() => {
-            window.location.reload();
-          }, 1000); // 30000 ms = 30 segundos
+           this.unFavoritoObjeto.splice( posicion, 1)
 
         })
 

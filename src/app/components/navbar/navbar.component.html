@@ -17,7 +17,7 @@
             <li class="texto_menu" [routerLink]="['/inicio']" *ngIf="botonInicio">Inicio</li>
             <li class="texto_menu" [routerLink]="['/restaurantes/Carnes']" *ngIf="botonRestaurante">Restaurantes</li>
 
-            <li class="texto_menu" [routerLink]="['/internaRestaurante']" *ngIf="botonPedidos">Ver Pedidos Solictados</li>
+            <!--<li class="texto_menu" [routerLink]="['/internaRestaurante']" *ngIf="botonPedidos">Ver Pedidos Solictados</li>-->
 
             <li class="texto_menu" *ngIf="botonNotificaciones" (click)="abrirNotificaciones()">Notificaciones <span class="cuadro_notificacion" *ngIf="numNotificaciones">{{ numeroNotificaciones }}</span></li>
 
@@ -33,7 +33,7 @@
     </div>      
     <div class="contenedor_perfil" *ngIf="contenedorPerfil">
         <h2 class="nombre_person_perfil">{{ nombrePerfil  }}</h2>
-        <img src="{{ guardarImagenPerfil }}"   class="foto_perfil" (click)="ventanaPerfil()"/>
+        <div [style.background-image]=" 'url('+ guardarImagenPerfil +')' "   class="foto_perfil" (click)="ventanaPerfil()"></div>
         <img src="./assets/img/flecha_abajo.png"  class="foto_abajo"  (click)="ventanaPerfil()"/>
     </div>
 
@@ -47,6 +47,9 @@
 
 <!---notificaciones-->
 <div class="base_notificaciones" *ngIf="BaseNotificaciones">
+
+    <p class="cerrarNotificaciones" (click)="cerrarNotificaciones()">X</p>
+
     <p class="texto_notificacion border_notificacion" *ngFor="let nota of guardarNotificacion; let i = index">{{ nota.notificacion }} 
         <span><button class="btn btn-danger" (click)="borrarNotificacion( nota, i )">borrar</button></span>
     </p>
@@ -60,8 +63,8 @@
 <div class="base_mensajes" *ngIf="mostrarMensajes">
 
     <p class="sin_notificaciones" *ngIf="noHayMensajes">No hay Mensajes</p>
-
-    <div class="base_principal_m" *ngFor="let mensajes of guardarMensajes">
+    <p class="cerrarNotificaciones" (click)="cerrarNotificacionesMensajes()">X</p>
+    <div class="base_principal_m" *ngFor="let mensajes of guardarMensajes; let i = index">
         <div class="base_mensaje_internos">
 
             <h1 class="nombre_resturante" *ngIf="nombreCliente1">{{ mensajes.emailCliente }}</h1>
@@ -73,8 +76,8 @@
         </div>
 
         <div class="base_botones">
-            <button class="btn btn-danger boton_rojo" (click)="borrarMensajesClientes( mensajes )" *ngIf="nombreCliente1">borrar Clientes</button>
-            <button class="btn btn-danger boton_rojo" (click)="borrarMensajes( mensajes )" *ngIf="nombreResturante1">borrar restaurante</button>
+            <button class="btn btn-danger boton_rojo" (click)="borrarMensajesClientes( mensajes, i )" *ngIf="nombreCliente1">Borrar mensaje cliente</button>
+            <button class="btn btn-danger boton_rojo" (click)="borrarMensajes( mensajes, i )" *ngIf="nombreResturante1">Borrar Mensaje</button>
 
 
             <button class="btn btn-success responder" (click)="abrirVentanaMensajes( mensajes )">Responder</button>

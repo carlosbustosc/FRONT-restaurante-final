@@ -94,6 +94,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+      
 
 
     //comprobar si ya se reviso los mensajes
@@ -391,19 +392,29 @@ export class NavbarComponent implements OnInit {
 
   borrarNotificacion( data:any, posicion:number ){
     
-    //console.log( data._id )
+    console.log(this.guardarNotificacion)
+    
+
+    console.log( data._id )
     
     
-    if (confirm('¿Desea eliminar esta notificacion?')) {
-    
+    if (confirm('¿Desea eliminar esta notificacion?') ) {
+      
+      
+
       this.conectarServicio.borrarNotificaciones( data._id )
             .subscribe( resp => {
               console.log(resp)
               
-              alert("se ha borado el registro")
-          
+              //alert("se ha borado el registro");
+              setTimeout( () => {
+                this.guardarNotificacion.splice( posicion, 1);
+              })
+              
             
             })
+        
+            
     
     }
             
@@ -411,6 +422,25 @@ export class NavbarComponent implements OnInit {
   }
 
 
+
+//-----icono X-------//
+cerrarNotificaciones(){
+
+  this.BaseNotificaciones = false;
+}
+
+cerrarNotificacionesMensajes(){
+  
+  this.mostrarMensajes = false;
+  this.num4 = 0;
+  
+}
+//-----icono X-------//
+
+
+
+
+  
 
 
   abrirMensajes(){
@@ -435,8 +465,12 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  borrarMensajes( objeto:any ){
+  borrarMensajes( objeto:any, posicion:number ){
       
+    //console.log( this.guardarMensajes )
+
+    this.guardarMensajes.splice( posicion, 1)
+
     console.log( objeto._id )
     
     
@@ -450,7 +484,7 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  borrarMensajesClientes( objeto:any ){
+  borrarMensajesClientes( objeto:any, posicion:number ){
       
     console.log( objeto._id );
 
@@ -459,6 +493,9 @@ export class NavbarComponent implements OnInit {
           .subscribe( resp => {
 
             console.log(resp);
+            
+            this.guardarMensajes.splice(  posicion, 1)
+
           }, (err) => {
 
             console.log(err)
