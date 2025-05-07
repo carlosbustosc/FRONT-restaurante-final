@@ -667,7 +667,7 @@ export class RestauranteService {
 
 
       /*---------------------------cargar mensajes---------------------------------*/
-      cargarMensajes( correo:any ){
+      cargarMensajesCliente( correo:any ){
 
         //return this.usarHttp.get(`http://localhost:5000/listarMensajesRestaurantes/${ correo }`)
 
@@ -711,7 +711,8 @@ export class RestauranteService {
           emailResturante :    datosRespuesta.emailResturante,
           emailCliente :       datosRespuesta.emailCliente,
           mensajeDecliente :   datosRespuesta.mensajeDecliente,
-          nombreRestaurante :  datosRespuesta.nombreRestaurante
+          nombreRestaurante :  datosRespuesta.nombreRestaurante,
+          nombreCliente :      datosRespuesta.nombreCliente
        
 
         }

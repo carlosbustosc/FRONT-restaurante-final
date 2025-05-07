@@ -160,7 +160,7 @@ export class NavbarComponent implements OnInit {
 
 
           /*------cargar mensajes en la bandeja de entreda---------*/
-          this.conectarServicio.cargarMensajes(  localStorage.getItem('email')  )
+          this.conectarServicio.cargarMensajesCliente(  localStorage.getItem('email')  )
               .subscribe( (resp:any) => {
                 console.log(resp);
                 
@@ -505,7 +505,8 @@ export class NavbarComponent implements OnInit {
       emailResturante : this.emailRestauranteMensaje,
       emailCliente : this.emailClienteMensaje,
       mensajeDecliente: this.mensajeRespuesta,
-      nombreRestaurante :  this.nombreRestaurant
+      nombreRestaurante :  this.nombreRestaurant,
+      nombreCliente :  localStorage.getItem('nombre')
 
     }
 

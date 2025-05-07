@@ -25,6 +25,18 @@ import Swal from 'sweetalert2';
 
 export class RestauranteComponent implements OnInit {
   
+  //---------Informacion al componente hijo---------//
+  verContenedor:any = false;
+  TituloNombreRestaurante:any;
+  mostrarBotonEnviar:any = true;
+  mensajeCliente:any=""
+
+  //---------Informacion al componente hijo---------//
+
+
+
+
+
   informacionRestaurante:any = []
   modalPedido = false;
 
@@ -108,7 +120,83 @@ export class RestauranteComponent implements OnInit {
               }, (error) => { console.log(error.message) })
 
         })
+
+        
   }
+
+  
+
+
+
+
+
+
+
+  abrirVentanaMensaje(){
+
+    this.verContenedor = true;
+    //titulo para ventana de mensaje
+    this.TituloNombreRestaurante = this.informacionRestaurante.nombreRestaurante;
+  
+  }
+
+  //evento que viene del hijo
+  cerrar_ventana_mensajes(){
+    
+    this.verContenedor = false;
+  }
+  
+  //ngModel desde el hijo
+  recibirMensajeDesdeHijo(mensaje:any){
+    
+    //console.log(mensaje);
+    this.mensajeCliente = mensaje;
+    
+  }
+
+
+  //ENVIAR MENSAJE PARA EL RESTURANTE
+  enviarRespuesta(){
+      
+    //console.log("hola" + this.mensajeRespuesta)
+  
+    
+    const mensajeRespuesta = {
+  
+      emailResturante :    localStorage.getItem('emailREST'),
+      emailCliente :       localStorage.getItem('email'),
+      mensajeDecliente:    this.mensajeCliente,
+      nombreRestaurante :  this.informacionRestaurante.nombreRestaurante,
+      nombreCliente:       localStorage.getItem('nombre')
+  
+    }
+  
+  
+    
+    this.conectarServicio.mensajesParaRestaurante( mensajeRespuesta )
+        .subscribe( (resp:any) => {
+          
+          //console.log(resp)
+          alert(resp.mensaje);
+          this.verContenedor = false; //cerrar ventana
+          
+        })
+          
+    
+        
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
