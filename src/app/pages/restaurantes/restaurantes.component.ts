@@ -273,7 +273,7 @@ export class RestaurantesComponent implements OnInit {
 
 
         }, (err => {
-          console.log(err.error.mensaje)
+          console.log(err.error)
           
           //ocultar restaurantes
           this.contenedorCardsRestaurantes = false;
