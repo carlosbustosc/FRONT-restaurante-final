@@ -91,6 +91,9 @@
             ],
             "scripts": ["node_modules/jquery/dist/jquery.min.js"]
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }

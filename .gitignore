@@ -5,10 +5,12 @@
 /tmp
 /out-tsc
 /bazel-out
+*.ai
 
 
 # Node
 /node_modules
+/BACKEND/
 
 npm-debug.log
 yarn-error.log
