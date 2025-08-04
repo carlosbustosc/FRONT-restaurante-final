@@ -1,7 +1,7 @@
 {
   "name": "restaurante",
   "version": "0.0.0",
-  "homepage": "https://carlosbustosc.github.io/FRONT-restaurante",
+  "homepage": "https://carlosbustosc.github.io/FRONT-restaurante-final",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

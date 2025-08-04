@@ -5,7 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
-*.ai
+
 
 
 # Node
@@ -44,3 +44,5 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+*.ai
