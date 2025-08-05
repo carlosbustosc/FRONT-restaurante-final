@@ -8,7 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --base-href=/FRONT-restaurante-final/ && gh-pages -d dist/restaurante --repo https://github.com/carlosbustosc/FRONT-restaurante-final.git"
+    "deploy": "npm run build && gh-pages -d dist/restaurante"
   },
   "private": true,
   "dependencies": {
