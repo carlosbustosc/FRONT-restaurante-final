@@ -11,10 +11,11 @@ dist/
 
 # Node
 /node_modules
-/BACKEND/
+
 
 npm-debug.log
 yarn-error.log
+
 
 # IDEs and editors
 .idea/
